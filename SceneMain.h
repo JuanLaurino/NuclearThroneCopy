@@ -23,9 +23,6 @@ class SceneMain :public Scene
     ElementoGFX _escena0;
     ElementoGFX _escena1;
     ElementoGFX _escena2;
-
-    //xd
-    Personaje _personaje;
 public:
     SceneMain();
     ~SceneMain();

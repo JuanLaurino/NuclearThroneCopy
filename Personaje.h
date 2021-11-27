@@ -6,6 +6,8 @@ class Personaje :public ElementoGFX
 	STATES _state;
 	bool _direction;
 	int _contador;
+	int _contadorAnim;
+	int _frame;
 	notSDL_Rect _rectFrame;
 public:
 	Personaje();

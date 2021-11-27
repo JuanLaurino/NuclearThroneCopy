@@ -56,9 +56,6 @@ void SceneMain::init()
     _escena0.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/placeholder0.png"));
     _escena1.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/placeholder1.png"));
     _escena2.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/placeholder2.png"));
-
-    //
-    _personaje.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/charger.png"));
 }
 
 void SceneMain::reinit()
@@ -67,7 +64,6 @@ void SceneMain::reinit()
 }
 
 void SceneMain::update() {
-    _personaje.update();
     //Clear Screen
     sVideo->clearScreen();
 
@@ -159,8 +155,7 @@ void SceneMain::render() {
         _bg.render();
     }
     sMouse->render();
-    //
-    _personaje.render();
+
     //Update Screen
     sVideo->updateScreen();
 }
