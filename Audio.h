@@ -5,8 +5,8 @@
 class Audio
 {
 	static Audio* pInstance;
-	Audio();
 public:
+	Audio();
 	~Audio();
 	void close();
 	void closeSDL();
