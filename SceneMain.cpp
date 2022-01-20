@@ -52,10 +52,10 @@ void SceneMain::init()
     sMouse->init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/cursor.png"));
     _bg.init();
     _logo.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/AMenu.png"));
-    _tlogo.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/placeholder3.png"));
-    _escena0.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/placeholder0.png"));
-    _escena1.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/placeholder1.png"));
-    _escena2.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/placeholder2.png"));
+    _tlogo.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/AThrone.png"));
+    _escena0.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/escena0.png"));
+    _escena1.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/escena1.png"));
+    _escena2.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/escena2.png"));
 }
 
 void SceneMain::reinit()
@@ -72,42 +72,19 @@ void SceneMain::update() {
         if (_aMMainMenuA == -1) { // Si aún no comenzó menuA
             _aMMainMenuA = Audio::getInstance()->playAudio(-1, _aMainMenuA, 0);
         }
-        switch (_animation)
-        {
-        case 0:
+        if (_animation < 4) {
             if ((_contador * global_elapsed_time) > 4000 || (((_contador * global_elapsed_time) > 200) && sInputControl->anyKeyPressed())) {
                 _animation++;
                 _contador = 0;
             }
-            break;
-        case 1:
-            if ((_contador * global_elapsed_time) > 4000 || (((_contador * global_elapsed_time) > 200) && sInputControl->anyKeyPressed())) {
-                _animation++;
-                _contador = 0;
-            }
-            break;
-        case 2:
-            if ((_contador * global_elapsed_time) > 4000 || (((_contador * global_elapsed_time) > 200) && sInputControl->anyKeyPressed())) {
-                _animation++;
-                _contador = 0;
-            }
-            break;
-        case 3:
-            if ((_contador * global_elapsed_time) > 4000 || (((_contador * global_elapsed_time) > 200) && sInputControl->anyKeyPressed())) {
-                _animation++;
-                _contador = 0;
-            }
-            break;
-        case 4: //Ultima imagen y animación, puede darle a cualquier tecla para ir al menu principal
+            _tlogo.update();
+        }
+        else {//Ultima imagen y animación, puede darle a cualquier tecla para ir al menu principal
             _bg.update();
             if ((((_contador * global_elapsed_time) > 400) && sInputControl->anyKeyPressed())) {
                 _animationState = false;
                 _contador = 0;
             }
-            break;
-
-        default:
-            break;
         }
 
         _contador++;
@@ -116,7 +93,9 @@ void SceneMain::update() {
     else {  // Menú
         _bg.update();
 
-
+        if ((sInputControl->getKeyPressed(I_A))) {
+            sDirector->changeScene(SELECT_CHARACTER, 1);
+        }
     }
 
     if (!sAudio->isPlaying(_aMMainMenuA) && _aMMainMenuB == -1) { //Si menuA terminó de reproducirse y aún no empezó menub

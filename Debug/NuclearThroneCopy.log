@@ -1,8 +1,3 @@
-﻿  MainForDirector.cpp
-D:\Proyectos\c++\NuclearThroneCopy\ElementoGFX.h(12): warning C4091: 'typedef ': ignored on left of 'ElementoGFX::notSDL_Rect' when no variable is declared
-  Mouse.cpp
-D:\Proyectos\c++\NuclearThroneCopy\ElementoGFX.h(12): warning C4091: 'typedef ': ignored on left of 'ElementoGFX::notSDL_Rect' when no variable is declared
-  SceneMain.cpp
-D:\Proyectos\c++\NuclearThroneCopy\ElementoGFX.h(12): warning C4091: 'typedef ': ignored on left of 'ElementoGFX::notSDL_Rect' when no variable is declared
-  Generating Code...
-  NuclearThroneCopy.vcxproj -> D:\Proyectos\c++\NuclearThroneCopy\Debug\NuclearThroneCopy.exe
+﻿  SceneMain.cpp
+D:\juanxd\Proyectos\C++\NuclearThroneCopy\ElementoGFX.h(12): warning C4091: 'typedef ': ignored on left of 'ElementoGFX::notSDL_Rect' when no variable is declared
+  NuclearThroneCopy.vcxproj -> D:\juanxd\Proyectos\C++\NuclearThroneCopy\Debug\NuclearThroneCopy.exe

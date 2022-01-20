@@ -90,12 +90,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -154,7 +158,15 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneDirector.h" />
+    <ClInclude Include="SceneGame.h" />
+    <ClInclude Include="SceneGameOver.h" />
+    <ClInclude Include="SceneInitLevel.h" />
     <ClInclude Include="SceneMain.h" />
+    <ClInclude Include="ScenePause.h" />
+    <ClInclude Include="SceneSelectCharacter.h" />
+    <ClInclude Include="SceneSettings.h" />
+    <ClInclude Include="SceneStats.h" />
+    <ClInclude Include="ThroneLogo.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Video.h" />
   </ItemGroup>
@@ -171,7 +183,15 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneDirector.cpp" />
+    <ClCompile Include="SceneGame.cpp" />
+    <ClCompile Include="SceneGameOver.cpp" />
+    <ClCompile Include="SceneInitLevel.cpp" />
     <ClCompile Include="SceneMain.cpp" />
+    <ClCompile Include="ScenePause.cpp" />
+    <ClCompile Include="SceneSelectCharacter.cpp" />
+    <ClCompile Include="SceneSettings.cpp" />
+    <ClCompile Include="SceneStats.cpp" />
+    <ClCompile Include="ThroneLogo.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Video.cpp" />
   </ItemGroup>
