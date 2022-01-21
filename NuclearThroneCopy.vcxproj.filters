@@ -69,9 +69,6 @@
     <ClInclude Include="SceneStats.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SceneSettings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SceneInitLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -138,9 +135,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SceneStats.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SceneInitLevel.cpp">

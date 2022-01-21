@@ -1,3 +1,1 @@
-﻿  SceneMain.cpp
-D:\juanxd\Proyectos\C++\NuclearThroneCopy\ElementoGFX.h(12): warning C4091: 'typedef ': ignored on left of 'ElementoGFX::notSDL_Rect' when no variable is declared
-  NuclearThroneCopy.vcxproj -> D:\juanxd\Proyectos\C++\NuclearThroneCopy\Debug\NuclearThroneCopy.exe
+﻿  NuclearThroneCopy.vcxproj -> D:\juanxd\Proyectos\C++\NuclearThroneCopy\Debug\NuclearThroneCopy.exe

@@ -2,7 +2,6 @@
 #include "SceneMain.h"
 #include "SceneSelectCharacter.h"
 #include "SceneStats.h"
-#include "SceneSettings.h"
 #include "SceneInitLevel.h"
 #include "SceneGame.h"
 #include "SceneGameOver.h"
@@ -32,7 +31,6 @@ void SceneDirector::init(){
 	SceneMain				*main				= new SceneMain();
 	SceneSelectCharacter	*SelectCharacter	= new SceneSelectCharacter();
 	SceneStats				*Stats				= new SceneStats();
-	SceneSettings			*Settings			= new SceneSettings();
 	SceneInitLevel			*InitGame			= new SceneInitLevel();
 	ScenePause				*Pause				= new ScenePause();
 	SceneGame				*game				= new SceneGame();
@@ -41,7 +39,6 @@ void SceneDirector::init(){
 	mVectorScenes[MAIN]							= main;
 	mVectorScenes[SELECT_CHARACTER]				= SelectCharacter;
 	mVectorScenes[STATS]						= Stats;
-	mVectorScenes[SETTINGS]						= Settings;
 	mVectorScenes[INIT_LEVEL]					= InitGame;
 	mVectorScenes[PAUSE]						= Pause;
 	mVectorScenes[GAME]							= game;
@@ -50,7 +47,6 @@ void SceneDirector::init(){
 	main->init();
 	SelectCharacter->init();
 	Stats->init();
-	Settings->init();
 	InitGame->init();
 	Pause->init();
 	game->init();

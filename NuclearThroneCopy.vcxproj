@@ -164,7 +164,6 @@
     <ClInclude Include="SceneMain.h" />
     <ClInclude Include="ScenePause.h" />
     <ClInclude Include="SceneSelectCharacter.h" />
-    <ClInclude Include="SceneSettings.h" />
     <ClInclude Include="SceneStats.h" />
     <ClInclude Include="ThroneLogo.h" />
     <ClInclude Include="Timer.h" />
@@ -189,7 +188,6 @@
     <ClCompile Include="SceneMain.cpp" />
     <ClCompile Include="ScenePause.cpp" />
     <ClCompile Include="SceneSelectCharacter.cpp" />
-    <ClCompile Include="SceneSettings.cpp" />
     <ClCompile Include="SceneStats.cpp" />
     <ClCompile Include="ThroneLogo.cpp" />
     <ClCompile Include="Timer.cpp" />

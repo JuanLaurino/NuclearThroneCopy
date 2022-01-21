@@ -39,9 +39,6 @@ void SceneSelectCharacter::reinit()
 
 void SceneSelectCharacter::update()
 {
-    if ((sInputControl->getKeyPressed(I_A))) {
-        sDirector->changeScene(SETTINGS, 1);
-    }
 }
 
 void SceneSelectCharacter::render()
