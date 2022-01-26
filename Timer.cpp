@@ -2,6 +2,9 @@
 
 Timer::Timer()
 {
+	_StartTicks = 0;
+	_Ticks = 0;
+	_Status = 0;
 }
 
 Timer::~Timer()
