@@ -20,6 +20,7 @@ InputManager::~InputManager()
 void InputManager::update()
 {
 	while (SDL_PollEvent(&teclas)) {
+
 		switch (teclas.type) {
 		case SDL_KEYDOWN:
 			if (teclas.key.keysym.sym == Key_A) {
@@ -87,6 +88,7 @@ void InputManager::update()
 			break;
 		}
 	}
+
 }
 
 void InputManager::getMousePos(int* x, int* y)

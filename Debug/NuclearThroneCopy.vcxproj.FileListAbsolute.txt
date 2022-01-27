@@ -1,2 +1,0 @@
-D:\Proyectos\c++\NuclearThroneCopy\Debug\NuclearThroneCopy.exe
-D:\juanxd\Proyectos\C++\NuclearThroneCopy\Debug\NuclearThroneCopy.exe
