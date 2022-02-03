@@ -1,10 +1,10 @@
-#include "ElementoGFX.h"
+#include "GFXElement.h"
 #include <time.h> 
 #include <stdlib.h>
 #include "Video.h"
 #include "ResourceManager.h"
 
-ElementoGFX::ElementoGFX()
+GFXElement::GFXElement()
 {
 	_Rect.h = 0;
 	_Rect.w = 0;
@@ -13,32 +13,32 @@ ElementoGFX::ElementoGFX()
 	_spriteID = 0;
 }
 
-ElementoGFX::~ElementoGFX()
+GFXElement::~GFXElement()
 {
 }
 
-void ElementoGFX::init(int sprite)
+void GFXElement::init(int sprite)
 {
 	_spriteID = sprite;
 	ResourceManager::getInstance()->getGraphicSize(_spriteID, &_Rect.w, &_Rect.h);
 }
 
-void ElementoGFX::update()
+void GFXElement::update()
 {
 }
 
-void ElementoGFX::render()
+void GFXElement::render()
 {
 	Video::getInstance()->renderGraphic(_spriteID, _Rect.x, _Rect.y, _Rect.w, _Rect.h);
 }
 
-void ElementoGFX::setGraphicID(int sprite)
+void GFXElement::setGraphicID(int sprite)
 {
 	_spriteID = sprite;
 	ResourceManager::getInstance()->getGraphicSize(_spriteID, &_Rect.w, &_Rect.h);
 }
 
-int ElementoGFX::getGraphicID()
+int GFXElement::getGraphicID()
 {
 	return _spriteID;
 }

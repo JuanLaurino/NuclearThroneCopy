@@ -1,6 +1,6 @@
 #pragma once
-#include "ElementoGFX.h"
-class ThroneLogo :public ElementoGFX
+#include "GFXElement.h"
+class ThroneLogo :public GFXElement
 {	
 	int _contador;
 	int _frame;

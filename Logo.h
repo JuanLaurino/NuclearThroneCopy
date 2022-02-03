@@ -1,6 +1,6 @@
 #pragma once
-#include "ElementoGFX.h"
-class Logo :public ElementoGFX
+#include "GFXElement.h"
+class Logo :public GFXElement
 {
 public:
 	Logo();

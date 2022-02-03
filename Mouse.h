@@ -1,6 +1,6 @@
 #pragma once
-#include "ElementoGFX.h"
-class Mouse :public ElementoGFX
+#include "GFXElement.h"
+class Mouse :public GFXElement
 {
 	static Mouse* pInstance;
 public:

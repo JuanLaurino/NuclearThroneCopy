@@ -4,11 +4,12 @@
 #include "Logo.h"
 #include "ThroneLogo.h"
 #include "Personaje.h"
+#include "Button.h"
 
 class SceneMain :public Scene
 {
     bool _animationState;
-    int _animation;
+    int _currentScene;
     int _contador;
 
     // Audio
@@ -20,9 +21,9 @@ class SceneMain :public Scene
     Background  _bg;
     Logo        _logo;
     ThroneLogo  _tlogo;
-    ElementoGFX _escena0;
-    ElementoGFX _escena1;
-    ElementoGFX _escena2;
+    GFXElement _escena[3];
+    Button _button[5];
+    
 public:
     SceneMain();
     ~SceneMain();

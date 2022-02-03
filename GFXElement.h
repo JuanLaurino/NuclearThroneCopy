@@ -1,6 +1,6 @@
 #pragma once
 
-class ElementoGFX
+class GFXElement
 {
 protected:
 	int _spriteID;
@@ -12,8 +12,8 @@ protected:
 	};
 	notSDL_Rect _Rect;
 public:
-	ElementoGFX();
-	~ElementoGFX();
+	GFXElement();
+	~GFXElement();
 
 	void init(int sprite);
 	void update();
