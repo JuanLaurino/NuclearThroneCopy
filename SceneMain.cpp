@@ -43,9 +43,9 @@ void SceneMain::init()
     _animationState = true;
 
     // Audio
-    _aMainMenuA = sAudioManager->loadAndGetAudioID("Assets/sound/musThemeA.ogg");
+    _aMainMenuA = sAudioManager->loadAndGetAudioID("Assets/music/musThemeA.ogg");
     _aMMainMenuA = -1;
-    _aMainMenuB = sAudioManager->loadAndGetAudioID("Assets/sound/musThemeB.ogg");
+    _aMainMenuB = sAudioManager->loadAndGetAudioID("Assets/music/musThemeB.ogg");
     _aMMainMenuB = -1;
 
     // ElementosGFX
@@ -119,8 +119,19 @@ void SceneMain::update() {
             _button[i].update();
         }
 
-        if ((sInputControl->getKeyPressed(I_A))) {
+        if ((sInputControl->getKeyPressed(I_CLICK) && _button[0].getIsHoldingBtn())) { //Si le da a PLAY
             sDirector->changeScene(SELECT_CHARACTER, 1);
+        }
+        if ((sInputControl->getKeyPressed(I_CLICK) && _button[3].getIsHoldingBtn())) { //Si le da a STATS
+            sDirector->changeScene(STATS, 1);
+        }
+        if ((sInputControl->getKeyPressed(I_CLICK) && _button[4].getIsHoldingBtn())) { //Si le da a QUIT
+            gameOn = false;
+        }
+
+        if (sAudio->isPlaying(_aMMainMenuA)) { //Si la canción A está activa, cuando se entra al menú principal se cierra y se abre la canción B
+            _aMMainMenuB = sAudio->playAudio(-1, _aMainMenuB, 999);
+            sAudio->stopAudio(_aMMainMenuA);
         }
     }
 
@@ -153,6 +164,7 @@ void SceneMain::render() {
             _button[i].render();
         }
     }
+    //Render mouse
     sMouse->render();
 
     //Update Screen

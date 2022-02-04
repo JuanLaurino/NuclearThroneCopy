@@ -19,5 +19,7 @@ public:
 	void setHoldingGraphicRect();
 	void setHoldingGraphicID(int sprite) { _holdingSpriteID = sprite; };
 	int getHoldingGraphicID() { return _spriteID; };
+
+	bool getIsHoldingBtn() { return _isHoldingBtn; };
 };
 

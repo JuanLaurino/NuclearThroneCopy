@@ -42,10 +42,6 @@ void Button::update()
 	else {
 		_isHoldingBtn = false;
 	}
-
-	if (_isHoldingBtn && sInputControl->getKeyPressed(I_CLICK)) {
-		std::cout << "Functiona" << std::endl;
-	}
 }
 
 void Button::render()

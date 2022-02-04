@@ -31,6 +31,7 @@ SceneSelectCharacter::~SceneSelectCharacter()
 
 void SceneSelectCharacter::init()
 {
+    mReinit = false;
 }
 
 void SceneSelectCharacter::reinit()
@@ -39,8 +40,18 @@ void SceneSelectCharacter::reinit()
 
 void SceneSelectCharacter::update()
 {
+    //Clear Screen
+    sVideo->clearScreen();
+
+    if ((sInputControl->getKeyPressed(I_A))) {
+        sDirector->changeScene(GAME, 1);
+    }
 }
 
 void SceneSelectCharacter::render()
 {
+    sMouse->render();
+
+    //Update Screen
+    sVideo->updateScreen();
 }

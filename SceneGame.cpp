@@ -31,6 +31,7 @@ SceneGame::~SceneGame()
 
 void SceneGame::init()
 {
+    mReinit = false;
 }
 
 void SceneGame::reinit()
@@ -39,11 +40,18 @@ void SceneGame::reinit()
 
 void SceneGame::update()
 {
-    if ((sInputControl->getKeyPressed(I_A))) {
-        sDirector->changeScene(GAME_OVER, 1);
-    }
+    //Clear Screen
+    sVideo->clearScreen();
+
+    //if ((sInputControl->getKeyPressed(I_A))) {
+    //    sDirector->changeScene(GAME_OVER, 1);
+    //}
 }
 
 void SceneGame::render()
 {
+    sMouse->render();
+
+    //Update Screen
+    sVideo->updateScreen();
 }
