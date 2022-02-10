@@ -57,9 +57,6 @@
     <ClInclude Include="Logo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Personaje.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ThroneLogo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,9 +81,21 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ElementoGFX.cpp">
+    <ClCompile Include="GFXElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
@@ -128,9 +137,6 @@
     <ClCompile Include="Logo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Personaje.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ThroneLogo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -153,6 +159,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

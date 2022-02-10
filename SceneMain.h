@@ -3,7 +3,6 @@
 #include "Background.h"
 #include "Logo.h"
 #include "ThroneLogo.h"
-#include "Personaje.h"
 #include "Button.h"
 
 class SceneMain :public Scene

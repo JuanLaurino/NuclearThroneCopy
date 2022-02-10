@@ -1,4 +1,4 @@
-#include "Personaje.h"
+#include "Character.h"
 #include "Video.h"
 #include "InputManager.h"
 #include "SceneDirector.h"
@@ -8,7 +8,7 @@ extern InputManager*	sInputControl;
 extern Video*			sVideo;
 extern Uint32           global_elapsed_time;
 
-Personaje::Personaje()
+Character::Character()
 {
 	_direction = false;
 	_state = ST_IDLE;
@@ -21,11 +21,11 @@ Personaje::Personaje()
 	_contadorAnim = 0;
 }
 
-Personaje::~Personaje()
+Character::~Character()
 {
 }
 
-void Personaje::init(int sprite) {
+void Character::init(int sprite) {
 	_spriteID = sprite;
 	_rectFrame.x = 0;
 	_rectFrame.y = 0;
@@ -35,7 +35,7 @@ void Personaje::init(int sprite) {
 	_Rect.y = (WIN_HEIGHT / 2) - (_rectFrame.h / 2);
 }
 
-void Personaje::update()
+void Character::update()
 {
 	_contador++;
 	switch (_state)
@@ -113,7 +113,7 @@ void Personaje::update()
 	}
 }
 
-void Personaje::render()
+void Character::render()
 {
 	_contadorAnim++;
 	switch (_state)

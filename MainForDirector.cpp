@@ -6,6 +6,7 @@
 #include "ResourceManager.h"
 #include "Timer.h"
 #include "Mouse.h"
+#include "Camera.h"
 
 Uint32 				global_elapsed_time = 0;
 bool				gameOn = true;
@@ -17,6 +18,7 @@ ResourceManager*	sResourceManager = NULL;
 Audio*				sAudio = NULL;
 AudioManager*		sAudioManager = NULL;
 Mouse*				sMouse = NULL;
+Camera*				sCamera = NULL;
 
 int main( int argc, char* argv[] ) { 
 	//Init Singletons en orden
@@ -27,6 +29,8 @@ int main( int argc, char* argv[] ) {
 	sInputControl		= InputManager::getInstance();
 	sMouse				= Mouse::getInstance();
 	sDirector			= SceneDirector::getInstance();
+	sCamera				= Camera::getInstance();
+
 
 	//Main Loop
 	// Init Time control

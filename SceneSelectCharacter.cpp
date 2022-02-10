@@ -10,6 +10,7 @@
 #include "SceneMain.h"
 #include "SceneDirector.h"
 
+#include <iostream>
 extern Mouse*           sMouse;
 extern SceneDirector*   sDirector;
 extern InputManager*    sInputControl;

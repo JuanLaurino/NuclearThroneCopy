@@ -8,9 +8,9 @@ Scene::~Scene(){
 }
 
 void Scene::init(){
-	mReinit = false;
+	mReinit = true;
 }
 
 void Scene::reinit(){
-	mReinit = true;
+	mReinit = false;
 }

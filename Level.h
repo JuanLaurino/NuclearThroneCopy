@@ -1,0 +1,33 @@
+#pragma once
+#include "GFXElement.h"
+#include <string>
+#include <vector>
+
+class Level :public GFXElement
+{
+	notSDL_Rect _RectS;
+
+	std::vector<std::vector<int>> _vBackground;
+	std::vector<std::vector<int>> _vForeground;
+	std::string _sMapaBg;
+	std::string _sMapaFg;
+	std::string _string;
+
+	int _w;
+	int _h;
+
+	int _len;
+	int _tspa;
+	int _ID;
+	int _cX;
+	int _cY;
+public:
+	Level();
+	~Level();
+
+	void init(const char* XMLMap, int sprite);
+
+	void update();
+	void render();
+};
+

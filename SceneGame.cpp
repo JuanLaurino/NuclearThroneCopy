@@ -23,6 +23,7 @@ extern Uint32           global_elapsed_time;
 
 SceneGame::SceneGame()
 {
+
 }
 
 SceneGame::~SceneGame()
@@ -32,16 +33,24 @@ SceneGame::~SceneGame()
 void SceneGame::init()
 {
     mReinit = false;
+    _nivel.init("Assets/scroll.tmx", sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/tileset_scroll.png"));
+    _personaje.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/charger.png"));
 }
 
 void SceneGame::reinit()
 {
+    mReinit = false;
 }
 
 void SceneGame::update()
 {
     //Clear Screen
     sVideo->clearScreen();
+
+    //
+    _nivel.update();
+    _personaje.update();
+    sMouse->update();
 
     //if ((sInputControl->getKeyPressed(I_A))) {
     //    sDirector->changeScene(GAME_OVER, 1);
@@ -50,6 +59,9 @@ void SceneGame::update()
 
 void SceneGame::render()
 {
+    sMouse->render();
+    _nivel.render();
+    _personaje.render();
     sMouse->render();
 
     //Update Screen

@@ -85,6 +85,12 @@ void SceneMain::reinit()
 }
 
 void SceneMain::update() {
+    // QUITAR
+    if ((sInputControl->getKeyPressed(I_D))) { 
+        sDirector->changeScene(GAME, 1);
+    }
+    // QUITAR
+    // 
     //Clear Screen
     sVideo->clearScreen();
 
