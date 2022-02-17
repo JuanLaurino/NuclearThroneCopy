@@ -22,6 +22,7 @@ Camera*				sCamera = NULL;
 
 int main( int argc, char* argv[] ) { 
 	//Init Singletons en orden
+	sCamera				= Camera::getInstance();
 	sResourceManager	= ResourceManager::getInstance();
 	sVideo				= Video::getInstance();
 	sAudioManager		= AudioManager::getInstance();
@@ -29,7 +30,6 @@ int main( int argc, char* argv[] ) {
 	sInputControl		= InputManager::getInstance();
 	sMouse				= Mouse::getInstance();
 	sDirector			= SceneDirector::getInstance();
-	sCamera				= Camera::getInstance();
 
 
 	//Main Loop

@@ -5,9 +5,12 @@
 #include "Video.h"
 #include "ResourceManager.h"
 #include "SceneDirector.h"
+#include "Camera.h"
+#include "Main.h"
 
 extern Video* sVideo;
 extern ResourceManager* sResourceManager;
+extern Camera* sCamera;
 
 Level::Level()
 {
@@ -34,6 +37,13 @@ Level::Level()
 	_cX = 0;
 	_cY = 0;
 	_tspa = 0;
+
+	_WW = 0;
+	_WH = 0;
+	_startTileX = 0;
+	_startTileY = 0;
+	_CTW = 0;
+	_CTH = 0;
 }
 
 Level::~Level()
@@ -91,22 +101,30 @@ void Level::init(const char* XMLMap, int sprite)
 	_Rect.w = std::stoi(tileset->Attribute("tilewidth"));
 	_Rect.h = std::stoi(tileset->Attribute("tileheight"));
 	_tspa = std::stoi(tileset->Attribute("spacing"));
+
+	_WW = _w * _Rect.w;
+	_WH = _h * _Rect.h;
 }
 
 void Level::update()
 {
+	_startTileX = sCamera->getX() / _Rect.w;
+	_startTileY = sCamera->getY() / _Rect.h;
+
+	_CTW = WIN_WIDTH / _Rect.w + _startTileX;
+	_CTH = WIN_HEIGHT / _Rect.h + _startTileY;
 }
 
 void Level::render()
 {
-	for (size_t tileY = 0; tileY < _h; tileY++)
+	for (int fy = _startTileY; fy < _CTH; fy++)
 	{
-		for (size_t tileX = 0; tileX < _w; tileX++)
+		for (int fx = _startTileX; fx < _CTW; fx++)
 		{
 			//Background
-			_Rect.x = tileX * _Rect.w;
-			_Rect.y = tileY * _Rect.h;
-			_ID = _vBackground.at(tileY).at(tileX) - 1;
+			_Rect.x = fx * _Rect.w - sCamera->getX();
+			_Rect.y = fy * _Rect.h - sCamera->getY();
+			_ID = _vBackground.at(fy).at(fx) - 1;
 
 			if (_ID >= 0) {
 				_cX = _ID % 15; // la fila en X
@@ -121,9 +139,9 @@ void Level::render()
 			}
 
 			//Foreground
-			_Rect.x = tileX * _Rect.w;
-			_Rect.y = tileY * _Rect.h;
-			_ID = _vForeground.at(tileY).at(tileX) - 1;
+			_Rect.x = fx * _Rect.w - sCamera->getX();
+			_Rect.y = fy * _Rect.h - sCamera->getY();
+			_ID = _vForeground.at(fy).at(fx) - 1;
 
 			if (_ID >= 0) {
 				_cX = _ID % 15; // la fila en X

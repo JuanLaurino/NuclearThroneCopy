@@ -21,6 +21,14 @@ class Level :public GFXElement
 	int _ID;
 	int _cX;
 	int _cY;
+
+	int _WW;
+	int _WH;
+
+	int _startTileX;
+	int _startTileY;
+	int _CTW;
+	int _CTH;
 public:
 	Level();
 	~Level();

@@ -31,12 +31,25 @@ void Character::init(int sprite) {
 	_rectFrame.y = 0;
 	_rectFrame.w = 96;
 	_rectFrame.h = 96;
-	_Rect.x = (WIN_WIDTH / 2) - (_rectFrame.w / 2);
-	_Rect.y = (WIN_HEIGHT / 2) - (_rectFrame.h / 2);
+	_Rect.x = (WIN_WIDTH / 2) - (_rectFrame.w / 2) + 50; // + 50
+	_Rect.y = (WIN_HEIGHT / 2) - (_rectFrame.h / 2) + 50;
 }
 
 void Character::update()
 {
+	if (sInputControl->getKeyPressed(I_D)) {
+		_Rect.x++;
+	}
+	if (sInputControl->getKeyPressed(I_A)) {
+		_Rect.x--;
+	}
+	if (sInputControl->getKeyPressed(I_W)) {
+		_Rect.y--;
+	}
+	if (sInputControl->getKeyPressed(I_S)) {
+		_Rect.y++;
+	}
+
 	_contador++;
 	switch (_state)
 	{

@@ -9,6 +9,7 @@
 #include "Main.h"
 #include "SceneMain.h"
 #include "SceneDirector.h"
+#include "Camera.h"
 
 extern Mouse*           sMouse;
 extern SceneDirector*   sDirector;
@@ -17,6 +18,7 @@ extern Audio*           sAudio;
 extern AudioManager*    sAudioManager;
 extern Video*           sVideo;
 extern ResourceManager* sResourceManager;
+extern Camera*          sCamera;
 
 extern bool             gameOn;
 extern Uint32           global_elapsed_time;
@@ -35,6 +37,7 @@ void SceneGame::init()
     mReinit = false;
     _nivel.init("Assets/scroll.tmx", sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/tileset_scroll.png"));
     _personaje.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/charger.png"));
+    sCamera->init(&_personaje);
 }
 
 void SceneGame::reinit()
@@ -50,6 +53,7 @@ void SceneGame::update()
     //
     _nivel.update();
     _personaje.update();
+    sCamera->update();
     sMouse->update();
 
     //if ((sInputControl->getKeyPressed(I_A))) {
