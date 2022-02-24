@@ -110,9 +110,21 @@ void Level::update()
 {
 	_startTileX = sCamera->getX() / _Rect.w;
 	_startTileY = sCamera->getY() / _Rect.h;
+	_CTW = (WIN_WIDTH / _Rect.w) + _startTileX + 1;
+	_CTH = (WIN_HEIGHT / _Rect.h) + _startTileY + 1;
 
-	_CTW = WIN_WIDTH / _Rect.w + _startTileX;
-	_CTH = WIN_HEIGHT / _Rect.h + _startTileY;
+
+	if (_CTW > 63) {
+		_CTW = 63;
+	}
+	if (_CTH > 14) {
+		_CTH = 14;
+	}
+	std::cout << _startTileX << " To " << _CTW << std::endl;
+	std::cout << _startTileY << " To " << _CTH << std::endl << std::endl;
+	std::cout << "Camera: " << sCamera->getX() << " - " << sCamera->getY() << std::endl;
+
+
 }
 
 void Level::render()
@@ -127,8 +139,8 @@ void Level::render()
 			_ID = _vBackground.at(fy).at(fx) - 1;
 
 			if (_ID >= 0) {
-				_cX = _ID % 15; // la fila en X
-				_cY = _ID / 15; // la fila en Y
+				_cX = _ID % 15; 
+				_cY = _ID / 15; 
 
 				_RectS.x = _cX * _Rect.w + _tspa * _cX;
 				_RectS.y = _cY * _Rect.h + _tspa * _cY;
@@ -144,8 +156,8 @@ void Level::render()
 			_ID = _vForeground.at(fy).at(fx) - 1;
 
 			if (_ID >= 0) {
-				_cX = _ID % 15; // la fila en X
-				_cY = _ID / 15; // la fila en Y
+				_cX = _ID % 15; 
+				_cY = _ID / 15; 
 
 				_RectS.x = _cX * _Rect.w + _tspa * _cX;
 				_RectS.y = _cY * _Rect.h + _tspa * _cY;

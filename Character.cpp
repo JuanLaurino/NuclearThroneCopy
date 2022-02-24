@@ -37,16 +37,16 @@ void Character::init(int sprite) {
 
 void Character::update()
 {
-	if (sInputControl->getKeyPressed(I_D)) {
+	if (sInputControl->getKeyPressed(I_D) && _Rect.x < (2048 - _rectFrame.w)) {
 		_Rect.x++;
 	}
-	if (sInputControl->getKeyPressed(I_A)) {
+	if (sInputControl->getKeyPressed(I_A) && _Rect.x > 0) {
 		_Rect.x--;
 	}
-	if (sInputControl->getKeyPressed(I_W)) {
+	if (sInputControl->getKeyPressed(I_W) && _Rect.y > 0) {
 		_Rect.y--;
 	}
-	if (sInputControl->getKeyPressed(I_S)) {
+	if (sInputControl->getKeyPressed(I_S) && _Rect.y < (362 - _rectFrame.h)) {
 		_Rect.y++;
 	}
 
@@ -124,6 +124,8 @@ void Character::update()
 	default:
 		break;
 	}
+
+	std::cout << "Personaje: X-" << _Rect.x << " Y-" << _Rect.y << std::endl;
 }
 
 void Character::render()
