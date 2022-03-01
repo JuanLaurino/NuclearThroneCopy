@@ -2,15 +2,16 @@
 #include "Video.h"
 #include "InputManager.h"
 #include "SceneDirector.h"
+#include "Camera.h"
 #include <iostream>
 
 extern InputManager*	sInputControl;
 extern Video*			sVideo;
 extern Uint32           global_elapsed_time;
+extern Camera*			sCamera;
 
 Character::Character()
 {
-	_direction = false;
 	_state = ST_IDLE;
 	_contador = 0;
 	_rectFrame.x = 0;
@@ -19,6 +20,9 @@ Character::Character()
 	_rectFrame.h = 0;
 	_frame = 0;
 	_contadorAnim = 0;
+	_HP = 0;
+	_MaxHP = 0;
+	_canMove = false;
 }
 
 Character::~Character()
@@ -29,201 +33,147 @@ void Character::init(int sprite) {
 	_spriteID = sprite;
 	_rectFrame.x = 0;
 	_rectFrame.y = 0;
-	_rectFrame.w = 96;
-	_rectFrame.h = 96;
-	_Rect.x = (WIN_WIDTH / 2) - (_rectFrame.w / 2) + 50; // + 50
-	_Rect.y = (WIN_HEIGHT / 2) - (_rectFrame.h / 2) + 50;
+	_rectFrame.w = 24;
+	_rectFrame.h = 24;
+	_Rect.x = (WIN_WIDTH / 2) - (_rectFrame.w / 2); // + 50
+	_Rect.y = (WIN_HEIGHT / 2) - (_rectFrame.h / 2);
+	_canMove = true;
+	_MaxHP = 6;
+	_HP = 6;
 }
 
 void Character::update()
 {
-	if (sInputControl->getKeyPressed(I_D) && _Rect.x < (2048 - _rectFrame.w)) {
-		_Rect.x++;
+	bool moving = false;
+
+	if (_canMove) {
+		if (sInputControl->getKeyPressed(I_D) && _Rect.x < (2048 - _rectFrame.w)) {
+			_Rect.x++;
+			moving = true;
+		}
+		if (sInputControl->getKeyPressed(I_A) && _Rect.x > 0) {
+			_Rect.x--;
+			moving = true;
+		}
+		if (sInputControl->getKeyPressed(I_W) && _Rect.y > 0) {
+			_Rect.y--;
+			moving = true;
+		}
+		if (sInputControl->getKeyPressed(I_S) && _Rect.y < (480 - _rectFrame.h)) {
+			_Rect.y++;
+			moving = true;
+		}
 	}
-	if (sInputControl->getKeyPressed(I_A) && _Rect.x > 0) {
-		_Rect.x--;
-	}
-	if (sInputControl->getKeyPressed(I_W) && _Rect.y > 0) {
-		_Rect.y--;
-	}
-	if (sInputControl->getKeyPressed(I_S) && _Rect.y < (362 - _rectFrame.h)) {
-		_Rect.y++;
+	_contador+= global_elapsed_time;
+
+	if (_HP <= 0) { 
+		_contador = 0;
+
+		_state = ST_FALLEN;
+		_frame = 0;
+		_canMove = false;
 	}
 
-	_contador++;
 	switch (_state)
 	{
 	case ST_IDLE:
-		if (sInputControl->getKeyPressed(I_A)) {
+		if (moving) {
 			_contador = 0;
 			
-			_state = ST_IN_ALERT;
+			_state = ST_MOVING;
 			_frame = 0;
 		}
-		else if ((_contador * global_elapsed_time) > 4000) {
+		if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG//gothit
 			_contador = 0;
 
-			_state = ST_CHANGING_DIRECTION;
+			_state = ST_ONHIT;
 			_frame = 0;
+			_canMove = false;
+			_HP--;
 		}
 		break;
-	case ST_CHANGING_DIRECTION:
-		if ((_contador * global_elapsed_time) > 700) {
+	case ST_MOVING:
+		if (!moving) {
 			_contador = 0;
-			_direction = !_direction;
 
 			_state = ST_IDLE;
 			_frame = 0;
 		}
-		break;
-	case ST_CHARGING:
-		if (sInputControl->getKeyPressed(I_SPACE)) {
+		if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG //gothit
 			_contador = 0;
 
-			_state = ST_JUMPING;
+			_state = ST_ONHIT;
 			_frame = 0;
+			_canMove = false;
+			_HP--;
 		}
-		else if (sInputControl->getKeyPressed(I_D)) {
+		break;
+	case ST_ONHIT:
+		if (_contador >= 260) {
 			_contador = 0;
 
-			_state = ST_FALLING;
+			_state = ST_IDLE;
 			_frame = 0;
+			_canMove = true;
 		}
 		break;
 	case ST_FALLEN:
-		if ((_contador * global_elapsed_time) > 3000) {
+		if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG
 			_contador = 0;
-
+		
 			_state = ST_IDLE;
 			_frame = 0;
-		}
-		break;
-	case ST_FALLING:
-		if ((_contador * global_elapsed_time) > 900) { 
-			_contador = 0;
-
-			_state = ST_FALLEN;
-			_frame = 0;
-		}
-		break;
-	case ST_IN_ALERT:
-		if ((_contador * global_elapsed_time) > 1000) {
-			_contador = 0;
-			_state = ST_CHARGING;
-			_frame = 0;
-		}
-		break;
-	case ST_JUMPING:
-		if (!(sInputControl->getKeyPressed(I_SPACE))) {
-			_contador = 0;
-
-			_state = ST_CHARGING;
-			_frame = 0;
+			_canMove = true;
+			_HP = _MaxHP;
 		}
 		break;
 	default:
 		break;
 	}
-
-	std::cout << "Personaje: X-" << _Rect.x << " Y-" << _Rect.y << std::endl;
 }
 
 void Character::render()
 {
-	_contadorAnim++;
+	_contadorAnim+=global_elapsed_time;
 	switch (_state)
 	{
 	case ST_IDLE:
 		if (_frame >= 3) {
 			_frame = 0;
 		}
-		_rectFrame.y = 0;
-		if (_direction) {
-			_rectFrame.x = 96 * _frame;
-		}
-		else {
-			_rectFrame.x = (96*3) + (96 * _frame);
-		}
+
+		_rectFrame.x = _rectFrame.w * _frame + _frame;
+		_rectFrame.y = _rectFrame.h * 2 + 2;
 		break;
-	case ST_CHANGING_DIRECTION:
-		if (_frame >= 5) {
+	case ST_MOVING:
+		if (_frame >= 6) {
 			_frame = 0;
 		}
-		_rectFrame.y = 96 * 6;
-		if (!_direction) {
-			_rectFrame.x = 96 * _frame;
-		}
-		else {
-			_rectFrame.x = (96 * 4) - (96 * _frame);
-		}
+		_rectFrame.x = _rectFrame.w * _frame + _frame;
+		_rectFrame.y = _rectFrame.h * 3 + 3;
 		break;
-	case ST_CHARGING:
-		if (_frame >= 6) {
+	case ST_ONHIT:
+		if (_frame >= 2) {
 			_frame = 0;
 		}
 		
-		if (_direction) {
-			_rectFrame.y = 96;
-			_rectFrame.x = 96 * _frame;
-		}
-		else {
-			_rectFrame.y = 96 * 2;
-			_rectFrame.x = (96 * 5) - (96 * _frame);
-		}
+		_rectFrame.x = _rectFrame.w * _frame + _frame;
+		_rectFrame.y = _rectFrame.h * 4 + 4;
 		break;
 	case ST_FALLEN:
-		if (_frame >= 4) {
-			_frame = 0;
+		if (_frame >= 2) {
+			_frame = 2;
 		}
 
-		_rectFrame.x = (96 * 5) - (96 * _frame);
-		if (_direction) {
-			_rectFrame.y = 96 * 3;
-		}
-		else {
-			_rectFrame.y = 96 * 4;
-		}
-		break;
-	case ST_FALLING:
-		if (_frame >= 6) {
-			_frame = 0;
-		}
-
-		_rectFrame.x = 96 * _frame;
-		if (_direction) {
-			_rectFrame.y = 96 * 3;
-		}
-		else {
-			_rectFrame.y = 96 * 4;
-		}
-		break;
-	case ST_IN_ALERT:
-		if (_frame >= 3) {
-			_frame = 0;
-		}
-		_rectFrame.y = 96 * 5;
-		if (_direction) {
-			_rectFrame.x = 96 * _frame;
-		}
-		else {
-			_rectFrame.x = (96 * 3) + (96 * _frame);
-		}
-		break;
-	case ST_JUMPING:
-		_rectFrame.y = 96 * 7;
-		if (_direction) {
-			_rectFrame.x = 96;
-		}
-		else {
-			_rectFrame.x = 0;
-		}
+		_rectFrame.x = _rectFrame.w * _frame + _frame;
+		_rectFrame.y = _rectFrame.h * 5 + 5;
 		break;
 	default:
 		break;
 	}
-	if (_contadorAnim * global_elapsed_time > 160) {
+	if (_contadorAnim >= 160) {
 		_frame++;
 		_contadorAnim = 0;
 	}
-	sVideo->renderGraphic(_spriteID, _Rect.x, _Rect.y, _rectFrame.w, _rectFrame.h, _rectFrame.x, _rectFrame.y);
+	sVideo->renderGraphic(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w, _rectFrame.h, _rectFrame.x, _rectFrame.y);
 }

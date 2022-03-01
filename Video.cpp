@@ -33,19 +33,16 @@ Video::~Video() {
 }
 
 void Video::renderGraphic(int img, int posX, int posY, int width, int height) {
-	int Xpantalla = posX - sCamera->getX();
-	int Ypantalla = posY - sCamera->getY();
-
-	if (Xpantalla < 0 - width) {
+	if (posX < 0 - width) {
 		return;
 	}
-	else if (Xpantalla > WIN_WIDTH) {
+	else if (posX > WIN_WIDTH) {
 		return;
 	}
-	if (Ypantalla < 0 - height) {
+	if (posY < 0 - height) {
 		return;
 	}
-	else if (Ypantalla > WIN_HEIGHT) {
+	else if (posY > WIN_HEIGHT) {
 		return;
 	}
 
@@ -58,19 +55,16 @@ void Video::renderGraphic(int img, int posX, int posY, int width, int height) {
 }
 
 void Video::renderGraphic(int img, int posX, int posY, int width, int height, int posXTile, int posYTile) {
-	int Xpantalla = posX - sCamera->getX();
-	int Ypantalla = posY - sCamera->getY();
-
-	if (Xpantalla < 0 - width) {
+	if (posX < 0 - width) {
 		return;
 	}
-	else if (Xpantalla > WIN_WIDTH) {
+	else if (posX > WIN_WIDTH) {
 		return;
 	}
-	if (Ypantalla < 0 - height) {
+	if (posY < 0 - height) {
 		return;
 	}
-	else if (Ypantalla > WIN_HEIGHT) {
+	else if (posY > WIN_HEIGHT) {
 		return;
 	}
 	SDL_Rect r, rectAux;
@@ -87,19 +81,16 @@ void Video::renderGraphic(int img, int posX, int posY, int width, int height, in
 
 void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, double angulo, int pX, int pY, int flip)
 {
-	int Xpantalla = posX - sCamera->getX();
-	int Ypantalla = posY - sCamera->getY();
-
-	if (Xpantalla < 0 - width) {
+	if (posX < 0 - width) {
 		return;
 	}
-	else if (Xpantalla > WIN_WIDTH) {
+	else if (posX > WIN_WIDTH) {
 		return;
 	}
-	if (Ypantalla < 0 - height) {
+	if (posY < 0 - height) {
 		return;
 	}
-	else if (Ypantalla > WIN_HEIGHT) {
+	else if (posY > WIN_HEIGHT) {
 		return;
 	}
 
@@ -128,21 +119,17 @@ void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, 
 
 void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, int posXTile, int posYTile, double angulo, int pX, int pY, int flip = 0)
 {
-	int Xpantalla = posX - sCamera->getX();
-	int Ypantalla = posY - sCamera->getY();
-
-	if (Xpantalla < 0 - width) {
+	if (posX < 0 - width) {
 		return;
 	}
-	else if (Xpantalla > WIN_WIDTH) {
+	else if (posX > WIN_WIDTH) {
 		return;
 	}
-	if (Ypantalla < 0 - height) {
+	if (posY < 0 - height) {
 		return;
 	}
-	else if (Ypantalla > WIN_HEIGHT) {
+	else if (posY > WIN_HEIGHT) {
 		return;
-
 	}
 	SDL_RendererFlip rf = SDL_FLIP_NONE;
 	SDL_Point p;

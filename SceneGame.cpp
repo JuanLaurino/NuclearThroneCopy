@@ -36,7 +36,7 @@ void SceneGame::init()
 {
     mReinit = false;
     _nivel.init("Assets/scroll.tmx", sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/tileset_scroll.png"));
-    _personaje.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/charger.png"));
+    _personaje.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/characters/CharacterFish.png"));
     sCamera->init(&_personaje);
 }
 

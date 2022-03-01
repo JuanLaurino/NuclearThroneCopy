@@ -76,14 +76,14 @@ void Level::init(const char* XMLMap, int sprite)
 
 	_vBackground.resize(_h);
 	_vForeground.resize(_h);
-	for (size_t i = 0; i < _h; i++) {
+	for (size_t i = 0; i < (size_t)_h; i++) {
 		_vBackground.at(i).resize(_w);
 		_vForeground.at(i).resize(_w);
 	}
 
-	for (size_t i = 0; i < _h; i++)
+	for (size_t i = 0; i < (size_t)_h; i++)
 	{
-		for (size_t j = 0; j < _w; j++)
+		for (size_t j = 0; j < (size_t)_w; j++)
 		{
 			// Background
 			_len = _sMapaBg.find_first_of(',');
@@ -120,11 +120,6 @@ void Level::update()
 	if (_CTH > 14) {
 		_CTH = 14;
 	}
-	std::cout << _startTileX << " To " << _CTW << std::endl;
-	std::cout << _startTileY << " To " << _CTH << std::endl << std::endl;
-	std::cout << "Camera: " << sCamera->getX() << " - " << sCamera->getY() << std::endl;
-
-
 }
 
 void Level::render()
@@ -134,8 +129,8 @@ void Level::render()
 		for (int fx = _startTileX; fx < _CTW; fx++)
 		{
 			//Background
-			_Rect.x = fx * _Rect.w - sCamera->getX();
-			_Rect.y = fy * _Rect.h - sCamera->getY();
+			_Rect.x = (fx * _Rect.w) - sCamera->getX();
+			_Rect.y = (fy * _Rect.h) - sCamera->getY();
 			_ID = _vBackground.at(fy).at(fx) - 1;
 
 			if (_ID >= 0) {
@@ -151,8 +146,8 @@ void Level::render()
 			}
 
 			//Foreground
-			_Rect.x = fx * _Rect.w - sCamera->getX();
-			_Rect.y = fy * _Rect.h - sCamera->getY();
+			_Rect.x = (fx * _Rect.w) - sCamera->getX();
+			_Rect.y = (fy * _Rect.h) - sCamera->getY();
 			_ID = _vForeground.at(fy).at(fx) - 1;
 
 			if (_ID >= 0) {
@@ -166,7 +161,6 @@ void Level::render()
 
 				sVideo->renderGraphic(_spriteID, _Rect.x, _Rect.y, _RectS.w, _RectS.h, _RectS.x, _RectS.y);
 			}
-
 		}
 	}
 }
