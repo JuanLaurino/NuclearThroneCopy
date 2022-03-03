@@ -3,12 +3,14 @@
 #include "InputManager.h"
 #include "SceneDirector.h"
 #include "Camera.h"
+#include "Mouse.h"
 #include <iostream>
 
 extern InputManager*	sInputControl;
 extern Video*			sVideo;
 extern Uint32           global_elapsed_time;
 extern Camera*			sCamera;
+extern Mouse*			sMouse;
 
 Character::Character()
 {
@@ -33,8 +35,8 @@ void Character::init(int sprite) {
 	_spriteID = sprite;
 	_rectFrame.x = 0;
 	_rectFrame.y = 0;
-	_rectFrame.w = 24;
-	_rectFrame.h = 24;
+	_rectFrame.w = 48;
+	_rectFrame.h = 48;
 	_Rect.x = (WIN_WIDTH / 2) - (_rectFrame.w / 2); // + 50
 	_Rect.y = (WIN_HEIGHT / 2) - (_rectFrame.h / 2);
 	_canMove = true;
@@ -142,31 +144,31 @@ void Character::render()
 			_frame = 0;
 		}
 
-		_rectFrame.x = _rectFrame.w * _frame + _frame;
-		_rectFrame.y = _rectFrame.h * 2 + 2;
+		_rectFrame.x = _rectFrame.w * _frame + _frame * 2;
+		_rectFrame.y = _rectFrame.h * 2 + 4;
 		break;
 	case ST_MOVING:
 		if (_frame >= 6) {
 			_frame = 0;
 		}
-		_rectFrame.x = _rectFrame.w * _frame + _frame;
-		_rectFrame.y = _rectFrame.h * 3 + 3;
+		_rectFrame.x = _rectFrame.w * _frame + _frame * 2;
+		_rectFrame.y = _rectFrame.h * 3 + 6;
 		break;
 	case ST_ONHIT:
 		if (_frame >= 2) {
 			_frame = 0;
 		}
 		
-		_rectFrame.x = _rectFrame.w * _frame + _frame;
-		_rectFrame.y = _rectFrame.h * 4 + 4;
+		_rectFrame.x = _rectFrame.w * _frame + _frame * 2;
+		_rectFrame.y = _rectFrame.h * 4 + 8;
 		break;
 	case ST_FALLEN:
 		if (_frame >= 2) {
 			_frame = 2;
 		}
 
-		_rectFrame.x = _rectFrame.w * _frame + _frame;
-		_rectFrame.y = _rectFrame.h * 5 + 5;
+		_rectFrame.x = _rectFrame.w * _frame + _frame * 2;
+		_rectFrame.y = _rectFrame.h * 5 + 10;
 		break;
 	default:
 		break;
@@ -175,5 +177,11 @@ void Character::render()
 		_frame++;
 		_contadorAnim = 0;
 	}
-	sVideo->renderGraphic(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w, _rectFrame.h, _rectFrame.x, _rectFrame.y);
+	
+	if ((_Rect.x + (_rectFrame.w / 2) - sCamera->getX()) >= (sMouse->getX() + sMouse->getW() / 2)) {
+		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w, _rectFrame.h, _rectFrame.x, _rectFrame.y, 0, 0, 0, 1);
+	}
+	else {
+		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w, _rectFrame.h, _rectFrame.x, _rectFrame.y, 0, 0, 0, 0);
+	}
 }

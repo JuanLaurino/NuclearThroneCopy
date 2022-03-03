@@ -79,7 +79,32 @@ void Video::renderGraphic(int img, int posX, int posY, int width, int height, in
 	SDL_RenderCopy(gRenderer, ResourceManager::getInstance()->getGraphicByID(img), &rectAux, &r);
 }
 
-void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, double angulo, int pX, int pY, int flip)
+void Video::renderGraphic(int img, int posX, int posY, int width, int height, int posXTile, int posYTile, int finalWidth, int finalHeight) {
+	if (posX < 0 - finalWidth) {
+		return;
+	}
+	else if (posX > WIN_WIDTH) {
+		return;
+	}
+	if (posY < 0 - finalHeight) {
+		return;
+	}
+	else if (posY > WIN_HEIGHT) {
+		return;
+	}
+	SDL_Rect r, rectAux;
+	r.x = posX;
+	r.y = posY;
+	r.w = finalWidth;
+	r.h = finalHeight;
+	rectAux.h = height;
+	rectAux.w = width;
+	rectAux.x = posXTile;
+	rectAux.y = posYTile;
+	SDL_RenderCopy(gRenderer, ResourceManager::getInstance()->getGraphicByID(img), &rectAux, &r);
+}
+
+void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, double angulo, int pX, int pY, int flip = 0)
 {
 	if (posX < 0 - width) {
 		return;

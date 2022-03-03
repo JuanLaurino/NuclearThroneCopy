@@ -29,6 +29,9 @@ class Level :public GFXElement
 	int _startTileY;
 	int _CTW;
 	int _CTH;
+
+	int _tileWidth;
+	int _tileHeight;
 public:
 	Level();
 	~Level();
@@ -37,5 +40,7 @@ public:
 
 	void update();
 	void render();
+
+	//int getIDfromLayer(int layer, int PosX, int PosY);
 };
 

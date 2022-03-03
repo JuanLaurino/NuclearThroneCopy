@@ -14,6 +14,8 @@ extern Camera* sCamera;
 
 Level::Level()
 {
+	_tileWidth = 0;
+	_tileHeight = 0;
 	_RectS.h = 0;
 	_RectS.w = 0;
 	_RectS.x = 0;
@@ -98,20 +100,20 @@ void Level::init(const char* XMLMap, int sprite)
 			_vForeground.at(i).at(j) = std::stoi(_string);
 		}
 	}
-	_Rect.w = std::stoi(tileset->Attribute("tilewidth"));
-	_Rect.h = std::stoi(tileset->Attribute("tileheight"));
+	_tileWidth = std::stoi(tileset->Attribute("tilewidth"));
+	_tileHeight = std::stoi(tileset->Attribute("tileheight"));
 	_tspa = std::stoi(tileset->Attribute("spacing"));
 
-	_WW = _w * _Rect.w;
-	_WH = _h * _Rect.h;
+	_WW = _w * _tileWidth;
+	_WH = _h * _tileHeight;
 }
 
 void Level::update()
 {
-	_startTileX = sCamera->getX() / _Rect.w;
-	_startTileY = sCamera->getY() / _Rect.h;
-	_CTW = (WIN_WIDTH / _Rect.w) + _startTileX + 1;
-	_CTH = (WIN_HEIGHT / _Rect.h) + _startTileY + 1;
+	_startTileX = sCamera->getX() / _tileWidth;
+	_startTileY = sCamera->getY() / _tileHeight;
+	_CTW = (WIN_WIDTH / _tileWidth) + _startTileX + 1;
+	_CTH = (WIN_HEIGHT / _tileHeight) + _startTileY + 1;
 
 
 	if (_CTW > 63) {
@@ -129,38 +131,45 @@ void Level::render()
 		for (int fx = _startTileX; fx < _CTW; fx++)
 		{
 			//Background
-			_Rect.x = (fx * _Rect.w) - sCamera->getX();
-			_Rect.y = (fy * _Rect.h) - sCamera->getY();
+			_Rect.x = (fx * _tileWidth) - sCamera->getX();
+			_Rect.y = (fy * _tileHeight) - sCamera->getY();
 			_ID = _vBackground.at(fy).at(fx) - 1;
 
 			if (_ID >= 0) {
 				_cX = _ID % 15; 
 				_cY = _ID / 15; 
 
-				_RectS.x = _cX * _Rect.w + _tspa * _cX;
-				_RectS.y = _cY * _Rect.h + _tspa * _cY;
-				_RectS.w = _Rect.w;
-				_RectS.h = _Rect.h;
+				_RectS.x = _cX * _tileWidth + _tspa * _cX;
+				_RectS.y = _cY * _tileHeight + _tspa * _cY;
+				_RectS.w = _tileWidth;
+				_RectS.h = _tileHeight;
 
 				sVideo->renderGraphic(_spriteID, _Rect.x, _Rect.y, _RectS.w, _RectS.h, _RectS.x, _RectS.y);
 			}
 
 			//Foreground
-			_Rect.x = (fx * _Rect.w) - sCamera->getX();
-			_Rect.y = (fy * _Rect.h) - sCamera->getY();
+			_Rect.x = (fx * _tileWidth) - sCamera->getX();
+			_Rect.y = (fy * _tileHeight) - sCamera->getY();
 			_ID = _vForeground.at(fy).at(fx) - 1;
 
 			if (_ID >= 0) {
 				_cX = _ID % 15; 
 				_cY = _ID / 15; 
 
-				_RectS.x = _cX * _Rect.w + _tspa * _cX;
-				_RectS.y = _cY * _Rect.h + _tspa * _cY;
-				_RectS.w = _Rect.w;
-				_RectS.h = _Rect.h;
+				_RectS.x = _cX * _tileWidth + _tspa * _cX;
+				_RectS.y = _cY * _tileHeight + _tspa * _cY;
+				_RectS.w = _tileWidth;
+				_RectS.h = _tileHeight;
 
 				sVideo->renderGraphic(_spriteID, _Rect.x, _Rect.y, _RectS.w, _RectS.h, _RectS.x, _RectS.y);
 			}
 		}
 	}
 }
+/*
+int Level::getIDfromLayer(int PosX, int PosY)
+{
+	int TileX = PosX / _tileWidth;
+	int TileY = PosY / _tileHeight;
+	//return Layers[layer][TileY * _width + TileX];
+}*/
