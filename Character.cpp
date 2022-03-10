@@ -49,20 +49,20 @@ void Character::update()
 	bool moving = false;
 
 	if (_canMove) {
-		if (sInputControl->getKeyPressed(I_D) && _Rect.x < (2048 - _rectFrame.w)) {
-			_Rect.x++;
+		if (sInputControl->getKeyPressed(I_D) && _Rect.x < (1160 - _rectFrame.w)) {
+			_Rect.x +=3;
 			moving = true;
 		}
 		if (sInputControl->getKeyPressed(I_A) && _Rect.x > 0) {
-			_Rect.x--;
+			_Rect.x -= 3;
 			moving = true;
 		}
 		if (sInputControl->getKeyPressed(I_W) && _Rect.y > 0) {
-			_Rect.y--;
+			_Rect.y -= 3;
 			moving = true;
 		}
-		if (sInputControl->getKeyPressed(I_S) && _Rect.y < (480 - _rectFrame.h)) {
-			_Rect.y++;
+		if (sInputControl->getKeyPressed(I_S) && _Rect.y < (1160 - _rectFrame.h)) {
+			_Rect.y += 3;
 			moving = true;
 		}
 	}

@@ -41,6 +41,14 @@ public:
 	void update();
 	void render();
 
-	//int getIDfromLayer(int layer, int PosX, int PosY);
+	int getTileWidth() {return _tileWidth;};
+	int getTileHeight() {return _tileHeight;};
+	int getWidth() {return _w;};
+	int getHeight() {return _h;};
+	int getMapWidth() {return _WW;};
+	int getMapHeight() {return _WH;};
+
+
+	int getIDfromLayer(int layer, int PosX, int PosY);
 };
 

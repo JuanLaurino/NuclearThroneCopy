@@ -3,9 +3,9 @@
 
 class Character :public GFXElement
 {
-	enum STATES { ST_IDLE, ST_ONHIT, ST_MOVING, ST_FALLEN };
+	enum PLAYER_STATE { ST_IDLE, ST_ONHIT, ST_MOVING, ST_FALLEN };
 
-	STATES _state;
+	PLAYER_STATE _state;
 	notSDL_Rect _rectFrame;
 
 	bool _canMove;

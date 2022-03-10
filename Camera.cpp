@@ -2,7 +2,7 @@
 #include "Level.h"
 #include "Main.h"
 #include "Character.h"
-
+#include "Level.h"
 Camera* Camera::pInstance = nullptr;
 
 Camera::Camera()
@@ -19,24 +19,25 @@ Camera::~Camera()
 {
 }
 
-void Camera::init(Character* pJugador)
+void Camera::init(Character* pJugador, Level* mapa)
 {
 	_pJugador = pJugador;
+	_pMapa = mapa;
 	_Rect.x = (_pJugador->getX() - (_pJugador->getW() / 2)) - (WIN_WIDTH / 2);
 	_Rect.y = (_pJugador->getY() - (_pJugador->getH() / 2)) - (WIN_HEIGHT / 2);
 
-	if (_Rect.x < 33) {
-		_Rect.x = 33;
+	if (_Rect.x < 40) {
+		_Rect.x = 40;
 	}
-	else if (_Rect.x > 2048 - WIN_WIDTH) {//  cambiar 2048 por variable del ancho del mapa 
-		_Rect.x = 2048 - WIN_WIDTH;
+	else if (_Rect.x > (_pMapa->getMapWidth() * _pMapa->getWidth() - 1) - WIN_WIDTH) {
+		_Rect.x = (_pMapa->getMapWidth() * _pMapa->getWidth() - 1) - WIN_WIDTH;
 	}
 
-	if (_Rect.y < 33) {
-		_Rect.y = 33;
+	if (_Rect.y < 40) {
+		_Rect.y = 40;
 	}
-	else if (_Rect.y > 448 - WIN_HEIGHT) {//  cambiar 480 por variable del alto del mapa
-		_Rect.y = 448 - WIN_HEIGHT;
+	else if (_Rect.y > (_pMapa->getMapHeight() * _pMapa->getHeight() - 1) - WIN_HEIGHT) {
+		_Rect.y = (_pMapa->getMapHeight() * _pMapa->getHeight() - 1) - WIN_HEIGHT;
 	}
 }
 
@@ -48,20 +49,16 @@ void Camera::update()
 	if (_Rect.x < 0) {
 		_Rect.x = 0;
 	}
-	else if (_Rect.x > (2048 - WIN_WIDTH)) {//  cambiar 2048 por variable del ancho del mapa 
-		_Rect.x = 2048 - WIN_WIDTH;
+	else if (_Rect.x > (_pMapa->getMapWidth() * _pMapa->getWidth() - 1) - WIN_WIDTH) {
+		_Rect.x = (_pMapa->getMapWidth() * _pMapa->getWidth() - 1) - WIN_WIDTH;
 	}
 
 	if (_Rect.y < 0) {
 		_Rect.y = 0;
 	}
-	else if (_Rect.y > (448 - WIN_HEIGHT)) {//  cambiar 480 por variable del alto del mapa
-		_Rect.y = 448 - WIN_HEIGHT;
+	else if (_Rect.y > (_pMapa->getMapHeight() * _pMapa->getHeight() - 1) - WIN_HEIGHT) {
+		_Rect.y = (_pMapa->getMapHeight() * _pMapa->getHeight() - 1) - WIN_HEIGHT;
 	}
-}
-
-void Camera::render()
-{
 }
 
 Camera* Camera::getInstance()
