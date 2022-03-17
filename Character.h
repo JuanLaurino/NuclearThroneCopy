@@ -1,8 +1,12 @@
 #pragma once
 #include "GFXElement.h"
+#include "Level.h" // borrar?
+
+#define MovementSpeed 3
 
 class Character :public GFXElement
 {
+protected:
 	enum PLAYER_STATE { ST_IDLE, ST_ONHIT, ST_MOVING, ST_FALLEN };
 
 	PLAYER_STATE _state;
@@ -14,13 +18,13 @@ class Character :public GFXElement
 	int _contador;
 	int _contadorAnim;
 	int _frame;
+
+	Level* _pLevel;
 public:
 	Character();
 	~Character();
 
-	void init(int sprite);
-	void update();
-	void render();
-
+	void checkCollision(int direction);
+	void setWorldPointer(Level* nivel);
 };
 

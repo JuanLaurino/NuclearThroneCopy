@@ -11,177 +11,59 @@ extern Video*			sVideo;
 extern Uint32           global_elapsed_time;
 extern Camera*			sCamera;
 extern Mouse*			sMouse;
+extern ResourceManager* sResourceManager;
 
 Character::Character()
 {
-	_state = ST_IDLE;
-	_contador = 0;
-	_rectFrame.x = 0;
-	_rectFrame.y = 0;
-	_rectFrame.w = 0;
-	_rectFrame.h = 0;
-	_frame = 0;
-	_contadorAnim = 0;
-	_HP = 0;
-	_MaxHP = 0;
-	_canMove = false;
 }
 
 Character::~Character()
 {
 }
 
-void Character::init(int sprite) {
-	_spriteID = sprite;
-	_rectFrame.x = 0;
-	_rectFrame.y = 0;
-	_rectFrame.w = 48;
-	_rectFrame.h = 48;
-	_Rect.x = (WIN_WIDTH / 2) - (_rectFrame.w / 2); // + 50
-	_Rect.y = (WIN_HEIGHT / 2) - (_rectFrame.h / 2);
-	_canMove = true;
-	_MaxHP = 6;
-	_HP = 6;
-}
-
-void Character::update()
+void Character::checkCollision(int direction)
 {
-	bool moving = false;
-
-	if (_canMove) {
-		if (sInputControl->getKeyPressed(I_D) && _Rect.x < (1160 - _rectFrame.w)) {
-			_Rect.x +=3;
-			moving = true;
-		}
-		if (sInputControl->getKeyPressed(I_A) && _Rect.x > 0) {
-			_Rect.x -= 3;
-			moving = true;
-		}
-		if (sInputControl->getKeyPressed(I_W) && _Rect.y > 0) {
-			_Rect.y -= 3;
-			moving = true;
-		}
-		if (sInputControl->getKeyPressed(I_S) && _Rect.y < (1160 - _rectFrame.h)) {
-			_Rect.y += 3;
-			moving = true;
-		}
-	}
-	_contador+= global_elapsed_time;
-
-	if (_HP <= 0) { 
-		_contador = 0;
-
-		_state = ST_FALLEN;
-		_frame = 0;
-		_canMove = false;
-	}
-
-	switch (_state)
+	switch (direction)
 	{
-	case ST_IDLE:
-		if (moving) {
-			_contador = 0;
-			
-			_state = ST_MOVING;
-			_frame = 0;
+	case I_D:
+		while (_pLevel->getIDfromLayer(0, _Rect.x + 7 + _Rect.w, _Rect.y + 7)){
+			_Rect.x--;
 		}
-		if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG//gothit
-			_contador = 0;
-
-			_state = ST_ONHIT;
-			_frame = 0;
-			_canMove = false;
-			_HP--;
+		while (_pLevel->getIDfromLayer(0, _Rect.x + 7 + _Rect.w, _Rect.y + 7 + _Rect.h)){
+			_Rect.x--;
 		}
 		break;
-	case ST_MOVING:
-		if (!moving) {
-			_contador = 0;
-
-			_state = ST_IDLE;
-			_frame = 0;
+	case I_A:
+		while (_pLevel->getIDfromLayer(0, _Rect.x + 7, _Rect.y + 7)) {
+			_Rect.x++;
 		}
-		if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG //gothit
-			_contador = 0;
-
-			_state = ST_ONHIT;
-			_frame = 0;
-			_canMove = false;
-			_HP--;
+		while (_pLevel->getIDfromLayer(0, _Rect.x + 7, _Rect.y + 7 + _Rect.h)) {
+			_Rect.x++;
 		}
 		break;
-	case ST_ONHIT:
-		if (_contador >= 260) {
-			_contador = 0;
-
-			_state = ST_IDLE;
-			_frame = 0;
-			_canMove = true;
+	case I_W:
+		while (_pLevel->getIDfromLayer(0, _Rect.x + 7, _Rect.y + 7)) {
+			_Rect.y++;
+		}
+		while (_pLevel->getIDfromLayer(0, _Rect.x + 7 + _Rect.w, _Rect.y + 7)) {
+			_Rect.y++;
 		}
 		break;
-	case ST_FALLEN:
-		if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG
-			_contador = 0;
-		
-			_state = ST_IDLE;
-			_frame = 0;
-			_canMove = true;
-			_HP = _MaxHP;
+	case I_S:
+		while (_pLevel->getIDfromLayer(0, _Rect.x + 7, _Rect.y + 7 + _Rect.h)) {
+			_Rect.y--;
+		}
+		while (_pLevel->getIDfromLayer(0, _Rect.x + 7 + _Rect.w, _Rect.y + 7 + _Rect.h)) {
+			_Rect.y--;
 		}
 		break;
 	default:
 		break;
 	}
+	//std::cout << _Rect.x << " - " << _Rect.y << std::endl;
 }
 
-void Character::render()
+void Character::setWorldPointer(Level* nivel)
 {
-	_contadorAnim+=global_elapsed_time;
-	switch (_state)
-	{
-	case ST_IDLE:
-		if (_frame >= 3) {
-			_frame = 0;
-		}
-
-		_rectFrame.x = _rectFrame.w * _frame + _frame * 2;
-		_rectFrame.y = _rectFrame.h * 2 + 4;
-		break;
-	case ST_MOVING:
-		if (_frame >= 6) {
-			_frame = 0;
-		}
-		_rectFrame.x = _rectFrame.w * _frame + _frame * 2;
-		_rectFrame.y = _rectFrame.h * 3 + 6;
-		break;
-	case ST_ONHIT:
-		if (_frame >= 2) {
-			_frame = 0;
-		}
-		
-		_rectFrame.x = _rectFrame.w * _frame + _frame * 2;
-		_rectFrame.y = _rectFrame.h * 4 + 8;
-		break;
-	case ST_FALLEN:
-		if (_frame >= 2) {
-			_frame = 2;
-		}
-
-		_rectFrame.x = _rectFrame.w * _frame + _frame * 2;
-		_rectFrame.y = _rectFrame.h * 5 + 10;
-		break;
-	default:
-		break;
-	}
-	if (_contadorAnim >= 160) {
-		_frame++;
-		_contadorAnim = 0;
-	}
-	
-	if ((_Rect.x + (_rectFrame.w / 2) - sCamera->getX()) >= (sMouse->getX() + sMouse->getW() / 2)) {
-		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w, _rectFrame.h, _rectFrame.x, _rectFrame.y, 0, 0, 0, 1);
-	}
-	else {
-		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w, _rectFrame.h, _rectFrame.x, _rectFrame.y, 0, 0, 0, 0);
-	}
+	_pLevel = nivel;
 }

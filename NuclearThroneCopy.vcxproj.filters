@@ -96,6 +96,9 @@
     <ClInclude Include="weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Fish.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GFXElement.cpp">
@@ -177,6 +180,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="weapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Fish.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -36,7 +36,8 @@ void SceneGame::init()
 {
     mReinit = false;
     _nivel.init("Assets/levelBasico.tmx", sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/tileset_level.png"));
-    _personaje.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/characters/CharacterFish.png"));
+    _personaje.init();
+    _personaje.setWorldPointer(&_nivel);
     sCamera->init(&_personaje, &_nivel);
 }
 

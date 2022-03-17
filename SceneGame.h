@@ -1,11 +1,12 @@
 #pragma once
 #include "Scene.h"
 #include "Level.h"
-#include "Character.h"
+#include "Fish.h"
+
 class SceneGame : public Scene
 {
 	Level _nivel;
-	Character _personaje;
+	Fish _personaje;
 public:
 	SceneGame();
 	~SceneGame();
