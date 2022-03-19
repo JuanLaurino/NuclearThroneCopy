@@ -33,6 +33,7 @@ Fish::Fish()
 
 	_lastDirY = 0;
 	_lastDirX = 0;
+	_rotation = 0;
 }
 
 Fish::~Fish()
@@ -56,6 +57,7 @@ void Fish::init()
 
 	_lastDirY = 0;
 	_lastDirX = 0;
+	_rotation = 0;
 }
 
 void Fish::update()
@@ -167,7 +169,9 @@ void Fish::update()
 		}
 		break;
 	case ST_ROLL:
+		_rotation+= global_elapsed_time;
 		_Rect.x += _lastDirX;
+
 		if (_lastDirX == MovementSpeed) {
 			checkCollision(I_D);
 		}
@@ -183,13 +187,13 @@ void Fish::update()
 			checkCollision(I_W);
 		}
 
-		if (sInputControl->getKeyPressed(I_E)) { // QUITARRRRRR
+		if (_contador > 450) { 
 			_contador = 0;
 
 			_fishState = ST_IDLE;
 			_frame = 0;
 			_canMove = true;
-			_HP = _MaxHP;
+			_rotation = 0;
 		}
 		break;
 	default:
@@ -234,7 +238,8 @@ void Fish::render()
 		_rectFrame.y = _rectFrame.h * 5 + 10;
 		break;
 	case ST_ROLL:
-		//HACERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR (animación :p)
+		_rectFrame.x = _rectFrame.w * 1 + 2;
+		_rectFrame.y = _rectFrame.h * 3 + 6;
 		break;
 	default:
 		break;
@@ -244,10 +249,10 @@ void Fish::render()
 		_contadorAnim = 0;
 	}
 
-	if ((_Rect.x + (_rectFrame.w / 2) - sCamera->getX()) >= (sMouse->getX() + sMouse->getW() / 2)) {
-		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w, _rectFrame.h, _rectFrame.x, _rectFrame.y, 0, 0, 0, 1);
+	if ((_Rect.x + (_rectFrame.w / 2) - sCamera->getX()) >= (sMouse->getX() + sMouse->getW() / 2)) { // Rotación dependiendo de donde apunta el mouse
+		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 1);
 	}
 	else {
-		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w, _rectFrame.h, _rectFrame.x, _rectFrame.y, 0, 0, 0, 0);
+		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 0);
 	}
 }

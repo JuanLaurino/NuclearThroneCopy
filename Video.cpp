@@ -21,6 +21,7 @@ Video::Video() {
 		SDL_WINDOWPOS_UNDEFINED, WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOWEVENT_SIZE_CHANGED);
 	
 	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	SDL_RenderSetIntegerScale(gRenderer, SDL_TRUE);
 	// SDL_HINT_RENDER_VSYNC | SDL_HINT_RENDER_SCALE_QUALITY
 	SDL_ShowCursor(false); //Para meter mi propio cursor
 	SDL_RenderSetViewport(gRenderer, &_windowRect); // Para hacer resize de la screen y que se estire

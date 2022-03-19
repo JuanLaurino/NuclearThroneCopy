@@ -8,6 +8,8 @@ class Fish :public Character
 
 	int _lastDirX;
 	int _lastDirY;
+
+	int _rotation;
 public:
 	Fish();
 	~Fish();

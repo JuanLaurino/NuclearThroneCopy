@@ -1,0 +1,68 @@
+﻿  Audio.cpp
+D:\Proyectos\c++\NuclearThroneCopy\Audio.h(3,10): fatal error C1083: Cannot open include file: 'sdl.h': No such file or directory
+  AudioManager.cpp
+D:\Proyectos\c++\NuclearThroneCopy\AudioManager.h(6,10): fatal error C1083: Cannot open include file: 'SDL_mixer.h': No such file or directory
+  Background.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+D:\Proyectos\c++\NuclearThroneCopy\ResourceManager.h(5,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  Button.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+D:\Proyectos\c++\NuclearThroneCopy\Video.h(3,10): fatal error C1083: Cannot open include file: 'sdl.h': No such file or directory
+  Camera.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+  Character.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+D:\Proyectos\c++\NuclearThroneCopy\Video.h(3,10): fatal error C1083: Cannot open include file: 'sdl.h': No such file or directory
+  Fish.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+D:\Proyectos\c++\NuclearThroneCopy\Video.h(3,10): fatal error C1083: Cannot open include file: 'sdl.h': No such file or directory
+  GFXElement.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+D:\Proyectos\c++\NuclearThroneCopy\Video.h(3,10): fatal error C1083: Cannot open include file: 'sdl.h': No such file or directory
+  InputManager.cpp
+D:\Proyectos\c++\NuclearThroneCopy\InputManager.h(2,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  Level.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+D:\Proyectos\c++\NuclearThroneCopy\Video.h(3,10): fatal error C1083: Cannot open include file: 'sdl.h': No such file or directory
+  Logo.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+D:\Proyectos\c++\NuclearThroneCopy\Video.h(3,10): fatal error C1083: Cannot open include file: 'sdl.h': No such file or directory
+  MainForDirector.cpp
+D:\Proyectos\c++\NuclearThroneCopy\InputManager.h(2,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  Mouse.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+D:\Proyectos\c++\NuclearThroneCopy\InputManager.h(2,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  ResourceManager.cpp
+D:\Proyectos\c++\NuclearThroneCopy\ResourceManager.h(5,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  Scene.cpp
+  SceneDirector.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+  SceneGame.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+D:\Proyectos\c++\NuclearThroneCopy\ResourceManager.h(5,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  SceneGameOver.cpp
+D:\Proyectos\c++\NuclearThroneCopy\ResourceManager.h(5,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  SceneInitLevel.cpp
+D:\Proyectos\c++\NuclearThroneCopy\ResourceManager.h(5,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  SceneMain.cpp
+D:\Proyectos\c++\NuclearThroneCopy\ResourceManager.h(5,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  Generating Code...
+  Compiling...
+  ScenePause.cpp
+D:\Proyectos\c++\NuclearThroneCopy\ResourceManager.h(5,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  SceneSelectCharacter.cpp
+D:\Proyectos\c++\NuclearThroneCopy\ResourceManager.h(5,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  SceneStats.cpp
+D:\Proyectos\c++\NuclearThroneCopy\ResourceManager.h(5,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  ThroneLogo.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+D:\Proyectos\c++\NuclearThroneCopy\Video.h(3,10): fatal error C1083: Cannot open include file: 'sdl.h': No such file or directory
+  Timer.cpp
+D:\Proyectos\c++\NuclearThroneCopy\Timer.h(2,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  tinyxml2.cpp
+  Video.cpp
+D:\Proyectos\c++\NuclearThroneCopy\Video.h(3,10): fatal error C1083: Cannot open include file: 'sdl.h': No such file or directory
+  weapon.cpp
+D:\Proyectos\c++\NuclearThroneCopy\GFXElement.h(12): warning C4091: 'typedef ': ignored on left of 'GFXElement::notSDL_Rect' when no variable is declared
+D:\Proyectos\c++\NuclearThroneCopy\InputManager.h(2,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  Generating Code...
