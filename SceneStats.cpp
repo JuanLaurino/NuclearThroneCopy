@@ -31,19 +31,21 @@ SceneStats::~SceneStats()
 
 void SceneStats::init()
 {
+	_highscore.readScore();	
+	_highscore.saveScore();
 }
 
 void SceneStats::reinit()
 {
+	mReinit = false;
 }
 
 void SceneStats::update()
 {
-    if ((sInputControl->getKeyPressed(I_A))) {
-        sDirector->changeScene(GAME, 1);
-    }
+
 }
 
 void SceneStats::render()
 {
+	_highscore.renderScore();
 }

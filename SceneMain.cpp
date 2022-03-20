@@ -118,6 +118,7 @@ void SceneMain::update() {
         _logo.update();
     }
     else {  // Menú
+        _contador++;
         _bg.update();
         
         for (size_t i = 0; i < 5; i++)
@@ -125,14 +126,14 @@ void SceneMain::update() {
             _button[i].update();
         }
 
-        if ((sInputControl->getKeyPressed(I_CLICK) && _button[0].getIsHoldingBtn())) { //Si le da a PLAY
+        if (((_contador * global_elapsed_time) > 400) && (sInputControl->getKeyPressed(I_CLICK) && _button[0].getIsHoldingBtn())) { //Si le da a PLAY
             //sDirector->changeScene(SELECT_CHARACTER, 1);
             sDirector->changeScene(GAME, 1); // QUITAR Y METER SELECT CHARACTER
         }
-        if ((sInputControl->getKeyPressed(I_CLICK) && _button[3].getIsHoldingBtn())) { //Si le da a STATS
+        if (((_contador * global_elapsed_time) > 400) && (sInputControl->getKeyPressed(I_CLICK) && _button[3].getIsHoldingBtn())) { //Si le da a STATS
             sDirector->changeScene(STATS, 1);
         }
-        if ((sInputControl->getKeyPressed(I_CLICK) && _button[4].getIsHoldingBtn())) { //Si le da a QUIT
+        if (((_contador * global_elapsed_time) > 400) && (sInputControl->getKeyPressed(I_CLICK) && _button[4].getIsHoldingBtn())) { //Si le da a QUIT
             gameOn = false;
         }
 
