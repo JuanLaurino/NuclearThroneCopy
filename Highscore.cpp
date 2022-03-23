@@ -53,9 +53,6 @@ void Highscore::readScore()
 
 void Highscore::saveScore()
 {
-	for (int i = 0; i <= 11; i++) {
-		_ranking[i] = 3;
-	}
 	_handler.open("highscore.bin", std::ios::out | std::ios::binary); // abro el de escribir
 
 	for (int i = 0; i < 10; i++) {
@@ -76,11 +73,11 @@ void Highscore::renderScore()
 	//for (int i = 0; i <= 10; i++) {
 	//	Render.DrawFrase(_text[i], 75, 50 + i * 10); //Muestro por pantalla
 	//}
-
+	std::cout << "TOP: " << std::endl;
 	
 	for (size_t i = 0; i < 10; i++)
 	{
-		std::cout << _ranking[i] << std::endl;
+		std::cout << i + 1 << " - " << _ranking[i] << std::endl;
 	}
 
 	/*
