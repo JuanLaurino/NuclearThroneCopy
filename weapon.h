@@ -1,15 +1,20 @@
 #pragma once
 #include "GFXElement.h"
-class weapon :public GFXElement
+
+enum WEAPON_STATE { ST_ON_GROUND, ST_EQUIPED, ST_ON_INVENTORY };
+
+class Weapon :public GFXElement
 {
-	enum WEAPON_STATE { ST_ON_GROUND, ST_EQUIPED, ST_ON_INVENTORY };
-
 	WEAPON_STATE _state;
+	int _weaponType;
 public:
-	weapon();
-	~weapon();
+	Weapon();
+	~Weapon();
 
+	void init();
 	void update();
 	void render();
+	void renderInventory(int posX, int posY, double angulo);
+	void setState(WEAPON_STATE ws) { _state = ws; };
 };
 

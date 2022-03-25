@@ -1,6 +1,7 @@
 #pragma once
 #include "GFXElement.h"
-#include "Level.h" // borrar?
+#include "Level.h"
+#include "weapon.h"
 
 #define MovementSpeed 3
 
@@ -19,6 +20,7 @@ protected:
 	int _contadorAnim;
 	int _frame;
 
+	Weapon* _inventory[2];
 	Level* _pLevel;
 public:
 	Character();
@@ -26,5 +28,7 @@ public:
 
 	void checkCollision(int direction);
 	void setWorldPointer(Level* nivel);
+	void setWeapon00(Weapon* wp) {_inventory[0] = wp; };
+	void setWeapon01(Weapon* wp) { _inventory[1] = wp; };
 };
 

@@ -159,6 +159,7 @@ void Fish::update()
 		}
 		break;
 	case ST_FALLEN:
+		_inventory[0]->setState(ST_ON_GROUND);
 		if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG
 			_contador = 0;
 
