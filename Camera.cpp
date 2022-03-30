@@ -13,6 +13,7 @@ Camera::Camera()
 	_Rect.w = WIN_WIDTH;
 
 	_pJugador = nullptr;
+	_pMapa = nullptr;
 }
 
 Camera::~Camera()
