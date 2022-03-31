@@ -7,6 +7,9 @@
 #include "Timer.h"
 #include "Mouse.h"
 #include "Camera.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h> 
 
 Uint32 				global_elapsed_time = 0;
 bool				gameOn = true;
@@ -37,6 +40,7 @@ int main( int argc, char* argv[] ) {
 	Timer* globalTimer = new Timer();
 	globalTimer->start();
 	Uint32 last_time = 0;
+	srand(time(NULL));
 
 	while (gameOn){
 		//ReInit o no

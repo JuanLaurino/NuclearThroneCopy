@@ -143,7 +143,7 @@ void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, 
 	SDL_RenderCopyEx(gRenderer, ResourceManager::getInstance()->getGraphicByID(img), NULL, &r, angulo, &p, rf);
 }
 
-void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, int posXTile, int posYTile, double angulo, int pX, int pY, int flip = 0)
+void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, int posXTile, int posYTile, double angulo, int pXRot, int pYRot, int flip = 0)
 {
 	if (posX < 0 - width) {
 		return;
@@ -168,8 +168,8 @@ void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, 
 	rectAux.w = width;
 	rectAux.x = posXTile;
 	rectAux.y = posYTile;
-	p.x = pX;
-	p.y = pY;
+	p.x = pXRot;
+	p.y = pYRot;
 	switch (flip)
 	{
 	case 0:
@@ -187,8 +187,64 @@ void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, 
 	SDL_RenderCopyEx(gRenderer, ResourceManager::getInstance()->getGraphicByID(img), &rectAux, &r, angulo, &p, rf);
 }
 
+void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, int posXTile, int posYTile, int finalWidth, int finalHeight, double angulo, int pXRot, int pYRot, int flip = 0)
+{
+	if (posX < 0 - width) {
+		return;
+	}
+	else if (posX > WIN_WIDTH) {
+		return;
+	}
+	if (posY < 0 - height) {
+		return;
+	}
+	else if (posY > WIN_HEIGHT) {
+		return;
+	}
+	SDL_RendererFlip rf = SDL_FLIP_NONE;
+	SDL_Point p;
+	SDL_Rect r, rectAux;
+	r.x = posX;
+	r.y = posY;
+	r.w = finalWidth;
+	r.h = finalHeight;
+	rectAux.h = height;
+	rectAux.w = width;
+	rectAux.x = posXTile;
+	rectAux.y = posYTile;
+	p.x = pXRot;
+	p.y = pYRot;
+	switch (flip)
+	{
+	case 0:
+		rf = SDL_FLIP_NONE;
+		break;
+	case 1:
+		rf = SDL_FLIP_HORIZONTAL;
+		break;
+	case 2:
+		rf = SDL_FLIP_VERTICAL;
+		break;
+	default:
+		break;
+	}
+	SDL_RenderCopyEx(gRenderer, ResourceManager::getInstance()->getGraphicByID(img), &rectAux, &r, angulo, &p, rf);
+}
+
+
+
 void Video::setRenderColor(int r, int g, int b, int a) {
 	SDL_SetRenderDrawColor(gRenderer, r, g, b, a);
+}
+
+void Video::setFullScreen(bool fs)
+{
+	if (fs) {
+		SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_FULLSCREEN);
+	}
+	else {
+		SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_BORDERLESS);
+	}
 }
 
 void Video::clearScreen() {

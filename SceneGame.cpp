@@ -39,6 +39,10 @@ void SceneGame::init()
     _personaje.init();
     _personaje.setWorldPointer(&_nivel);
     sCamera->init(&_personaje, &_nivel);
+
+    //Prueba
+    arma01.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/weapons.png"));
+    arma01.setXY(430,270);
 }
 
 void SceneGame::reinit()
@@ -48,11 +52,21 @@ void SceneGame::reinit()
 
 void SceneGame::update()
 {
+    if (sInputControl->getKeyPressed(I_SCLICK)) {
+        sVideo->setFullScreen(true);
+    }
+    if (sInputControl->getKeyPressed(I_CLICK)) {
+        sVideo->setFullScreen(false);
+    }
+
     //Clear Screen
     sVideo->clearScreen();
 
     //
     _nivel.update();
+    //Prueba
+    arma01.update();
+    //prueba
     _personaje.update();
     sCamera->update();
     sMouse->update();
@@ -64,8 +78,13 @@ void SceneGame::update()
 
 void SceneGame::render()
 {
+    sVideo->setRenderColor(245, 189, 81);
+
     sMouse->render();
-    _nivel.render();
+    _nivel.render();    
+    //Prueba
+    arma01.render();
+    //prueba
     _personaje.render();
     sMouse->render();
 

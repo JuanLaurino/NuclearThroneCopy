@@ -50,15 +50,15 @@ void Camera::update()
 	if (_Rect.x < 0) {
 		_Rect.x = 0;
 	}
-	else if (_Rect.x > (_pMapa->getMapWidth() * _pMapa->getWidth() - 1) - WIN_WIDTH) {
-		_Rect.x = (_pMapa->getMapWidth() * _pMapa->getWidth() - 1) - WIN_WIDTH;
+	else if (_Rect.x > (_pMapa->getMapWidth() - 1) - WIN_WIDTH) {
+		_Rect.x = (_pMapa->getMapWidth() - 1) - WIN_WIDTH;
 	}
 
 	if (_Rect.y < 0) {
 		_Rect.y = 0;
 	}
-	else if (_Rect.y > (_pMapa->getMapHeight() * _pMapa->getHeight() - 1) - WIN_HEIGHT) {
-		_Rect.y = (_pMapa->getMapHeight() * _pMapa->getHeight() - 1) - WIN_HEIGHT;
+	else if (_Rect.y > (_pMapa->getMapHeight() - 1) - WIN_HEIGHT) {
+		_Rect.y = (_pMapa->getMapHeight() - 1) - WIN_HEIGHT;
 	}
 }
 

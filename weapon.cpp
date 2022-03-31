@@ -3,9 +3,13 @@
 #include "SceneDirector.h"
 #include "Video.h"
 #include "Mouse.h"
+#include "Camera.h"
+#include <stdlib.h>
+#include <time.h> 
 
 extern InputManager* sInputControl;
 extern Video* sVideo;
+extern Camera* sCamera;
 
 Weapon::Weapon()
 {
@@ -15,9 +19,14 @@ Weapon::~Weapon()
 {
 }
 
-void Weapon::init()
+void Weapon::init(int sprite)
 {
 	_weaponType = 0;
+	_spriteID = sprite;
+	_state = ST_ON_GROUND;
+	_Rect.w = 22;
+	_Rect.h = 22;
+	rotation = rand() % 360; // NO FUNCONA
 }
 
 void Weapon::update()
@@ -40,7 +49,7 @@ void Weapon::render()
 	switch (_state)
 	{
 	case ST_ON_GROUND:
-		sVideo->renderGraphic(_spriteID, _Rect.x, _Rect.y, _Rect.w, _Rect.h, _Rect.w * 2 + 2, _Rect.h * 2 + 2);
+		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w, _Rect.h, _Rect.w * 0, _Rect.h * 0, _Rect.w * 2, _Rect.h * 2, rotation, _Rect.w / 2, _Rect.w / 2, 0);
 		break;
 	default:
 		break;

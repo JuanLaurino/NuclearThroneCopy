@@ -67,22 +67,10 @@ void Highscore::saveScore()
 
 void Highscore::renderScore()
 {
-	//_text[10] = "PRESIONA R PARA VOLVER AL MENU";
-	//_text[11] = "PUNTUACIONES MAXIMAS ";
-	//Render.DrawFrase(_text[11], 75, 30);
-	//for (int i = 0; i <= 10; i++) {
-	//	Render.DrawFrase(_text[i], 75, 50 + i * 10); //Muestro por pantalla
-	//}
 	std::cout << "TOP: " << std::endl;
 	
 	for (size_t i = 0; i < 10; i++)
 	{
 		std::cout << i + 1 << " - " << _ranking[i] << std::endl;
 	}
-
-	/*
-	for (size_t i = 0; i <= 10; i++)
-	{
-		std::cout << i << " - " << _ranking[i] << std::endl;
-	}*/
 }

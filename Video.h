@@ -16,7 +16,9 @@ public:
 	void renderGraphic(int img, int posX, int posY, int width, int height, int posXTile, int posYTile, int finalWidth, int finalHeight);
 	void renderGraphicEx(int img, int posX, int posY, int width, int height, double angulo, int pX, int pY, int flip);
 	void renderGraphicEx(int img, int posX, int posY, int width, int height, int posXTile, int posYTile, double angulo, int pX, int pY, int flip);
+	void renderGraphicEx(int img, int posX, int posY, int width, int height, int posXTile, int posYTile, int finalWidth, int finalHeight, double angulo, int pXRot, int pYRot, int flip);
 	void setRenderColor(int r, int g, int b, int a = 255);
+	void setFullScreen(bool fs);
 	void clearScreen();
 	SDL_Renderer* getRenderer();
 	void updateScreen();

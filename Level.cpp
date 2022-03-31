@@ -74,7 +74,6 @@ void Level::init(const char* XMLMap, int sprite)
 	_sMapaBg = XMLBackground->GetText();
 	//_sMapaFg = XMLForeground->GetText();
 
-
 	_vBackground.resize(_h);
 	//_vForeground.resize(_h);
 	for (size_t i = 0; i < (size_t)_h; i++) {
@@ -116,11 +115,11 @@ void Level::update()
 	_CTW = (WIN_WIDTH / _tileWidth) + _startTileX + 1;
 	_CTH = (WIN_HEIGHT / _tileHeight) + _startTileY + 1;
 
-	if (_CTW > 29) {
-		_CTW = 29;
+	if (_CTW > 30) {
+		_CTW = 30;
 	}
-	if (_CTH > 29) {
-		_CTH = 29;
+	if (_CTH > 30) {
+		_CTH = 30;
 	}
 }
 

@@ -7,11 +7,12 @@ class Weapon :public GFXElement
 {
 	WEAPON_STATE _state;
 	int _weaponType;
+	int rotation;
 public:
 	Weapon();
 	~Weapon();
 
-	void init();
+	void init(int sprite);
 	void update();
 	void render();
 	void renderInventory(int posX, int posY, double angulo);
