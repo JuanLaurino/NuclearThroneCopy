@@ -24,6 +24,7 @@ Mouse*				sMouse = NULL;
 Camera*				sCamera = NULL;
 
 int main( int argc, char* argv[] ) { 
+	srand(time(NULL));
 	//Init Singletons en orden
 	sCamera				= Camera::getInstance();
 	sResourceManager	= ResourceManager::getInstance();
@@ -40,7 +41,6 @@ int main( int argc, char* argv[] ) {
 	Timer* globalTimer = new Timer();
 	globalTimer->start();
 	Uint32 last_time = 0;
-	srand(time(NULL));
 
 	while (gameOn){
 		//ReInit o no

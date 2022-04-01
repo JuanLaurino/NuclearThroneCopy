@@ -66,13 +66,13 @@ void Fish::update()
 	bool moving = false;
 
 	if (_canMove) {
-		if (sInputControl->getKeyPressed(I_D) && _Rect.x < (1160 - _rectFrame.w)) {
+		if (sInputControl->getKeyPressed(I_D) && _Rect.x < (_pLevel->getMapWidth() - _rectFrame.w + 1)) {
 			_Rect.x += MovementSpeed;
 			_lastDirX = MovementSpeed;
 			checkCollision(I_D);
 			moving = true;
 		}
-		else if (sInputControl->getKeyPressed(I_A) && _Rect.x > 0) {
+		else if (sInputControl->getKeyPressed(I_A) && _Rect.x > -1) {
 			_Rect.x -= MovementSpeed;
 			_lastDirX = -MovementSpeed;
 			checkCollision(I_A);
@@ -82,13 +82,13 @@ void Fish::update()
 			_lastDirX = 0;
 		}
 
-		if (sInputControl->getKeyPressed(I_W) && _Rect.y > 0) {
+		if (sInputControl->getKeyPressed(I_W) && _Rect.y > -1) {
 			_Rect.y -= MovementSpeed;
 			_lastDirY = -MovementSpeed;
 			checkCollision(I_W);
 			moving = true;
 		}
-		else if (sInputControl->getKeyPressed(I_S) && _Rect.y < (1160 - _rectFrame.h)) {
+		else if (sInputControl->getKeyPressed(I_S) && _Rect.y < (_pLevel->getMapHeight() - _rectFrame.h + 1)) {
 			_Rect.y += MovementSpeed;
 			_lastDirY = MovementSpeed;
 			checkCollision(I_S);

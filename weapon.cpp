@@ -21,7 +21,7 @@ Weapon::~Weapon()
 
 void Weapon::init(int sprite)
 {
-	_weaponType = 0;
+	_weaponType = rand() % 3;
 	_spriteID = sprite;
 	_state = ST_ON_GROUND;
 	_Rect.w = 22;
@@ -49,7 +49,7 @@ void Weapon::render()
 	switch (_state)
 	{
 	case ST_ON_GROUND:
-		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w, _Rect.h, _Rect.w * 0, _Rect.h * 0, _Rect.w * 2, _Rect.h * 2, rotation, _Rect.w / 2, _Rect.w / 2, 0);
+		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w - 2, _Rect.h - 2, 1 + _state, 1 + _Rect.h * _weaponType + _weaponType, _Rect.w * 2, _Rect.h * 2, rotation, _Rect.w / 2, _Rect.w / 2, 0);
 		break;
 	default:
 		break;
@@ -60,13 +60,13 @@ void Weapon::renderInventory(int posX, int posY, double angulo)
 {
 	switch (_state)
 	{
+	case ST_ON_INVENTORY:
+		sVideo->renderGraphic(_spriteID, 0, 0, _Rect.w, _Rect.h, _Rect.w * 1 + 1, _Rect.h * 2 + 2); // Meter en el hud
+		break;
 	case ST_EQUIPED:
 		sVideo->renderGraphic(_spriteID, 0, 0, _Rect.w, _Rect.h, _Rect.w * 2 + 2, _Rect.h * 2 + 2); // Meter en el hud
 
 		sVideo->renderGraphicEx(_spriteID, posX, posY, _Rect.w, _Rect.h, 0, _Rect.h / 2, angulo, 0, _weaponType, 0); // Cambiar rect.h/2 por weapontype
-		break;
-	case ST_ON_INVENTORY:
-		sVideo->renderGraphic(_spriteID, 0, 0, _Rect.w, _Rect.h, _Rect.w * 1 + 1, _Rect.h * 2 + 2); // Meter en el hud
 		break;
 	default:
 		break;
