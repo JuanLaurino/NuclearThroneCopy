@@ -10,6 +10,7 @@
 #include "SceneMain.h"
 #include "SceneDirector.h"
 #include "Camera.h"
+#include <iostream>
 
 extern Mouse*           sMouse;
 extern SceneDirector*   sDirector;
@@ -43,6 +44,10 @@ void SceneGame::init()
     //Prueba
     arma01.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/weapons.png"));
     arma01.setXY(430,270);
+
+    //Prueba
+    _personaje.setWeapon00(&arma01);
+    //prueba
 }
 
 void SceneGame::reinit()
@@ -62,11 +67,8 @@ void SceneGame::update()
     //Clear Screen
     sVideo->clearScreen();
 
-    //
     _nivel.update();
-    //Prueba
-    arma01.update();
-    //prueba
+
     _personaje.update();
     sCamera->update();
     sMouse->update();
@@ -82,9 +84,7 @@ void SceneGame::render()
 
     sMouse->render();
     _nivel.render();    
-    //Prueba
-    arma01.render();
-    //prueba
+
     _personaje.render();
     sMouse->render();
 

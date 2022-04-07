@@ -250,10 +250,41 @@ void Fish::render()
 		_contadorAnim = 0;
 	}
 
+	int weaponX = _Rect.x + _Rect.w / 2 - sCamera->getX();
+	int weaponY = _Rect.y + _Rect.h - sCamera->getY();
+	int delta_x = weaponX - sMouse->getX();
+	int delta_y = weaponY - sMouse->getY();
+	double angulo = (atan2(delta_y, delta_x) * 180) / 3.1416;
+
 	if ((_Rect.x + (_rectFrame.w / 2) - sCamera->getX()) >= (sMouse->getX() + sMouse->getW() / 2)) { // Rotación dependiendo de donde apunta el mouse
-		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 1);
+		
+		if (_Rect.y + (_Rect.h / 2) - sCamera->getY() >= (sMouse->getY() + sMouse->getH() / 2)) {
+			_inventory[0]->renderInventory(weaponX, weaponY - 5, angulo, 2);
+			// Render personaje
+			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 1);
+			// ----
+		}
+		else {
+			// Render personaje
+			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 1);
+			// Render arma equipada
+			_inventory[0]->renderInventory(weaponX, weaponY - 5, angulo, 2);
+		}	
 	}
 	else {
-		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 0);
+		// Pintado arma
+		if (_Rect.y + (_Rect.h / 2) - sCamera->getY() >= (sMouse->getY() + sMouse->getH() / 2)) {
+			// Render arma equipada
+			_inventory[0]->renderInventory(weaponX, weaponY, angulo, 0);
+			// Render personaje
+			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 0);
+		}
+		else {
+			// Render personaje
+			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 0);
+			// Render arma equipada
+			_inventory[0]->renderInventory(weaponX, weaponY, angulo, 0);
+		}
+	
 	}
 }

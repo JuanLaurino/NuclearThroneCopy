@@ -15,7 +15,7 @@ public:
 	void init(int sprite);
 	void update();
 	void render();
-	void renderInventory(int posX, int posY, double angulo);
+	void renderInventory(int posX, int posY, double angulo, int rotated);
 	void setState(WEAPON_STATE ws) { _state = ws; };
 };
 
