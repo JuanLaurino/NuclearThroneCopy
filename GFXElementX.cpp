@@ -11,6 +11,10 @@ extern Camera* sCamera;
 
 GFXElementX::GFXElementX()
 {
+	_rectFrame.x = 0;
+	_rectFrame.y = 0;
+	_rectFrame.w = 0;
+	_rectFrame.w = 0;
 }
 
 GFXElementX::~GFXElementX()
@@ -19,7 +23,7 @@ GFXElementX::~GFXElementX()
 
 void GFXElementX::render()
 {
-	sVideo->renderGraphic(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w, _Rect.h, 0, 0);
+	sVideo->renderGraphic(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w, _Rect.h, _rectFrame.x, _rectFrame.y);
 }
 
 void GFXElementX::spawnInMap(Level* pNivel)
@@ -35,15 +39,15 @@ void GFXElementX::spawnInMap(Level* pNivel)
 			canSpawn = false;
 			continue;
 		}
-		if (pNivel->getIDfromLayer(0, _Rect.x + _Rect.w, _Rect.y)) {
+		if (pNivel->getIDfromLayer(0, _Rect.x + _rectFrame.w, _Rect.y)) {
 			canSpawn = false;
 			continue;
 		}
-		if (pNivel->getIDfromLayer(0, _Rect.x, _Rect.y + _Rect.h)) {
+		if (pNivel->getIDfromLayer(0, _Rect.x, _Rect.y + _rectFrame.h)) {
 			canSpawn = false;
 			continue;
 		}
-		if (pNivel->getIDfromLayer(0, _Rect.x + _Rect.w, _Rect.y + _Rect.h)) {
+		if (pNivel->getIDfromLayer(0, _Rect.x + _rectFrame.w, _Rect.y + _rectFrame.h)) {
 			canSpawn = false;
 			continue;
 		}

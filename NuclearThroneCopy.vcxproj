@@ -154,6 +154,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Chest.h" />
     <ClInclude Include="Fish.h" />
     <ClInclude Include="GFXElement.h" />
     <ClInclude Include="GFXElementX.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Chest.cpp" />
     <ClCompile Include="Fish.cpp" />
     <ClCompile Include="GFXElement.cpp" />
     <ClCompile Include="GFXElementX.cpp" />

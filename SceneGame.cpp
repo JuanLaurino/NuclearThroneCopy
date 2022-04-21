@@ -45,12 +45,18 @@ void SceneGame::init()
     arma01.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/weapons.png"));
     arma01.setXY(430,270);
 
+    for (size_t i = 0; i < 4; i++)
+    {
+        _chest[i].init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/chests.png"), i);
+        _chest[i].spawnInMap(&_nivel);
+    }
+
     //Prueba
     _personaje.setWeapon00(&arma01);
     //prueba
 
     _personaje.spawnInMap(&_nivel);
-    _maggots.resize(20);
+    _maggots.resize(20); // ERROR
     for (size_t i = 0; i < 20; i++)
     {
         _maggots[i].init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png"));
@@ -97,6 +103,10 @@ void SceneGame::render()
     sMouse->render();
     _nivel.render();    
 
+    for (size_t i = 0; i < 4; i++)
+    {
+        _chest[i].render();
+    }
     for (size_t i = 0; i < 20; i++)
     {
         _maggots[i].render();

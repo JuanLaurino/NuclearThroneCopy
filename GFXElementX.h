@@ -4,6 +4,8 @@
 
 class GFXElementX : public GFXElement
 {
+protected:
+	notSDL_Rect _rectFrame;
 public:
 	GFXElementX();
 	~GFXElementX();
