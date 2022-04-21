@@ -102,6 +102,15 @@
     <ClInclude Include="Highscore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Maggot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GFXElementX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GFXElement.cpp">
@@ -189,6 +198,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Highscore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Maggot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GFXElementX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

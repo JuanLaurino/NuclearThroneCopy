@@ -1,11 +1,11 @@
 #pragma once
-#include "GFXElement.h"
+#include "GFXElementX.h"
 #include "Level.h"
 #include "weapon.h"
 
 #define MovementSpeed 3
 
-class Character :public GFXElement
+class Character :public GFXElementX
 {
 protected:
 	enum PLAYER_STATE { ST_IDLE, ST_ONHIT, ST_MOVING, ST_FALLEN };

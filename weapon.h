@@ -1,9 +1,9 @@
 #pragma once
-#include "GFXElement.h"
+#include "GFXElementX.h"
 
 enum WEAPON_STATE { ST_ON_GROUND, ST_ON_INVENTORY, ST_EQUIPED};
 
-class Weapon :public GFXElement
+class Weapon :public GFXElementX
 {
 	WEAPON_STATE _state;
 	int _weaponType;

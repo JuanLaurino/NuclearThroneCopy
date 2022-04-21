@@ -171,7 +171,7 @@ void Fish::update()
 		break;
 	case ST_ROLL:
 		_rotation+= global_elapsed_time;
-		_Rect.x += _lastDirX;
+		_Rect.x += _lastDirX * 1.5f;
 
 		if (_lastDirX == MovementSpeed) {
 			checkCollision(I_D);
@@ -180,7 +180,7 @@ void Fish::update()
 			checkCollision(I_A);
 		}
 
-		_Rect.y += _lastDirY;
+		_Rect.y += _lastDirY * 1.5f;
 		if (_lastDirY == MovementSpeed) {
 			checkCollision(I_S);
 		}

@@ -3,11 +3,17 @@
 #include "Level.h"
 #include "Fish.h"
 #include "Weapon.h"
+#include <iostream>
+#include <vector>
+#include "Maggot.h"
 
 class SceneGame : public Scene
 {
 	Level _nivel;
 	Fish _personaje;
+
+	std::vector<Maggot> _maggots;
+	Weapon _weapons[3]; // máximo 3 por nivel (el jugador puede guardar hasta 2 y puede salir hasta 1 por nivel nuevo)
 
 	// Prueba
 	Weapon arma01;
