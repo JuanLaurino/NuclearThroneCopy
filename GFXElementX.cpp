@@ -54,3 +54,14 @@ void GFXElementX::spawnInMap(Level* pNivel)
 
 	} while (!canSpawn);
 }
+
+bool GFXElementX::isOverlaping(notSDL_Rect* obj01)
+{
+	if (obj01->x < _Rect.x + _Rect.w &&
+		obj01->x + obj01->w > _Rect.x &&
+		obj01->y < _Rect.y + _Rect.h &&
+		obj01->h + obj01->y > _Rect.y) {
+		return true;
+	}
+	return false;
+}

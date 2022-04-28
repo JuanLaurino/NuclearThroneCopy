@@ -56,12 +56,13 @@ void SceneGame::init()
     //prueba
 
     _personaje.spawnInMap(&_nivel);
-    _maggots.resize(20); // ERROR
+    //_maggots.resize(20); // ERROR
     for (size_t i = 0; i < 20; i++)
     {
         _maggots[i].init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png"));
         _maggots[i].spawnInMap(&_nivel);
     }
+    _personaje.setChestPointer(_chest);
 }
 
 void SceneGame::reinit()
@@ -87,6 +88,11 @@ void SceneGame::update()
     {
         _maggots[i].update();
     }
+    for (size_t i = 0; i < 4; i++)
+    {
+        _chest[i].update();
+    }
+
     _personaje.update();
     sCamera->update();
     sMouse->update();

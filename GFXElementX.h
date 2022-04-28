@@ -13,5 +13,6 @@ public:
 	void render();
 
 	void spawnInMap(Level* pNivel);
+	bool isOverlaping(notSDL_Rect* obj01);
 };
 

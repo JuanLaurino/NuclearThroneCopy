@@ -62,7 +62,7 @@ void Fish::init()
 
 void Fish::update()
 {
-
+	checkForItem();
 	bool moving = false;
 
 	if (_canMove) {
@@ -117,14 +117,6 @@ void Fish::update()
 			_fishState = ST_MOVING;
 			_frame = 0;
 		}
-		//if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG//gothit
-		//	_contador = 0;
-		//
-		//	_fishState = ST_ONHIT;
-		//	_frame = 0;
-		//	_canMove = false;
-		//	_HP--;
-		//}
 		break;
 	case ST_MOVING:
 		if (!moving) {
@@ -133,15 +125,7 @@ void Fish::update()
 			_fishState = ST_IDLE;
 			_frame = 0;
 		}
-		//if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG //gothit
-		//	_contador = 0;
-		//
-		//	_fishState = ST_ONHIT;
-		//	_frame = 0;
-		//	_canMove = false;
-		//	_HP--;
-		//}
-		if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG //gothit
+		if (sInputControl->getKeyPressed(I_SPACE)) {
 			_contador = 0;
 
 			_fishState = ST_ROLL;

@@ -21,6 +21,16 @@ Character::~Character()
 {
 }
 
+void Character::checkForItem()
+{
+	for (size_t i = 0; i < 4; i++)
+	{
+		if (isOverlaping(_chest->at(i).getCollision())) {
+			_chest->at(i).open();
+		}
+	}
+}
+
 void Character::checkCollision(int direction)
 {
 	switch (direction)
@@ -61,6 +71,15 @@ void Character::checkCollision(int direction)
 		break;
 	}
 	//std::cout << _Rect.x << " - " << _Rect.y << std::endl;
+}
+
+void Character::setChestPointer(std::vector<Chest>* chest)
+{
+	_chest = chest;
+}
+
+void Character::setMaggotPointer(Maggot* maggots[20])
+{
 }
 
 void Character::setWorldPointer(Level* nivel)
