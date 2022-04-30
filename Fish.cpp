@@ -52,8 +52,8 @@ void Fish::init()
 	_rectFrame.w = 48;
 	_rectFrame.h = 48;
 	_canMove = true;
-	_MaxHP = 6;
-	_HP = 6;
+	_MaxHP = 8;
+	_HP = 8;
 
 	_lastDirY = 0;
 	_lastDirX = 0;
@@ -63,6 +63,7 @@ void Fish::init()
 void Fish::update()
 {
 	checkForItem();
+	receiveDamage();
 	bool moving = false;
 
 	if (_canMove) {
@@ -155,7 +156,7 @@ void Fish::update()
 		break;
 	case ST_ROLL:
 		_rotation+= global_elapsed_time;
-		_Rect.x += _lastDirX * 1.5f;
+		_Rect.x += (int)_lastDirX * 1.5f;
 
 		if (_lastDirX == MovementSpeed) {
 			checkCollision(I_D);
@@ -164,7 +165,7 @@ void Fish::update()
 			checkCollision(I_A);
 		}
 
-		_Rect.y += _lastDirY * 1.5f;
+		_Rect.y += (int)_lastDirY * 1.5f;
 		if (_lastDirY == MovementSpeed) {
 			checkCollision(I_S);
 		}
@@ -270,5 +271,22 @@ void Fish::render()
 			_inventory[0]->renderInventory(weaponX, weaponY, angulo, 0);
 		}
 	
+	}
+}
+
+void Fish::receiveDamage()
+{
+	if (_fishState != ST_ONHIT && _fishState != ST_FALLEN && _fishState != ST_ROLL)
+	{
+		size_t size = _enemies->size();
+		for (size_t i = 0; i < size; i++)
+		{
+			if (isOverlaping(_enemies->at(i)->getCollision())) {
+				_HP -= _enemies->at(i)->getDamage();
+				_fishState = ST_ONHIT;
+				std::cout << _HP << std::endl;
+				break;
+			}
+		}
 	}
 }

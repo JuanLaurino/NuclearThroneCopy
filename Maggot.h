@@ -7,5 +7,6 @@ public:
 	~Maggot();
 
 	void init(int sprite);
+	void render();
 };
 

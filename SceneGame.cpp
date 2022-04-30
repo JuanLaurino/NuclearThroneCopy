@@ -26,7 +26,8 @@ extern Uint32           global_elapsed_time;
 
 SceneGame::SceneGame()
 {
-
+    _chest.resize(0);
+    _enemies.resize(0);
 }
 
 SceneGame::~SceneGame()
@@ -45,8 +46,11 @@ void SceneGame::init()
     arma01.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/weapons.png"));
     arma01.setXY(430,270);
 
+    Chest *cofre;
     for (size_t i = 0; i < 4; i++)
     {
+        cofre = new Chest();
+        _chest.push_back(*cofre);
         _chest[i].init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/chests.png"), i);
         _chest[i].spawnInMap(&_nivel);
     }
@@ -56,13 +60,16 @@ void SceneGame::init()
     //prueba
 
     _personaje.spawnInMap(&_nivel);
-    //_maggots.resize(20); // ERROR
-    for (size_t i = 0; i < 20; i++)
+    Maggot* maggot;
+    for (size_t i = 0; i < 15; i++)
     {
-        _maggots[i].init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png"));
-        _maggots[i].spawnInMap(&_nivel);
+        maggot = new Maggot();
+        _enemies.push_back(maggot);
+        _enemies[i]->init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png"));
+        _enemies[i]->spawnInMap(&_nivel);
     }
-    _personaje.setChestPointer(_chest);
+    _personaje.setChestPointer(&_chest);
+    _personaje.setEnemiesPointer(&_enemies);
 }
 
 void SceneGame::reinit()
@@ -84,13 +91,15 @@ void SceneGame::update()
 
     _nivel.update();
 
-    for (size_t i = 0; i < 20; i++)
-    {
-        _maggots[i].update();
-    }
-    for (size_t i = 0; i < 4; i++)
+    size_t size = _chest.size();
+    for (size_t i = 0; i < size; i++)
     {
         _chest[i].update();
+    }
+    size = _enemies.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        _enemies[i]->update();
     }
 
     _personaje.update();
@@ -109,13 +118,15 @@ void SceneGame::render()
     sMouse->render();
     _nivel.render();    
 
-    for (size_t i = 0; i < 4; i++)
+    size_t size = _chest.size();
+    for (size_t i = 0; i < size; i++)
     {
         _chest[i].render();
     }
-    for (size_t i = 0; i < 20; i++)
+    size = _enemies.size();
+    for (size_t i = 0; i < size; i++)
     {
-        _maggots[i].render();
+        _enemies[i]->render();
     }
     _personaje.render();
     sMouse->render();

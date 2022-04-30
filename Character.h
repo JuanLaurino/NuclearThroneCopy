@@ -18,25 +18,30 @@ protected:
 	notSDL_Rect _rectFrame;
 
 	bool _canMove;
-	int _HP;
 	int _MaxHP;
 	int _contador;
 	int _contadorAnim;
 	int _frame;
 
+	int _ammo[5];
+	int _maxAmmo[5];
 	Weapon* _inventory[2];
 	Level* _pLevel;
 	std::vector<Chest>* _chest;
-	Maggot* _maggots[20];
+	std::vector<GFXElementX*> *_enemies;
 public:
 	Character();
 	~Character();
 
 	void checkForItem();
 	void checkCollision(int direction);
-	void setWorldPointer(Level* nivel) ;
-	void setChestPointer(std::vector<Chest>* chest); //Cambiar por vector
-	void setMaggotPointer(Maggot* maggots[20]);//Cambiar por vector "virtual"
+	void receiveDamage();
+
+	void addHP(short amount);
+	void addAmmo(short type);
+	void setWorldPointer(Level* nivel) { _pLevel = nivel; };
+	void setChestPointer(std::vector<Chest>* chest) { _chest = chest; };
+	void setEnemiesPointer(std::vector<GFXElementX*>* enemies) { _enemies = enemies; };
 	void setWeapon00(Weapon* wp) {_inventory[0] = wp; };
 	void setWeapon01(Weapon* wp) { _inventory[1] = wp; };
 };

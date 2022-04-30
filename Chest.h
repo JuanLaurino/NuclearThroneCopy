@@ -18,6 +18,9 @@ public:
 	void init(int sprite, int _type);
 	void update();
 	void render();
+
 	void open();
+	bool isOpen();
+	short getType() { return _type; };
 };
 

@@ -17,6 +17,8 @@ Chest::Chest()
 	_spriteID = 0;
 	_type = 0;
 	_wait = 0;
+	_Rect.w = 16;
+	_Rect.h = 15;
 	_rectFrame.y = 0;
 	_rectFrame.x = 0;
 	_rectFrame.h = 0;
@@ -51,6 +53,8 @@ void Chest::init(int sprite, int tipo)
 	_rectFrame.x = 0;
 	_rectFrame.h = 15;
 	_rectFrame.w = 16;
+	_Rect.h = 15;
+	_Rect.w = 16;
 
 	_wait = rand() % 4000 + 2001;
 }
@@ -118,4 +122,12 @@ void Chest::render()
 void Chest::open()
 {
 	_chestState = ST_OPENING;
+}
+
+bool Chest::isOpen()
+{
+	if (_chestState == ST_OPEN) {
+		return true;
+	}
+	return false;
 }
