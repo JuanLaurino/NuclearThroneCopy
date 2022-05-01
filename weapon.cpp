@@ -28,6 +28,7 @@ void Weapon::init(int sprite)
 	_Rect.w = 22;
 	_Rect.h = 22;
 	rotation = rand() % 360; // NO FUNCONA
+	_state = ST_EQUIPED; // QUITAR
 }
 
 void Weapon::update()
@@ -59,8 +60,6 @@ void Weapon::render()
 
 void Weapon::renderInventory(int posX, int posY, double angulo, int rotated)
 {
-	_state = ST_EQUIPED;
-
 	switch (_state)
 	{
 	case ST_ON_INVENTORY:

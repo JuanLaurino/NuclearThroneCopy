@@ -42,9 +42,8 @@ Fish::~Fish()
 
 void Fish::init()
 {
+	_leftSpaceInSprite = 1;
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/characters/CharacterFish.png");
-	_Rect.x = 300;
-	_Rect.y = 300;
 	_Rect.w = 34;
 	_Rect.h = 34;
 	_rectFrame.x = 0;
@@ -101,7 +100,7 @@ void Fish::update()
 	}
 	_contador += global_elapsed_time;
 
-	if (_HP <= 0) {
+	if (_HP <= 0 && _fishState != ST_FALLEN) {
 		_contador = 0;
 
 		_fishState = ST_FALLEN;
@@ -145,6 +144,10 @@ void Fish::update()
 		break;
 	case ST_FALLEN:
 		_inventory[0]->setState(ST_ON_GROUND);
+		_inventory[1]->setState(ST_ON_GROUND);
+		_inventory[0]->setXY(_Rect.x, _Rect.y);
+		_inventory[1]->setXY(_Rect.x, _Rect.y);
+
 		if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG
 			_contador = 0;
 
@@ -157,6 +160,8 @@ void Fish::update()
 	case ST_ROLL:
 		_rotation+= global_elapsed_time;
 		_Rect.x += (int)_lastDirX * 1.5f;
+		if (_Rect.x < 0) _Rect.x = 0;
+		if (_Rect.x >= _pLevel->getMapWidth()) _Rect.x = _pLevel->getMapWidth()-1;
 
 		if (_lastDirX == MovementSpeed) {
 			checkCollision(I_D);
@@ -166,6 +171,8 @@ void Fish::update()
 		}
 
 		_Rect.y += (int)_lastDirY * 1.5f;
+		if (_Rect.y < 0) _Rect.y = 0;
+		if (_Rect.y >= _pLevel->getMapHeight()) _Rect.y = _pLevel->getMapHeight() - 1;
 		if (_lastDirY == MovementSpeed) {
 			checkCollision(I_S);
 		}
@@ -233,6 +240,11 @@ void Fish::render()
 	if (_contadorAnim >= 160) {
 		_frame++;
 		_contadorAnim = 0;
+	}
+
+	if (_fishState == ST_FALLEN) {
+		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 1);
+		return;
 	}
 
 	int weaponX = _Rect.x + _Rect.w / 2 - sCamera->getX();

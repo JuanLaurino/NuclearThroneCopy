@@ -53,8 +53,8 @@ void Chest::init(int sprite, int tipo)
 	_rectFrame.x = 0;
 	_rectFrame.h = 15;
 	_rectFrame.w = 16;
-	_Rect.h = 15;
-	_Rect.w = 16;
+	_Rect.h = 30;
+	_Rect.w = 32;
 
 	_wait = rand() % 4000 + 2001;
 }

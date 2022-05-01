@@ -75,48 +75,6 @@ void Character::checkForItem()
 	}
 }
 
-void Character::checkCollision(int direction)
-{
-	switch (direction)
-	{
-	case I_D:
-		while (_pLevel->getIDfromLayer(0, _Rect.x + 7 + _Rect.w, _Rect.y + 7)){
-			_Rect.x--;
-		}
-		while (_pLevel->getIDfromLayer(0, _Rect.x + 7 + _Rect.w, _Rect.y + 7 + _Rect.h)){
-			_Rect.x--;
-		}
-		break;
-	case I_A:
-		while (_pLevel->getIDfromLayer(0, _Rect.x + 7, _Rect.y + 7)) {
-			_Rect.x++;
-		}
-		while (_pLevel->getIDfromLayer(0, _Rect.x + 7, _Rect.y + 7 + _Rect.h)) {
-			_Rect.x++;
-		}
-		break;
-	case I_W:
-		while (_pLevel->getIDfromLayer(0, _Rect.x + 7, _Rect.y + 7)) {
-			_Rect.y++;
-		}
-		while (_pLevel->getIDfromLayer(0, _Rect.x + 7 + _Rect.w, _Rect.y + 7)) {
-			_Rect.y++;
-		}
-		break;
-	case I_S:
-		while (_pLevel->getIDfromLayer(0, _Rect.x + 7, _Rect.y + 7 + _Rect.h)) {
-			_Rect.y--;
-		}
-		while (_pLevel->getIDfromLayer(0, _Rect.x + 7 + _Rect.w, _Rect.y + 7 + _Rect.h)) {
-			_Rect.y--;
-		}
-		break;
-	default:
-		break;
-	}
-	//std::cout << _Rect.x << " - " << _Rect.y << std::endl;
-}
-
 void Character::receiveDamage()
 {
 	if (_state != ST_ONHIT && _state != ST_FALLEN)

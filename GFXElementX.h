@@ -7,6 +7,10 @@ class GFXElementX : public GFXElement
 {
 protected:
 	notSDL_Rect _rectFrame;
+	Level* _pLevel;
+
+	int _leftSpaceInSprite;
+
 	int _damage;
 	int _HP;
 	int _CD;
@@ -20,20 +24,24 @@ protected:
 	int _CDYT;
 	int _CDXT;
 
-	bool _movX;
-	bool _movY;
+	int _movX;
+	int _movY;
 public:
 	GFXElementX();
 	~GFXElementX();
 
 	void move();
+	void update() { move(); };
 	void render();
 
 	virtual void init(int sprite) {
 		_spriteID = sprite;
 		ResourceManager::getInstance()->getGraphicSize(_spriteID, &_Rect.w, &_Rect.h);
 	};
-	void spawnInMap(Level* pNivel);
+
+	void setWorldPointer(Level* nivel) { _pLevel = nivel; };
+	void spawnInMap();
+	void checkCollision(int direction);
 	bool isOverlaping(notSDL_Rect* obj01);
 	int getDamage() { return _damage; };
 };

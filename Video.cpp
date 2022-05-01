@@ -189,13 +189,13 @@ void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, 
 
 void Video::renderGraphicEx(int img, int posX, int posY, int width, int height, int posXTile, int posYTile, int finalWidth, int finalHeight, double angulo, int pXRot, int pYRot, int flip = 0)
 {
-	if (posX < 0 - width) {
+	if (posX < 0 - finalWidth) {
 		return;
 	}
 	else if (posX > WIN_WIDTH) {
 		return;
 	}
-	if (posY < 0 - height) {
+	if (posY < 0 - finalHeight) {
 		return;
 	}
 	else if (posY > WIN_HEIGHT) {

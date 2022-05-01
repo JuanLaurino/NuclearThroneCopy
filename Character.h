@@ -26,7 +26,6 @@ protected:
 	int _ammo[5];
 	int _maxAmmo[5];
 	Weapon* _inventory[2];
-	Level* _pLevel;
 	std::vector<Chest>* _chest;
 	std::vector<GFXElementX*> *_enemies;
 public:
@@ -34,12 +33,10 @@ public:
 	~Character();
 
 	void checkForItem();
-	void checkCollision(int direction);
 	void receiveDamage();
 
 	void addHP(short amount);
 	void addAmmo(short type);
-	void setWorldPointer(Level* nivel) { _pLevel = nivel; };
 	void setChestPointer(std::vector<Chest>* chest) { _chest = chest; };
 	void setEnemiesPointer(std::vector<GFXElementX*>* enemies) { _enemies = enemies; };
 	void setWeapon00(Weapon* wp) {_inventory[0] = wp; };

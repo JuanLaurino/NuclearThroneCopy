@@ -24,6 +24,7 @@ void Maggot::init(int sprite)
 	_rectFrame.h = 16;
 	_Rect.w = 16;
 	_Rect.h = 16;
+	_leftSpaceInSprite = 1;
 }
 
 void Maggot::render()

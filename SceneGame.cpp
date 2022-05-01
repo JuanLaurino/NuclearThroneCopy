@@ -44,7 +44,11 @@ void SceneGame::init()
 
     //Prueba
     arma01.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/weapons.png"));
-    arma01.setXY(430,270);
+    arma01.setWorldPointer(&_nivel);
+    arma01.spawnInMap();
+    arma02.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/weapons.png"));
+    arma02.setWorldPointer(&_nivel);
+    arma02.spawnInMap();
 
     Chest *cofre;
     for (size_t i = 0; i < 4; i++)
@@ -52,21 +56,24 @@ void SceneGame::init()
         cofre = new Chest();
         _chest.push_back(*cofre);
         _chest[i].init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/chests.png"), i);
-        _chest[i].spawnInMap(&_nivel);
+        _chest[i].setWorldPointer(&_nivel);
+        _chest[i].spawnInMap();
     }
 
     //Prueba
     _personaje.setWeapon00(&arma01);
+    _personaje.setWeapon01(&arma02);
     //prueba
 
-    _personaje.spawnInMap(&_nivel);
+    _personaje.spawnInMap();
     Maggot* maggot;
     for (size_t i = 0; i < 15; i++)
     {
         maggot = new Maggot();
         _enemies.push_back(maggot);
         _enemies[i]->init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png"));
-        _enemies[i]->spawnInMap(&_nivel);
+        _enemies[i]->setWorldPointer(&_nivel);
+        _enemies[i]->spawnInMap();
     }
     _personaje.setChestPointer(&_chest);
     _personaje.setEnemiesPointer(&_enemies);
@@ -123,6 +130,8 @@ void SceneGame::render()
     {
         _chest[i].render();
     }
+    arma01.render();
+    arma02.render();
     size = _enemies.size();
     for (size_t i = 0; i < size; i++)
     {

@@ -21,6 +21,7 @@ class SceneGame : public Scene
 
 	// Prueba
 	Weapon arma01;
+	Weapon arma02;
 public:
 	SceneGame();
 	~SceneGame();

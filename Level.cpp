@@ -170,6 +170,12 @@ void Level::render()
 
 int Level::getIDfromLayer(int layer, int PosX, int PosY)
 {
+	if (PosX >= 1200) {
+		PosX = 1199;
+	}
+	if (PosY >= 1200) {
+		PosY = 1199;
+	}
 	// LAYER
 	int TileX = PosX / _tileWidth;
 	int TileY = PosY / _tileHeight;
