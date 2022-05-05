@@ -40,6 +40,7 @@ void GFXElementX::move()
 {
 	_CD += global_elapsed_time;
 	if (_CD >= _terminarMovimiento) {
+		_moving = false;
 		_CD = 0;
 		_empezarMovimiento = rand() % 1000 + 300;
 		_terminarMovimiento = rand() % 2000 + 1000;
@@ -50,10 +51,17 @@ void GFXElementX::move()
 		_CDYT = rand() % 80;
 	}
 	if (_CD > _empezarMovimiento) { // Los hace más lentos
+		_moving = true;
 		_CDX += global_elapsed_time;
 		_CDY += global_elapsed_time;
 		if (_CDX >= _CDXT) {
 			_CDX = 0;
+			if (_movX > 0) {
+				_dir = true;
+			}
+			else if (_movX < 0) {
+				_dir = false;
+			}
 			_Rect.x += _movX;
 			if (_movX > 0) {
 				checkCollision(I_D);
@@ -79,6 +87,10 @@ void GFXElementX::move()
 void GFXElementX::render()
 {
 	sVideo->renderGraphic(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w, _Rect.h, _rectFrame.x, _rectFrame.y);
+}
+
+void GFXElementX::receiveDamage(int damage)
+{
 }
 
 void GFXElementX::spawnInMap()

@@ -15,6 +15,7 @@ protected:
 	int _HP;
 	int _CD;
 	bool _dir;
+	bool _moving;
 
 	int _empezarMovimiento;
 	int _terminarMovimiento;
@@ -39,6 +40,7 @@ public:
 		ResourceManager::getInstance()->getGraphicSize(_spriteID, &_Rect.w, &_Rect.h);
 	};
 
+	virtual void receiveDamage(int damage);
 	void setWorldPointer(Level* nivel) { _pLevel = nivel; };
 	void spawnInMap();
 	void checkCollision(int direction);
