@@ -8,6 +8,7 @@
 #include "Maggot.h"
 #include <vector>
 #include "Chest.h"
+#include "Cactus.h"
 
 class SceneGame : public Scene
 {
@@ -18,6 +19,7 @@ class SceneGame : public Scene
 
 	std::vector<Chest> _chest;
 	std::vector<GFXElementX*> _enemies; 
+	std::vector<Cactus> _cactus;
 
 	// Prueba
 	Weapon arma01;

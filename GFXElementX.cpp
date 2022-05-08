@@ -91,6 +91,7 @@ void GFXElementX::render()
 
 void GFXElementX::receiveDamage(int damage)
 {
+	_HP -= damage;
 }
 
 void GFXElementX::spawnInMap()

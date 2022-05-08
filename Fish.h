@@ -10,6 +10,7 @@ class Fish :public Character
 	int _lastDirY;
 
 	int _rotation;
+	bool _flip;
 public:
 	Fish();
 	~Fish();

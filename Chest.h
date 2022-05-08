@@ -15,7 +15,7 @@ public:
 	Chest();
 	~Chest();
 
-	void init(int sprite, int _type);
+	void init(int _type);
 	void update();
 	void render();
 

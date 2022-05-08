@@ -42,6 +42,15 @@ void SceneGame::init()
     _personaje.setWorldPointer(&_nivel);
     sCamera->init(&_personaje, &_nivel);
 
+    _cactus.resize(rand() % 10);
+    size_t size = _cactus.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        _cactus[i].init(rand() % 3);
+        _cactus[i].setWorldPointer(&_nivel);
+        _cactus[i].spawnInMap();
+    }
+
     //Prueba
     arma01.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/weapons.png"));
     arma01.setWorldPointer(&_nivel);
@@ -55,7 +64,7 @@ void SceneGame::init()
     {
         cofre = new Chest();
         _chest.push_back(*cofre);
-        _chest[i].init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/chests.png"), i);
+        _chest[i].init(i);
         _chest[i].setWorldPointer(&_nivel);
         _chest[i].spawnInMap();
     }
@@ -125,7 +134,13 @@ void SceneGame::render()
     sMouse->render();
     _nivel.render();    
 
-    size_t size = _chest.size();
+    size_t size = _cactus.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        _cactus[i].render();
+    }
+
+    size = _chest.size();
     for (size_t i = 0; i < size; i++)
     {
         _chest[i].render();

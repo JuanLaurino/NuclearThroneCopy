@@ -31,9 +31,9 @@ Chest::~Chest()
 {
 }
 
-void Chest::init(int sprite, int tipo)
+void Chest::init(int tipo)
 {
-	_spriteID = sprite;
+	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/chests.png");
 	_type = tipo;
 	switch (_type)
 	{

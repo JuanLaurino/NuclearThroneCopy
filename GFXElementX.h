@@ -32,8 +32,8 @@ public:
 	~GFXElementX();
 
 	void move();
-	void update() { move(); };
-	void render();
+	virtual void update() { move(); };
+	virtual void render();
 
 	virtual void init(int sprite) {
 		_spriteID = sprite;

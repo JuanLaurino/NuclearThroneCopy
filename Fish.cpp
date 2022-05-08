@@ -42,7 +42,7 @@ Fish::~Fish()
 
 void Fish::init()
 {
-	_leftSpaceInSprite = 1;
+	_leftSpaceInSprite = 7;
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/characters/CharacterFish.png");
 	_Rect.w = 34;
 	_Rect.h = 34;
@@ -243,7 +243,12 @@ void Fish::render()
 	}
 
 	if (_fishState == ST_FALLEN) {
-		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 1);
+		if (_flip) {
+			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 1);
+		}
+		else {
+			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 0);
+		}
 		return;
 	}
 
@@ -252,8 +257,8 @@ void Fish::render()
 	int delta_x = weaponX - sMouse->getX();
 	int delta_y = weaponY - sMouse->getY();
 	double angulo = (atan2(delta_y, delta_x) * 180) / 3.1416;
-
-	if ((_Rect.x + (_rectFrame.w / 2) - sCamera->getX()) >= (sMouse->getX() + sMouse->getW() / 2)) { // Rotación dependiendo de donde apunta el mouse
+	_flip = (_Rect.x + (_rectFrame.w / 2) - sCamera->getX()) >= (sMouse->getX() + sMouse->getW() / 2);
+	if (_flip) { // Rotación dependiendo de donde apunta el mouse
 		
 		if (_Rect.y + (_Rect.h / 2) - sCamera->getY() >= (sMouse->getY() + sMouse->getH() / 2)) {
 			_inventory[0]->renderInventory(weaponX, weaponY - 5, angulo, 2);
