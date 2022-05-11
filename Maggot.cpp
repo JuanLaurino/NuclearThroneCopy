@@ -19,6 +19,8 @@ Maggot::~Maggot()
 
 void Maggot::init(int sprite)
 {
+	_state = ST_IDLE;
+	_HP = 2;
 	_spriteID = sprite;
 	_rectFrame.w = 16;
 	_rectFrame.h = 16;
@@ -30,7 +32,9 @@ void Maggot::init(int sprite)
 void Maggot::update()
 {
 	_contador += global_elapsed_time;
-	move();
+	if (_state != ST_FALLEN && _state != ST_ONHIT) {
+		move();
+	}
 	switch (_state)
 	{
 	case Maggot::ST_IDLE:
@@ -109,12 +113,15 @@ void Maggot::render()
 
 void Maggot::receiveDamage(int damage)
 {
-	_HP = _HP - damage;
-	if (_HP <= 0) {
-		_state = ST_FALLEN;
-	}
-	else {
-		_state = ST_ONHIT;
+	if (_state != ST_ONHIT && _state != ST_FALLEN) {
+		_HP = _HP - damage;
+
+		if (_HP <= 0) {
+			_state = ST_FALLEN;
+		}
+		else {
+			_state = ST_ONHIT;
+		}
 	}
 }
 

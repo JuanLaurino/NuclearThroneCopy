@@ -1,4 +1,5 @@
 #pragma once
+#include "glm/glm.hpp"
 
 class GFXElement
 {
@@ -9,11 +10,6 @@ protected:
 	{
 		int x, y;
 		int w, h;
-	};
-	struct Vector2
-	{
-		float x;
-		float y;
 	};
 	notSDL_Rect _Rect;
 public:

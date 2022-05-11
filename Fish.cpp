@@ -308,11 +308,13 @@ void Fish::receiveDamage()
 		size_t size = _enemies->size();
 		for (size_t i = 0; i < size; i++)
 		{
-			if (isOverlaping(_enemies->at(i)->getCollision())) {
-				_HP -= _enemies->at(i)->getDamage();
-				_fishState = ST_ONHIT;
-				std::cout << _HP << std::endl;
-				break;
+			if (_enemies->at(i)->getState() != 3) {
+				if (isOverlaping(_enemies->at(i)->getCollision())) {
+					_HP -= _enemies->at(i)->getDamage();
+					_fishState = ST_ONHIT;
+					std::cout << _HP << std::endl;
+					break;
+				}
 			}
 		}
 	}

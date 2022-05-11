@@ -37,6 +37,8 @@ public:
 	virtual void update() { move(); };
 	virtual void render();
 
+	virtual int getState() { return -1; };
+
 	virtual void init(int sprite) {
 		_spriteID = sprite;
 		ResourceManager::getInstance()->getGraphicSize(_spriteID, &_Rect.w, &_Rect.h);
