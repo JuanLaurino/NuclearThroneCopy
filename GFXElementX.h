@@ -2,12 +2,14 @@
 #include "GFXElement.h"
 #include "ResourceManager.h"
 #include "Level.h"
+#include "Bullet.h"
 
 class GFXElementX : public GFXElement
 {
 protected:
 	notSDL_Rect _rectFrame;
 	Level* _pLevel;
+	std::vector<Bullet*>* _pBullet;
 
 	int _leftSpaceInSprite;
 
@@ -42,6 +44,7 @@ public:
 
 	virtual void receiveDamage(int damage);
 	void setWorldPointer(Level* nivel) { _pLevel = nivel; };
+	void setBulletsPointer(std::vector<Bullet*>* balas) { _pBullet = balas; };
 	void spawnInMap();
 	void checkCollision(int direction);
 	bool isOverlaping(notSDL_Rect* obj01);

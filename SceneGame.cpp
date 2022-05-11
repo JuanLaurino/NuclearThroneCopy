@@ -28,6 +28,7 @@ SceneGame::SceneGame()
 {
     _chest.resize(0);
     _enemies.resize(0);
+    _bullets.resize(0);
 }
 
 SceneGame::~SceneGame()
@@ -40,6 +41,7 @@ void SceneGame::init()
     _nivel.init("Assets/levelBasico.tmx", sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/tileset_level.png"));
     _personaje.init();
     _personaje.setWorldPointer(&_nivel);
+    _personaje.setBulletsPointer(&_bullets);
     sCamera->init(&_personaje, &_nivel);
 
     _cactus.resize(rand() % 10);

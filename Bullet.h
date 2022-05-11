@@ -2,12 +2,14 @@
 #include "GFXElement.h"
 class Bullet : public GFXElement
 {
-	int direction;
+	Vector2 _direction;
+	bool _isFromPlayer;
+	float _speed;
 public:
 	Bullet();
 	~Bullet();
 
-	void init(int direction);
+	void init(bool isFromPlayer, Vector2 initialPos, Vector2 finalPos, float speed);
 	void update();
 };
 

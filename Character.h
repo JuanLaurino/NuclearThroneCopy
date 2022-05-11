@@ -23,9 +23,12 @@ protected:
 	int _contadorAnim;
 	int _frame;
 
+	int _shootCD;
+	int _currentShootCD;
 	int _ammo[5];
 	int _maxAmmo[5];
 	Weapon* _inventory[2];
+
 	std::vector<Chest>* _chest;
 	std::vector<GFXElementX*> *_enemies;
 public:
@@ -34,6 +37,7 @@ public:
 
 	void checkForItem();
 	void receiveDamage();
+	void shoot();
 
 	void addHP(short amount);
 	void addAmmo(short type);

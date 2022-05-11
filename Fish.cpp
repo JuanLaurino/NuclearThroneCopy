@@ -34,6 +34,9 @@ Fish::Fish()
 	_lastDirY = 0;
 	_lastDirX = 0;
 	_rotation = 0;
+
+	_shootCD = 200;
+	_currentShootCD = _shootCD;
 }
 
 Fish::~Fish()
@@ -64,6 +67,12 @@ void Fish::update()
 	checkForItem();
 	receiveDamage();
 	bool moving = false;
+
+	_currentShootCD -= global_elapsed_time;
+	if (sInputControl->getKeyPressed(I_CLICK) && _currentShootCD <= 0) {
+		_currentShootCD = _shootCD;
+		shoot();
+	}
 
 	if (_canMove) {
 		if (sInputControl->getKeyPressed(I_D) && _Rect.x < (_pLevel->getMapWidth() - _rectFrame.w + 1)) {
@@ -257,6 +266,7 @@ void Fish::render()
 	int delta_x = weaponX - sMouse->getX();
 	int delta_y = weaponY - sMouse->getY();
 	double angulo = (atan2(delta_y, delta_x) * 180) / 3.1416;
+	// Rotacion de la bala?
 	_flip = (_Rect.x + (_rectFrame.w / 2) - sCamera->getX()) >= (sMouse->getX() + sMouse->getW() / 2);
 	if (_flip) { // Rotación dependiendo de donde apunta el mouse
 		

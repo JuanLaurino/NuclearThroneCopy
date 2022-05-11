@@ -15,6 +15,8 @@ extern ResourceManager* sResourceManager;
 
 Character::Character()
 {
+	_shootCD = 20;
+	_currentShootCD = _shootCD;
 	_maxAmmo[0] = 255;
 	for (size_t i = 1; i < 5; i++)
 	{
@@ -89,6 +91,15 @@ void Character::receiveDamage()
 			}
 		}
 	}
+}
+
+void Character::shoot()
+{
+	_inventory[0]->getType();
+	Bullet* bala;
+	bala = new Bullet();
+	_pBullet->push_back(bala);
+	_pBullet->at(_pBullet->size() - 1)->init(true, Vector2{ (float)_Rect.x + _rectFrame.w / 2, (float)_Rect.y + _rectFrame.h / 2 }, Vector2{ (float)sMouse->getX(), (float)sMouse->getY() }, 1);
 }
 
 void Character::addHP(short amount)
