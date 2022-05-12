@@ -44,7 +44,7 @@ void SceneGame::init()
     _personaje.setBulletsPointer(&_bullets);
     sCamera->init(&_personaje, &_nivel);
 
-    _cactus.resize(rand() % 10);
+    _cactus.resize(rand() % 15);
     size_t size = _cactus.size();
     for (size_t i = 0; i < size; i++)
     {
@@ -114,17 +114,48 @@ void SceneGame::update()
     {
         _chest[i].update();
     }
+    size = _cactus.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        _cactus[i].render();
+        if (_cactus[i].getState() != 0) {
+            for (size_t j = 0; j < _bullets.size(); j++) // Bullet.size porque el número puede cambiar
+            {
+                if (_cactus[i].isOverlaping(_bullets[j]->getCollision())) {
+                    _cactus[i].receiveDamage();
+                    _bullets.erase(_bullets.begin() + j);
+                }
+            }
+        }
+    }
     size = _enemies.size();
     for (size_t i = 0; i < size; i++)
     {
         _enemies[i]->update();
+        if (_enemies[i]->getState() != 0) {
+            for (size_t j = 0; j < _bullets.size(); j++) // Bullet.size porque el número puede cambiar
+            {
+                if (_enemies[i]->isOverlaping(_bullets[j]->getCollision())) {
+                    _enemies[i]->receiveDamage(_bullets[j]->getDamage());
+                    _bullets.erase(_bullets.begin() + j);
+                }
+            }
+        }
     } 
-    size = _bullets.size();
-    for (size_t i = 0; i < size; i++)
-    {
-        _bullets[i]->update();
-    }
 
+    for (size_t i = 0; i < _bullets.size(); i++)
+    {
+        if (_bullets[i]->getX() < 0 - _bullets[i]->getW() ||
+            _bullets[i]->getX() > _nivel.getMapWidth() ||
+            _bullets[i]->getY() < 0 - _bullets[i]->getW() ||
+            _bullets[i]->getY() > _nivel.getMapHeight()) {
+            _bullets.erase(_bullets.begin() + i);
+            continue;
+        }
+        _bullets[i]->update();
+       
+    }
+    std::cout << _bullets.size() << std::endl;
     _personaje.update();
     sCamera->update();
     sMouse->update();
@@ -158,13 +189,6 @@ void SceneGame::render()
     for (size_t i = 0; i < size; i++)
     {
         _enemies[i]->render(); //receive dmg
-        for (size_t j = 0; j < _bullets.size(); j++) // Bullet.size porque el número puede cambiar
-        {
-            if (_enemies[i]->isOverlaping(_bullets[j]->getCollision()) && _enemies[i]->getState() != 0) {
-                _enemies[i]->receiveDamage(_bullets[j]->getDamage());
-                _bullets.erase(_bullets.begin() + j);
-            }
-        }
     }
 
     _personaje.render();

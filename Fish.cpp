@@ -308,7 +308,7 @@ void Fish::receiveDamage()
 		size_t size = _enemies->size();
 		for (size_t i = 0; i < size; i++)
 		{
-			if (_enemies->at(i)->getState() != 3) {
+			if (_enemies->at(i)->getState() != 0) { // Si el enemigo no está muerto (State 0 es siempre muerto)
 				if (isOverlaping(_enemies->at(i)->getCollision())) {
 					_HP -= _enemies->at(i)->getDamage();
 					_fishState = ST_ONHIT;
