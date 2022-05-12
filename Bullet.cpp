@@ -25,8 +25,8 @@ void Bullet::init(bool isFromPlayer, glm::vec2 initialPos, glm::vec2 finalPos, f
 	_isFromPlayer = isFromPlayer;
 	_speed = speed;
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/bullet.png");
-	_Rect.x = initialPos.x + _direction.x * 30;
-	_Rect.y = initialPos.y + _direction.y * 30;
+	_Rect.x = (int)initialPos.x + _direction.x * 30;
+	_Rect.y = (int)initialPos.y + _direction.y * 30;
 	_Rect.w = 16;
 	_Rect.h = 16;
 }
@@ -35,8 +35,8 @@ void Bullet::update()
 {
 	//_Rect.x += _speed * _direction.x;
 	//_Rect.y += _speed * _direction.y;
-	_Rect.x += round(_speed * _direction.x);
-	_Rect.y += round(_speed * _direction.y);
+	_Rect.x += (int)round(_speed * _direction.x);
+	_Rect.y += (int)round(_speed * _direction.y);
 
 }
 

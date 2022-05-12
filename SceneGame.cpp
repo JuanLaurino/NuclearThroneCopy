@@ -11,6 +11,7 @@
 #include "SceneDirector.h"
 #include "Camera.h"
 #include <iostream>
+#include "MaggotNest.h"
 
 extern Mouse*           sMouse;
 extern SceneDirector*   sDirector;
@@ -29,6 +30,7 @@ SceneGame::SceneGame()
     _chest.resize(0);
     _enemies.resize(0);
     _bullets.resize(0);
+    _weapons.resize(0);
 }
 
 SceneGame::~SceneGame()
@@ -39,9 +41,14 @@ void SceneGame::init()
 {
     mReinit = false;
     _nivel.init("Assets/levelBasico.tmx", sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/tileset_level.png"));
+    
     _personaje.init();
     _personaje.setWorldPointer(&_nivel);
     _personaje.setBulletsPointer(&_bullets);
+    _personaje.setWeaponPointer(&_weapons);
+    _personaje.setChestPointer(&_chest);
+    _personaje.setEnemiesPointer(&_enemies);
+
     sCamera->init(&_personaje, &_nivel);
 
     _cactus.resize(rand() % 15);
@@ -53,41 +60,67 @@ void SceneGame::init()
         _cactus[i].spawnInMap();
     }
 
-    //Prueba
-    arma01.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/weapons.png"));
-    arma01.setWorldPointer(&_nivel);
-    arma01.spawnInMap();
-    arma02.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/weapons.png"));
-    arma02.setWorldPointer(&_nivel);
-    arma02.spawnInMap();
+    // Arma inicial
+    Weapon* arma = new Weapon();
+    _weapons.push_back(arma);
+    _weapons[0]->init(0);
+    _weapons[0]->setWorldPointer(&_nivel);
+    _personaje.setWeapon00(_weapons[0]);
+
 
     Chest *cofre;
-    for (size_t i = 0; i < 4; i++)
+    for (size_t i = 0; i < 2; i++) // Cofre de munición y arma asegurado en cada mapa
     {
         cofre = new Chest();
-        _chest.push_back(*cofre);
+        _chest.push_back(*cofre); 
         _chest[i].init(i);
         _chest[i].setWorldPointer(&_nivel);
+        _chest[i].setWeaponPointer(&_weapons);
         _chest[i].spawnInMap();
     }
 
-    //Prueba
-    _personaje.setWeapon00(&arma01);
-    _personaje.setWeapon01(&arma02);
-    //prueba
+    if (rand() % 10 + 1 - 8 > 0) { // 20% probabilidad de que salga cofre de vida
+        cofre = new Chest();
+        _chest.push_back(*cofre);
+        _chest[_chest.size() - 1].init(2);
+        _chest[_chest.size() - 1].setWorldPointer(&_nivel);
+        _chest[_chest.size() - 1].setWeaponPointer(&_weapons);
+        _chest[_chest.size() - 1].spawnInMap();
+    }
+
+    if (rand() % 10 + 1 - 9 > 0) { // 10% probabilidad de que salga cofre de regalo
+        cofre = new Chest();
+        _chest.push_back(*cofre);
+        _chest[_chest.size() - 1].init(3);
+        _chest[_chest.size() - 1].setWorldPointer(&_nivel);
+        _chest[_chest.size() - 1].setWeaponPointer(&_weapons);
+        _chest[_chest.size() - 1].spawnInMap();
+    }
 
     _personaje.spawnInMap();
+
     Maggot* maggot;
-    for (size_t i = 0; i < 15; i++)
+    size = rand() % 10;
+    for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         maggot = new Maggot();
+        maggot->init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png"));
+        maggot->setWorldPointer(&_nivel);
+        maggot->spawnInMap();
         _enemies.push_back(maggot);
-        _enemies[i]->init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png"));
-        _enemies[i]->setWorldPointer(&_nivel);
-        _enemies[i]->spawnInMap();
     }
-    _personaje.setChestPointer(&_chest);
-    _personaje.setEnemiesPointer(&_enemies);
+
+    MaggotNest* maggotNest;
+    size = rand() % 30;
+    for (size_t i = 0; i < size; i++) // Spawn enemigos
+    {
+        maggotNest = new MaggotNest();
+        maggotNest->init();
+        maggotNest->setWorldPointer(&_nivel);
+        maggotNest->spawnInMap();
+        _enemies.push_back(maggotNest);
+    }
+
 }
 
 void SceneGame::reinit()
@@ -97,13 +130,6 @@ void SceneGame::reinit()
 
 void SceneGame::update()
 {
-    if (sInputControl->getKeyPressed(I_SCLICK)) {
-        sVideo->setFullScreen(true);
-    }
-    if (sInputControl->getKeyPressed(I_CLICK)) {
-        sVideo->setFullScreen(false);
-    }
-
     //Clear Screen
     sVideo->clearScreen();
 
@@ -183,8 +209,13 @@ void SceneGame::render()
     {
         _chest[i].render();
     }
-    arma01.render();
-    arma02.render();
+
+    size = _weapons.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        _weapons[i]->render(); // Render en el mundo
+    }
+
     size = _enemies.size();
     for (size_t i = 0; i < size; i++)
     {
@@ -192,6 +223,7 @@ void SceneGame::render()
     }
 
     _personaje.render();
+
     size = _bullets.size();
     for (size_t i = 0; i < size; i++)
     {

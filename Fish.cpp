@@ -153,9 +153,13 @@ void Fish::update()
 		break;
 	case ST_FALLEN:
 		_inventory[0]->setState(ST_ON_GROUND);
-		_inventory[1]->setState(ST_ON_GROUND);
 		_inventory[0]->setXY(_Rect.x, _Rect.y);
-		_inventory[1]->setXY(_Rect.x, _Rect.y);
+		_inventory[0] = nullptr;
+		if (_inventory[1] != nullptr) {
+			_inventory[1]->setState(ST_ON_GROUND);
+			_inventory[1]->setXY(_Rect.x, _Rect.y);
+			_inventory[1] = nullptr;
+		}
 
 		if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG
 			_contador = 0;
@@ -168,7 +172,7 @@ void Fish::update()
 		break;
 	case ST_ROLL:
 		_rotation+= global_elapsed_time;
-		_Rect.x += (int)_lastDirX * 1.5f;
+		_Rect.x += (int)(_lastDirX * 1.5f);
 		if (_Rect.x < 0) _Rect.x = 0;
 		if (_Rect.x >= _pLevel->getMapWidth()) _Rect.x = _pLevel->getMapWidth()-1;
 
@@ -179,7 +183,7 @@ void Fish::update()
 			checkCollision(I_A);
 		}
 
-		_Rect.y += (int)_lastDirY * 1.5f;
+		_Rect.y += (int)(_lastDirY * 1.5f);
 		if (_Rect.y < 0) _Rect.y = 0;
 		if (_Rect.y >= _pLevel->getMapHeight()) _Rect.y = _pLevel->getMapHeight() - 1;
 		if (_lastDirY == MovementSpeed) {
@@ -312,7 +316,6 @@ void Fish::receiveDamage()
 				if (isOverlaping(_enemies->at(i)->getCollision())) {
 					_HP -= _enemies->at(i)->getDamage();
 					_fishState = ST_ONHIT;
-					std::cout << _HP << std::endl;
 					break;
 				}
 			}

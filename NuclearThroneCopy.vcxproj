@@ -164,6 +164,7 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="Logo.h" />
     <ClInclude Include="Maggot.h" />
+    <ClInclude Include="MaggotNest.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Logo.cpp" />
     <ClCompile Include="Maggot.cpp" />
+    <ClCompile Include="MaggotNest.cpp" />
     <ClCompile Include="MainForDirector.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

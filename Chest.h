@@ -1,5 +1,7 @@
 #pragma once
 #include "GFXElementX.h"
+#include "weapon.h"
+
 class Chest : public GFXElementX
 {
 	enum CHEST_STATE { ST_IDLE, ST_ANIM, ST_OPENING, ST_OPEN };
@@ -11,6 +13,8 @@ class Chest : public GFXElementX
 	int _contador;
 	int _contadorAnim;
 	int _frame;
+
+	std::vector<Weapon*>* _weapons;
 public:
 	Chest();
 	~Chest();
@@ -19,6 +23,7 @@ public:
 	void update();
 	void render();
 
+	void setWeaponPointer(std::vector<Weapon*>* weapons) { _weapons = weapons; }
 	void open();
 	bool isOpen();
 	short getType() { return _type; };

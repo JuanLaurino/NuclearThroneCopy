@@ -29,6 +29,7 @@ protected:
 	int _maxAmmo[5];
 	Weapon* _inventory[2];
 
+	std::vector<Weapon*>* _weapons;
 	std::vector<Chest>* _chest;
 	std::vector<GFXElementX*> *_enemies;
 public:
@@ -39,11 +40,14 @@ public:
 	void receiveDamage();
 	void shoot();
 
+	void dropWeapon(); // Deprecated Xd 
+	void pickUpWeapon(Weapon* wp);
 	void addHP(short amount);
 	void addAmmo(short type);
+	void setWeaponPointer(std::vector<Weapon*> *weapons) { _weapons = weapons; };
 	void setChestPointer(std::vector<Chest>* chest) { _chest = chest; };
 	void setEnemiesPointer(std::vector<GFXElementX*>* enemies) { _enemies = enemies; };
-	void setWeapon00(Weapon* wp) {_inventory[0] = wp; };
-	void setWeapon01(Weapon* wp) { _inventory[1] = wp; };
+	void setWeapon00(Weapon* wp) { _inventory[0] = wp; wp->setState(2); };
+	void setWeapon01(Weapon* wp) { _inventory[1] = wp; wp->setState(1); };
 };
 

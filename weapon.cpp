@@ -11,6 +11,7 @@ extern InputManager*	sInputControl;
 extern Video*			sVideo;
 extern Camera*			sCamera;
 extern Mouse*			sMouse;
+extern ResourceManager* sResourceManager;
 
 Weapon::Weapon()
 {
@@ -20,15 +21,14 @@ Weapon::~Weapon()
 {
 }
 
-void Weapon::init(int sprite)
+void Weapon::init(int weaponType)
 {
-	_weaponType = rand() % 3;
-	_spriteID = sprite;
+	_weaponType = weaponType;
+	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/weapons.png");
 	_state = ST_ON_GROUND;
 	_Rect.w = 22;
 	_Rect.h = 22;
-	rotation = rand() % 360; // NO FUNCONA
-	_state = ST_EQUIPED; // QUITAR
+	rotation = rand() % 360;
 }
 
 void Weapon::update()

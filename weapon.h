@@ -12,12 +12,13 @@ public:
 	Weapon();
 	~Weapon();
 
-	void init(int sprite);
+	void init(int weaponType);
 	void update();
 	void render();
-
-	int getType() { return _weaponType; };
 	void renderInventory(int posX, int posY, double angulo, int rotated);
-	void setState(WEAPON_STATE ws) { _state = ws; };
+
+	int getState() { return _state; };
+	int getType() { return _weaponType; };
+	void setState(int ws) { _state = (WEAPON_STATE)ws; };
 };
 

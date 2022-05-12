@@ -84,6 +84,13 @@ void Chest::update()
 		if (_contador >= 160) {
 			_chestState = ST_OPEN;
 			_frame = 7;
+
+			if (_type == 1) {// crea un arma
+				Weapon* arma = new Weapon();
+				_weapons->push_back(arma);
+				arma->setXY(_Rect.x, _Rect.y);
+				arma->init(rand() % 2 + 1);
+			}
 		}
 		break;
 	case ST_OPEN:

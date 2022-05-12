@@ -30,48 +30,66 @@ Character::~Character()
 
 void Character::checkForItem()
 {
-	for (size_t i = 0; i < 4; i++)
+	size_t size = _chest->size();
+	for (size_t i = 0; i < size; i++) //Chests
 	{
-		if (isOverlaping(_chest->at(i).getCollision()) && !_chest->at(i).isOpen()) {
-			_chest->at(i).open();
-			switch (_chest->at(i).getType())
-			{
-			case 0: // Cofre ammo
-				addAmmo(rand() % 5);
-				break;
-			case 1: // Cofre arma-ammo
-				addAmmo(rand() % 5); // Cambiar por ammo del tipo del arma que sale del cofre
-				break;
-			case 2: // Cofre vida
-				addHP(4);
-				break;
-			case 3:
-				switch (rand() % 5)
+		if (!_chest->at(i).isOpen())
+		{
+			if (isOverlaping(_chest->at(i).getCollision())) {
+				_chest->at(i).open();
+				switch (_chest->at(i).getType())
 				{
-				case 0:
-					addAmmo(rand() % 5);
+				case 0: // Cofre ammo
 					addAmmo(rand() % 5);
 					break;
-				case 1:
+				case 1: // Cofre arma-ammo
+					addAmmo(rand() % 5); // Cambiar por ammo del tipo del arma que sale del cofre
+					break;
+				case 2: // Cofre vida
 					addHP(4);
 					break;
-				case 2:
-					addAmmo(rand() % 5);
-					addHP(2);
-					break;
 				case 3:
-					addAmmo(rand() % 5);
-					addHP((rand() % 2 + 1) * 2);
-					break;
-				case 4:
-					addHP(6);
+					switch (rand() % 5)
+					{
+					case 0:
+						addAmmo(rand() % 5);
+						addAmmo(rand() % 5);
+						break;
+					case 1:
+						addHP(4);
+						break;
+					case 2:
+						addAmmo(rand() % 5);
+						addHP(2);
+						break;
+					case 3:
+						addAmmo(rand() % 5);
+						addHP((rand() % 2 + 1) * 2);
+						break;
+					case 4:
+						addHP(6);
+						break;
+					default:
+						break;
+					}
 					break;
 				default:
 					break;
 				}
-				break;
-			default:
-				break;
+			}
+		}
+	}
+
+	size = _weapons->size();
+	for (size_t i = 0; i < size; i++)
+	{
+		if (_weapons->at(i)->getState() == 0)
+		{
+			if (isOverlaping(_weapons->at(i)->getCollision())) {
+				if (sInputControl->getKeyPressed(I_E)) {
+					pickUpWeapon(_weapons->at(i));
+					break;
+				}
 			}
 		}
 	}
@@ -100,6 +118,35 @@ void Character::shoot()
 	bala = new Bullet();
 	_pBullet->push_back(bala);
 	_pBullet->at(_pBullet->size() - 1)->init(true, glm::vec2{ (float)(_Rect.x ) + _rectFrame.w / 2, (float)(_Rect.y ) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 5, 1);
+}
+
+void Character::dropWeapon() // Tira el arma que tiene equipada y se equipa la que tenía en el inventario. No puede tener 0 armas.
+{
+	if (_inventory[1] != nullptr) {
+		_inventory[0]->setState(0);
+		_inventory[0]->setXY(_Rect.x, _Rect.y);
+		_inventory[0] = _inventory[1];
+		_inventory[1] = nullptr;
+	}
+}
+
+void Character::pickUpWeapon(Weapon* wp) // ST_ON_GROUND, ST_ON_INVENTORY, ST_EQUIPED
+{
+	if (_inventory[1] == nullptr) {
+		_inventory[1] = _inventory[0];
+		_inventory[0] = wp;
+
+		_inventory[1]->setState(1);
+		_inventory[0]->setState(2);
+		return;
+	}
+	else {
+		_inventory[0]->setState(0);
+		_inventory[0]->setXY(_Rect.x, _Rect.y);
+
+		_inventory[0] = wp;
+		_inventory[0]->setState(2);
+	}
 }
 
 void Character::addHP(short amount)

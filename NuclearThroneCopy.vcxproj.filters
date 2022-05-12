@@ -117,6 +117,9 @@
     <ClInclude Include="Cactus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MaggotNest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GFXElement.cpp">
@@ -219,6 +222,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Cactus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MaggotNest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
