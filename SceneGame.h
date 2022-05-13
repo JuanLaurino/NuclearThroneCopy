@@ -10,11 +10,13 @@
 #include "Chest.h"
 #include "Cactus.h"
 #include "Bullet.h"
+#include "HUD.h"
 
 class SceneGame : public Scene
 {
 	Level _nivel;
 	Fish _personaje;
+	HUD _hud;
 
 	std::vector<Chest> _chest;
 	std::vector<Cactus> _cactus;

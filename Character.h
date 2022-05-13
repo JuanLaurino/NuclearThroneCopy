@@ -17,6 +17,9 @@ protected:
 	PLAYER_STATE _state;
 	notSDL_Rect _rectFrame;
 
+	int _radLevel;
+	int _radExp;
+
 	bool _canMove;
 	int _MaxHP;
 	int _contador;
@@ -44,10 +47,14 @@ public:
 	void pickUpWeapon(Weapon* wp);
 	void addHP(short amount);
 	void addAmmo(short type);
+
 	void setWeaponPointer(std::vector<Weapon*> *weapons) { _weapons = weapons; };
 	void setChestPointer(std::vector<Chest>* chest) { _chest = chest; };
 	void setEnemiesPointer(std::vector<GFXElementX*>* enemies) { _enemies = enemies; };
 	void setWeapon00(Weapon* wp) { _inventory[0] = wp; wp->setState(2); };
 	void setWeapon01(Weapon* wp) { _inventory[1] = wp; wp->setState(1); };
+
+	int getRadLevel() { return _radLevel; };
+	int getRadExp() { return _radExp; };
 };
 

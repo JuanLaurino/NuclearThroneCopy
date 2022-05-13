@@ -15,6 +15,9 @@ extern ResourceManager* sResourceManager;
 
 Fish::Fish()
 {
+	_radLevel = 0; 
+	_radExp = 0;
+
 	_fishState = ST_IDLE;
 	_contador = 0;
 	_Rect.x = 0;
@@ -45,6 +48,7 @@ Fish::~Fish()
 
 void Fish::init()
 {
+	_radExp = rand() % 68;
 	_leftSpaceInSprite = 7;
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/characters/CharacterFish.png");
 	_Rect.w = 34;
@@ -64,14 +68,23 @@ void Fish::init()
 
 void Fish::update()
 {
+	if (_radExp == 0) {
+		_radLevel = 0;
+	}
+	else
+	{
+		_radLevel = _radExp / 16;
+	}
 	checkForItem();
 	receiveDamage();
 	bool moving = false;
 
 	_currentShootCD -= global_elapsed_time;
-	if (sInputControl->getKeyPressed(I_CLICK) && _currentShootCD <= 0) {
-		_currentShootCD = _shootCD;
-		shoot();
+	if (_fishState != ST_FALLEN && _fishState != ST_ROLL) {
+		if (sInputControl->getKeyPressed(I_CLICK) && _currentShootCD <= 0) {
+			_currentShootCD = _shootCD;
+			shoot();
+		}
 	}
 
 	if (_canMove) {
@@ -152,15 +165,17 @@ void Fish::update()
 		}
 		break;
 	case ST_FALLEN:
-		_inventory[0]->setState(ST_ON_GROUND);
-		_inventory[0]->setXY(_Rect.x, _Rect.y);
-		_inventory[0] = nullptr;
+		if (_inventory[0] != nullptr) {
+			_inventory[0]->setState(ST_ON_GROUND);
+			_inventory[0]->setXY(_Rect.x + rand() % 20, _Rect.y + rand() % 20);
+			_inventory[0] = nullptr;
+		}
 		if (_inventory[1] != nullptr) {
 			_inventory[1]->setState(ST_ON_GROUND);
-			_inventory[1]->setXY(_Rect.x, _Rect.y);
+			_inventory[1]->setXY(_Rect.x + rand() % 20, _Rect.y + rand() % 20);
 			_inventory[1] = nullptr;
 		}
-
+		/*
 		if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG
 			_contador = 0;
 
@@ -168,7 +183,7 @@ void Fish::update()
 			_frame = 0;
 			_canMove = true;
 			_HP = _MaxHP;
-		}
+		}*/
 		break;
 	case ST_ROLL:
 		_rotation+= global_elapsed_time;

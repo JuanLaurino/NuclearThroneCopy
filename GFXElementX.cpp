@@ -103,6 +103,7 @@ void GFXElementX::spawnInMap()
 		_Rect.x = rand() % _pLevel->getMapWidth();
 		_Rect.y = rand() % _pLevel->getMapHeight();
 
+		// Esquinas de la imagen
 		if (_pLevel->getIDfromLayer(0, _Rect.x, _Rect.y)) {
 			canSpawn = false;
 			continue;
@@ -119,6 +120,31 @@ void GFXElementX::spawnInMap()
 			canSpawn = false;
 			continue;
 		}
+
+		// Mitades de la imagen
+		if (_pLevel->getIDfromLayer(0, _Rect.x + _Rect.w / 2, _Rect.y)) {
+			canSpawn = false;
+			continue;
+		}
+		if (_pLevel->getIDfromLayer(0, _Rect.x, _Rect.y + _Rect.h / 2)) {
+			canSpawn = false;
+			continue;
+		}
+		if (_pLevel->getIDfromLayer(0, _Rect.x + _Rect.w / 2, _Rect.y + _Rect.h)) {
+			canSpawn = false;
+			continue;
+		}
+		if (_pLevel->getIDfromLayer(0, _Rect.x + _Rect.w, _Rect.y + _Rect.h / 2)) {
+			canSpawn = false;
+			continue;
+		}
+
+		// Centro de la imagen
+		if (_pLevel->getIDfromLayer(0, _Rect.x + _Rect.w / 2, _Rect.y + _Rect.h / 2)) { 
+			canSpawn = false;
+			continue;
+		}
+
 
 	} while (!canSpawn);
 }

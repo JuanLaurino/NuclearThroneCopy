@@ -49,6 +49,9 @@ void SceneGame::init()
     _personaje.setChestPointer(&_chest);
     _personaje.setEnemiesPointer(&_enemies);
 
+    _hud.setPlayerPointer(&_personaje);
+    _hud.init();
+
     sCamera->init(&_personaje, &_nivel);
 
     _cactus.resize(rand() % 15);
@@ -111,7 +114,7 @@ void SceneGame::init()
     }
 
     MaggotNest* maggotNest;
-    size = rand() % 30;
+    size = rand() % 3;
     for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         maggotNest = new MaggotNest();
@@ -184,6 +187,7 @@ void SceneGame::update()
     std::cout << _bullets.size() << std::endl;
     _personaje.update();
     sCamera->update();
+    _hud.update();
     sMouse->update();
 
     //if ((sInputControl->getKeyPressed(I_A))) {
@@ -230,7 +234,7 @@ void SceneGame::render()
         _bullets[i]->render();
     }
 
-
+    _hud.render();
     sMouse->render();
 
     //Update Screen

@@ -21,10 +21,10 @@ void MaggotNest::init()
 	_HP = 4;
 	_damage = 2;
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggotNest.png");
-	_Rect.w = 32;
-	_Rect.h = 32;
-	_rectFrame.w = 32;
-	_rectFrame.h = 32;
+	_Rect.w = 64;
+	_Rect.h = 64;
+	_rectFrame.w = 64;
+	_rectFrame.h = 64;
 }
 
 void MaggotNest::update()

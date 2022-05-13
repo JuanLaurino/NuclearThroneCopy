@@ -160,6 +160,7 @@
     <ClInclude Include="GFXElement.h" />
     <ClInclude Include="GFXElementX.h" />
     <ClInclude Include="Highscore.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Logo.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="GFXElement.cpp" />
     <ClCompile Include="GFXElementX.cpp" />
     <ClCompile Include="Highscore.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Logo.cpp" />

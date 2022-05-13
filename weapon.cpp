@@ -63,10 +63,10 @@ void Weapon::renderInventory(int posX, int posY, double angulo, int rotated)
 	switch (_state)
 	{
 	case ST_ON_INVENTORY:
-		sVideo->renderGraphic(_spriteID, 0, 0, _Rect.w, _Rect.h, _Rect.w * 1 + 1, _Rect.h * 2 + 2); // Meter en el hud
+		//sVideo->renderGraphic(_spriteID, 0, 0, _Rect.w, _Rect.h, _Rect.w * 1 + 1, _Rect.h * 2 + 2); //arreglar numeros
 		break;
 	case ST_EQUIPED:
-		sVideo->renderGraphic(_spriteID, 0, 0, _Rect.w, _Rect.h, _Rect.w * 2 + 2, _Rect.h * 2 + 2); // Meter en el hud
+		//sVideo->renderGraphic(_spriteID, 0, 0, _Rect.w, _Rect.h, _Rect.w * 2 + 2, _Rect.h * 2 + 2);
 
 		sVideo->renderGraphicEx(_spriteID, posX, posY - _Rect.h, _Rect.w - 4, _Rect.h - 2, 1 + _state, 1 + _Rect.h * _weaponType + _weaponType, (int) _Rect.w * 1.5f, (int) _Rect.h * 1.5f, angulo + 180, 3, 20, rotated);
 		break;
