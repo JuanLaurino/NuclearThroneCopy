@@ -4,6 +4,15 @@
 #include <fstream>
 #include <string>
 
+Highscore* Highscore::pInstance = NULL;
+
+Highscore* Highscore::getInstance() {
+	if (!pInstance) {
+		pInstance = new Highscore();
+	}
+	return pInstance;
+}
+
 Highscore::Highscore()
 {
 	for (int i = 0; i <= 11; i++) {

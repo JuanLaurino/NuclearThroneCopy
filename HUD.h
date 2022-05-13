@@ -5,6 +5,9 @@ class HUD{
 	Character* _player;
 	int _spriteID;
 	int _idNum;
+
+	int _playerLevel;
+	int _playerScore;
 public:
 	HUD();
 	~HUD();

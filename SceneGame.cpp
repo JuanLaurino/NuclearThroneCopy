@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include <iostream>
 #include "MaggotNest.h"
+#include "Highscore.h"
 
 extern Mouse*           sMouse;
 extern SceneDirector*   sDirector;
@@ -21,6 +22,7 @@ extern AudioManager*    sAudioManager;
 extern Video*           sVideo;
 extern ResourceManager* sResourceManager;
 extern Camera*          sCamera;
+extern Highscore*       sHighscore;
 
 extern bool             gameOn;
 extern Uint32           global_elapsed_time;
@@ -190,9 +192,10 @@ void SceneGame::update()
     _hud.update();
     sMouse->update();
 
-    //if ((sInputControl->getKeyPressed(I_A))) {
-    //    sDirector->changeScene(GAME_OVER, 1);
-    //}
+    if ((sInputControl->getKeyPressed(I_A))) { // 4Debug
+        //sDirector->changeScene(GAME_OVER, 1);
+        //sHighscore->addScore(1);
+    }
 }
 
 void SceneGame::render()

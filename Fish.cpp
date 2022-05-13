@@ -15,9 +15,6 @@ extern ResourceManager* sResourceManager;
 
 Fish::Fish()
 {
-	_radLevel = 0; 
-	_radExp = 0;
-
 	_fishState = ST_IDLE;
 	_contador = 0;
 	_Rect.x = 0;
@@ -32,7 +29,9 @@ Fish::Fish()
 	_contadorAnim = 0;
 	_HP = 0;
 	_MaxHP = 0;
+
 	_canMove = false;
+	_canReceiveDamage = true;
 
 	_lastDirY = 0;
 	_lastDirX = 0;
@@ -48,7 +47,6 @@ Fish::~Fish()
 
 void Fish::init()
 {
-	_radExp = rand() % 68;
 	_leftSpaceInSprite = 7;
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/characters/CharacterFish.png");
 	_Rect.w = 34;
@@ -68,13 +66,6 @@ void Fish::init()
 
 void Fish::update()
 {
-	if (_radExp == 0) {
-		_radLevel = 0;
-	}
-	else
-	{
-		_radLevel = _radExp / 16;
-	}
 	checkForItem();
 	receiveDamage();
 	bool moving = false;
@@ -322,18 +313,28 @@ void Fish::render()
 
 void Fish::receiveDamage()
 {
-	if (_fishState != ST_ONHIT && _fishState != ST_FALLEN && _fishState != ST_ROLL)
-	{
-		size_t size = _enemies->size();
-		for (size_t i = 0; i < size; i++)
+	if (_canReceiveDamage) {
+		if (_fishState != ST_ONHIT && _fishState != ST_FALLEN && _fishState != ST_ROLL)
 		{
-			if (_enemies->at(i)->getState() != 0) { // Si el enemigo no está muerto (State 0 es siempre muerto)
-				if (isOverlaping(_enemies->at(i)->getCollision())) {
-					_HP -= _enemies->at(i)->getDamage();
-					_fishState = ST_ONHIT;
-					break;
+			size_t size = _enemies->size();
+			for (size_t i = 0; i < size; i++)
+			{
+				if (_enemies->at(i)->getState() != 0) { // Si el enemigo no está muerto (State 0 es siempre muerto)
+					if (isOverlaping(_enemies->at(i)->getCollision())) {
+						_HP -= _enemies->at(i)->getDamage();
+						_fishState = ST_ONHIT;
+						_canReceiveDamage = false;
+						break;
+					}
 				}
 			}
+		}
+	}
+	else {
+		_contadorRDaño += global_elapsed_time;
+		if (_contadorRDaño >= 160) {
+			_canReceiveDamage = true;
+			_contadorRDaño = false;
 		}
 	}
 }

@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h> 
+#include "Highscore.h"
 
 Uint32 				global_elapsed_time = 0;
 bool				gameOn = true;
@@ -22,6 +23,7 @@ Audio*				sAudio = NULL;
 AudioManager*		sAudioManager = NULL;
 Mouse*				sMouse = NULL;
 Camera*				sCamera = NULL;
+Highscore*			sHighscore = NULL;
 
 int main( int argc, char* argv[] ) { 
 	srand(time(NULL));
@@ -34,6 +36,7 @@ int main( int argc, char* argv[] ) {
 	sInputControl		= InputManager::getInstance();
 	sMouse				= Mouse::getInstance();
 	sDirector			= SceneDirector::getInstance();
+	sHighscore			= Highscore::getInstance();
 
 
 	//Main Loop

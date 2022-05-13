@@ -17,12 +17,12 @@ protected:
 	PLAYER_STATE _state;
 	notSDL_Rect _rectFrame;
 
-	int _radLevel;
-	int _radExp;
-
 	bool _canMove;
+	bool _canReceiveDamage;
+
 	int _MaxHP;
 	int _contador;
+	int _contadorRDaño;
 	int _contadorAnim;
 	int _frame;
 
@@ -43,6 +43,9 @@ public:
 	void receiveDamage();
 	void shoot();
 
+	int getHP() { return _HP; };
+	int getMaxHP() { return _MaxHP; };
+
 	void dropWeapon(); // Deprecated Xd 
 	void pickUpWeapon(Weapon* wp);
 	void addHP(short amount);
@@ -53,8 +56,5 @@ public:
 	void setEnemiesPointer(std::vector<GFXElementX*>* enemies) { _enemies = enemies; };
 	void setWeapon00(Weapon* wp) { _inventory[0] = wp; wp->setState(2); };
 	void setWeapon01(Weapon* wp) { _inventory[1] = wp; wp->setState(1); };
-
-	int getRadLevel() { return _radLevel; };
-	int getRadExp() { return _radExp; };
 };
 

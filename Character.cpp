@@ -15,8 +15,6 @@ extern ResourceManager* sResourceManager;
 
 Character::Character()
 {
-	_radLevel = 0;
-	_radExp = 0;
 	_shootCD = 20;
 	_currentShootCD = _shootCD;
 	_maxAmmo[0] = 255;
