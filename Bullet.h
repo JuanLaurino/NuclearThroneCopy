@@ -10,7 +10,7 @@ public:
 	Bullet();
 	~Bullet();
 
-	void init(bool isFromPlayer, glm::vec2 initialPos, glm::vec2 finalPos, float speed, int damage);
+	void init(bool isFromPlayer, glm::vec2 initialPos, glm::vec2 finalPos, float speed, int damage, int spreadAngle);
 	void update();
 	void render();
 

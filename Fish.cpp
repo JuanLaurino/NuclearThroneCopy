@@ -73,7 +73,7 @@ void Fish::update()
 	_currentShootCD -= global_elapsed_time;
 	if (_fishState != ST_FALLEN && _fishState != ST_ROLL) {
 		if (sInputControl->getKeyPressed(I_CLICK) && _currentShootCD <= 0) {
-			_currentShootCD = _shootCD;
+			_currentShootCD = _inventory[0]->getWeaponCD();
 			shoot();
 		}
 	}

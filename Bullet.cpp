@@ -16,10 +16,14 @@ Bullet::~Bullet()
 {
 }
 
-void Bullet::init(bool isFromPlayer, glm::vec2 initialPos, glm::vec2 finalPos, float speed, int damage)
+void Bullet::init(bool isFromPlayer, glm::vec2 initialPos, glm::vec2 finalPos, float speed, int damage, int spreadAngle)
 {
 	_direction = finalPos - initialPos;
 	_direction = glm::normalize(_direction);
+
+	float angulo = (float)((rand() % (spreadAngle * 2 + 1) ) - spreadAngle) * 3.1415f / 180;
+	_direction.x = _direction.x * cos(angulo) - _direction.y * sin(angulo);
+	_direction.y = _direction.x * sin(angulo) + _direction.y * cos(angulo);
 
 	_damage = damage;
 	_isFromPlayer = isFromPlayer;

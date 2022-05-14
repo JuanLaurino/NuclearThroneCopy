@@ -68,6 +68,7 @@ void InputManager::update()
 		case SDL_MOUSEBUTTONDOWN:
 			if (teclas.button.button == SDL_BUTTON_LEFT) {
 				_tecla[I_CLICK] = true;
+				_firstTimePressed = true;
 			}
 			else if (teclas.button.button == SDL_BUTTON_RIGHT) {
 				_tecla[I_SCLICK] = true;
