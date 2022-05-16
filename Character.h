@@ -45,6 +45,9 @@ public:
 
 	int getHP() { return _HP; };
 	int getMaxHP() { return _MaxHP; };
+	int getAmmo(int i) { return _ammo[i]; };
+	Weapon* getInventoryWeapon0() { return _inventory[0]; };
+	Weapon* getInventoryWeapon1() { return _inventory[1]; };
 
 	void dropWeapon(); // Deprecated Xd 
 	void pickUpWeapon(Weapon* wp);

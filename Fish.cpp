@@ -46,7 +46,7 @@ Fish::~Fish()
 }
 
 void Fish::init()
-{
+{	
 	_leftSpaceInSprite = 7;
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/characters/CharacterFish.png");
 	_Rect.w = 34;

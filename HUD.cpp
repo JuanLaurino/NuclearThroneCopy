@@ -27,6 +27,7 @@ void HUD::init()
 {
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/HUD.png");
 	_idNum = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/numbers.png");
+	_idAmmo = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/ammo.png");
 }
 
 void HUD::update()
@@ -65,4 +66,38 @@ void HUD::render()
 	Video::getInstance()->renderGraphic(_idNum, 85, 14, 12, 14, 0, 14 * _player->getHP() + _player->getHP() * 2);
 	Video::getInstance()->renderGraphic(_idNum, 100, 14, 12, 14, 0, 160);
 	Video::getInstance()->renderGraphic(_idNum, 115, 14, 12, 14, 0, 14 * _player->getMaxHP() + _player->getMaxHP() * 2);
+
+	// Base Bullets
+	if (_player->getInventoryWeapon0()->getType() == 3) {
+		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 6, 0);
+	}
+	else {
+		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 7, 0);
+	}
+
+	// Bullets
+	if (_player->getAmmo(0) <= 42)
+	{
+		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 5, 0);
+	}
+	else if (_player->getAmmo(0) > 42)
+	{
+		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 4, 0);
+	}
+	else if (_player->getAmmo(0) > 84)
+	{
+		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 3, 0);
+	}
+	else if (_player->getAmmo(0) > 126)
+	{
+		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 2, 0);
+	}
+	else if (_player->getAmmo(0) > 168)
+	{
+		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 1, 0);
+	}
+	else if (_player->getAmmo(0) > 200)
+	{
+		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 0, 0);
+	}
 }

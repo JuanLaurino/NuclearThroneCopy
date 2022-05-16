@@ -51,20 +51,6 @@ void SceneGame::init()
     _personaje.setChestPointer(&_chest);
     _personaje.setEnemiesPointer(&_enemies);
 
-    _hud.setPlayerPointer(&_personaje);
-    _hud.init();
-
-    sCamera->init(&_personaje, &_nivel);
-
-    _cactus.resize(rand() % 15);
-    size_t size = _cactus.size();
-    for (size_t i = 0; i < size; i++)
-    {
-        _cactus[i].init(rand() % 3);
-        _cactus[i].setWorldPointer(&_nivel);
-        _cactus[i].spawnInMap();
-    }
-
     // Arma inicial
     Weapon* arma = new Weapon();
     _weapons.push_back(arma);
@@ -72,6 +58,19 @@ void SceneGame::init()
     _weapons[0]->setWorldPointer(&_nivel);
     _personaje.setWeapon00(_weapons[0]);
 
+    _hud.setPlayerPointer(&_personaje);
+    _hud.init();
+
+    sCamera->init(&_personaje, &_nivel);
+
+    _cactus.resize(rand() % 7);
+    size_t size = _cactus.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        _cactus[i].init(rand() % 3);
+        _cactus[i].setWorldPointer(&_nivel);
+        _cactus[i].spawnInMap();
+    }
 
     Chest *cofre;
     for (size_t i = 0; i < 2; i++) // Cofre de munición y arma asegurado en cada mapa
