@@ -9,6 +9,7 @@ class Chest : public GFXElementX
 	CHEST_STATE _chestState;
 	short _type;
 	int _wait;
+	int _ammoType;
 
 	int _contador;
 	int _contadorAnim;
@@ -27,5 +28,6 @@ public:
 	void open();
 	bool isOpen();
 	short getType() { return _type; };
+	int getAmmoType() { return _ammoType; };
 };
 

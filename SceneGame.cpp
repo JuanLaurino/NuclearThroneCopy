@@ -50,6 +50,8 @@ void SceneGame::init()
     _personaje.setWeaponPointer(&_weapons);
     _personaje.setChestPointer(&_chest);
     _personaje.setEnemiesPointer(&_enemies);
+    _personaje.addAmmo(0);
+    _personaje.addAmmo(0);
 
     // Arma inicial
     Weapon* arma = new Weapon();

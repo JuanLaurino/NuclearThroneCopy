@@ -76,28 +76,30 @@ void HUD::render()
 	}
 
 	// Bullets
-	if (_player->getAmmo(0) <= 42)
-	{
-		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 5, 0);
-	}
-	else if (_player->getAmmo(0) > 42)
-	{
-		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 4, 0);
-	}
-	else if (_player->getAmmo(0) > 84)
-	{
-		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 3, 0);
-	}
-	else if (_player->getAmmo(0) > 126)
-	{
-		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 2, 0);
-	}
-	else if (_player->getAmmo(0) > 168)
-	{
-		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 1, 0);
-	}
-	else if (_player->getAmmo(0) > 200)
-	{
-		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 0, 0);
+	if (_player->getAmmo(0) > 0){
+		if (_player->getAmmo(0) <= 42)
+		{
+			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 5, 0);
+		}
+		else if (_player->getAmmo(0) > 42)
+		{
+			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 4, 0);
+		}
+		else if (_player->getAmmo(0) > 84)
+		{
+			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 3, 0);
+		}
+		else if (_player->getAmmo(0) > 126)
+		{
+			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 2, 0);
+		}
+		else if (_player->getAmmo(0) > 168)
+		{
+			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 1, 0);
+		}
+		else if (_player->getAmmo(0) > 200)
+		{
+			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 0, 0);
+		}
 	}
 }

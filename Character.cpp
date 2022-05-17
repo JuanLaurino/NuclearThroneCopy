@@ -43,7 +43,7 @@ void Character::checkForItem()
 					addAmmo(rand() % 5);
 					break;
 				case 1: // Cofre arma-ammo
-					addAmmo(rand() % 5); // Cambiar por ammo del tipo del arma que sale del cofre
+					addAmmo(_chest->at(i).getAmmoType());
 					break;
 				case 2: // Cofre vida
 					addHP(4);
@@ -113,30 +113,36 @@ void Character::receiveDamage()
 
 void Character::shoot()
 {
-	if (sInputControl->isClickJustPressed()) {
-		switch (_inventory[0]->getType())
-		{
-		case 0:
-			sInputControl->setClickJustPressedF();
-			break;
-		case 1:
-			break;
-		case 2:
-			sInputControl->setClickJustPressedF();
-			break;
-		case 3:
-			sInputControl->setClickJustPressedF();
-			break;
+	if (_ammo[_inventory[0]->getWeaponAmmoType()] > 0){
+		if (sInputControl->isClickJustPressed()) {
+			switch (_inventory[0]->getType())
+			{
+			case 0:
+				sInputControl->setClickJustPressedF();
+				_ammo[_inventory[0]->getWeaponAmmoType()] -= 1;
+				break;
+			case 1:
+				_ammo[_inventory[0]->getWeaponAmmoType()] -= 1;
+				break;
+			case 2:
+				sInputControl->setClickJustPressedF();
+				_ammo[_inventory[0]->getWeaponAmmoType()] -= 3;
+				break;
+			case 3:
+				sInputControl->setClickJustPressedF();
+				_ammo[_inventory[0]->getWeaponAmmoType()] -= 1;
+				break;
 
-		default:
-			break;
+			default:
+				break;
+			}
+		
+		
+			Bullet* bala;
+			bala = new Bullet();
+			_pBullet->push_back(bala);
+			_pBullet->at(_pBullet->size() - 1)->init(true, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 5, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());
 		}
-		
-		
-		Bullet* bala;
-		bala = new Bullet();
-		_pBullet->push_back(bala);
-		_pBullet->at(_pBullet->size() - 1)->init(true, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 5, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());
 	}
 }
 

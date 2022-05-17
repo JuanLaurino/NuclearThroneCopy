@@ -33,6 +33,7 @@ Chest::~Chest()
 
 void Chest::init(int tipo)
 {
+	_ammoType = 0;
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/object/chests.png");
 	_type = tipo;
 	switch (_type)
@@ -89,7 +90,14 @@ void Chest::update()
 				Weapon* arma = new Weapon();
 				_weapons->push_back(arma);
 				arma->setXY(_Rect.x, _Rect.y);
-				arma->init(rand() % 2 + 1);
+				int randomWeapon = rand() % 2 + 1;
+				arma->init(randomWeapon);
+				if (randomWeapon != 3) {
+					_ammoType = 0;
+				}
+				else {
+					_ammoType = 1;
+				}
 			}
 		}
 		break;
