@@ -24,6 +24,14 @@ Highscore::~Highscore()
 {
 }
 
+void Highscore::init()
+{
+	_score = 0;
+	for (int i = 0; i <= 11; i++) {
+		_ranking[i] = 0;
+	}
+}
+
 void Highscore::readScore()
 {
 	_ranking[10] = _score;
@@ -32,8 +40,11 @@ void Highscore::readScore()
 	if (!_handler.is_open()) { // Si no existe el fichero creo uno
 		std::cout << "No hay fichero de puntuaciones maximas, se creara uno." << std::endl;
 		_handler.open("highscore.bin", std::ios::out | std::ios::binary);
-		int numInt = _ranking[10];
-		_handler.write((char*)&numInt, 4);
+		int numInt = 0;
+		for (size_t i = 0; i < 10; i++)
+		{
+			_handler.write((char*)&numInt, 4);
+		}
 	}
 	else {
 		_handler.seekg(0, _handler.end);
@@ -76,10 +87,12 @@ void Highscore::saveScore()
 
 void Highscore::renderScore()
 {
+	std::cout << "Current Score: " << _score << std::endl;
 	std::cout << "TOP: " << std::endl;
 	
 	for (size_t i = 0; i < 10; i++)
 	{
-		std::cout << i + 1 << " - " << _ranking[i] << std::endl;
+		std::cout << i + 1 << " - " << _ranking[i] << "\n";
 	}
+	std::cout << std::endl;
 }

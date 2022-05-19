@@ -58,24 +58,81 @@ void Fish::init()
 	_canMove = true;
 	_MaxHP = 8;
 	_HP = 8;
+	_ammo[0] = 180;
 
 	_lastDirY = 0;
 	_lastDirX = 0;
 	_rotation = 0;
+	_actionCD = 0;
 }
 
 void Fish::update()
 {
+	_actionCD -= global_elapsed_time;
+	if (_actionCD < 0) _actionCD = 0;
+	if (sInputControl->getKeyPressed(I_MOUSEW) && _actionCD <= 0 && _inventory[1] != NULL) {
+		swapWeapon();
+		_actionCD = 300;
+	}
+
 	checkForItem();
 	receiveDamage();
 	bool moving = false;
 
 	_currentShootCD -= global_elapsed_time;
-	if (_fishState != ST_FALLEN && _fishState != ST_ROLL) {
-		if (sInputControl->getKeyPressed(I_CLICK) && _currentShootCD <= 0) {
-			_currentShootCD = _inventory[0]->getWeaponCD();
-			shoot();
+	if (_shootBlocked == 0) {
+		if (_fishState != ST_FALLEN && _fishState != ST_ROLL) {
+			if (sInputControl->getKeyPressed(I_CLICK) && _currentShootCD <= 0) {
+				_currentShootCD = _inventory[0]->getWeaponCD();
+			
+				if (_ammo[_inventory[0]->getWeaponAmmoType()] > 0) {
+					if (sInputControl->isClickJustPressed()) {
+						switch (_inventory[0]->getType())
+						{
+						case 0:
+							sInputControl->setClickJustPressedF();
+							_ammo[_inventory[0]->getWeaponAmmoType()] -= 1;
+							shoot();
+							break;
+						case 1:
+							_ammo[_inventory[0]->getWeaponAmmoType()] -= 1;
+							shoot();
+							break;
+						case 2:
+							sInputControl->setClickJustPressedF();
+							_ammo[_inventory[0]->getWeaponAmmoType()] -= 3;
+							_shootBlocked = 200;
+							_amountShoot = 3;
+							break;
+						case 3:
+							sInputControl->setClickJustPressedF();
+							_ammo[_inventory[0]->getWeaponAmmoType()] -= 1;
+							shoot();
+							break;
+
+						default:
+							break;
+						}
+					}
+				}
+			}
 		}
+	}
+	else {
+		if (_shootBlocked == 200) {
+			shoot();
+			_amountShoot--;
+		}
+		_shootBlocked -= global_elapsed_time;
+		if (_shootBlocked <= 0) {
+			_shootBlocked = 0;
+			shoot();
+			_amountShoot--;
+			if (_amountShoot > 0) {
+				_shootBlocked = 199;
+			}
+		}
+		_currentShootCD = _inventory[0]->getWeaponCD();
 	}
 
 	if (_canMove) {

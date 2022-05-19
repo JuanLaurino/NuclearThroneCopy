@@ -1,5 +1,5 @@
 #include "Maggot.h"
-
+#include "Highscore.h"
 #include "ResourceManager.h"
 #include "Video.h"
 #include "Camera.h"
@@ -8,6 +8,7 @@ extern Video*			sVideo;
 extern ResourceManager* sResourceManager;
 extern Uint32           global_elapsed_time;
 extern Camera*			sCamera;
+extern Highscore*		sHighscore;
 
 Maggot::Maggot()
 {
@@ -119,6 +120,7 @@ void Maggot::receiveDamage(int damage)
 		if (_HP <= 0) {
 			_state = ST_FALLEN;
 			// Spawn rads
+			sHighscore->addScore(1);
 		}
 		else {
 			_state = ST_ONHIT;

@@ -33,6 +33,10 @@ SceneGame::SceneGame()
     _enemies.resize(0);
     _bullets.resize(0);
     _weapons.resize(0);
+    _cactus.resize(0);
+
+    _changeLevel = false;
+    _changeLevelTimer = 600;
 }
 
 SceneGame::~SceneGame()
@@ -41,7 +45,11 @@ SceneGame::~SceneGame()
 
 void SceneGame::init()
 {
+    Highscore::getInstance()->init();
     mReinit = false;
+
+    _changeLevel = false;
+    _changeLevelTimer = 600;
     _nivel.init("Assets/levelBasico.tmx", sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/tileset_level.png"));
     
     _personaje.init();
@@ -50,8 +58,6 @@ void SceneGame::init()
     _personaje.setWeaponPointer(&_weapons);
     _personaje.setChestPointer(&_chest);
     _personaje.setEnemiesPointer(&_enemies);
-    _personaje.addAmmo(0);
-    _personaje.addAmmo(0);
 
     // Arma inicial
     Weapon* arma = new Weapon();
@@ -106,7 +112,7 @@ void SceneGame::init()
     _personaje.spawnInMap();
 
     Maggot* maggot;
-    size = rand() % 10;
+    size = rand() % 7 + 4;
     for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         maggot = new Maggot();
@@ -117,21 +123,96 @@ void SceneGame::init()
     }
 
     MaggotNest* maggotNest;
-    size = rand() % 3;
+    size = rand() % 2 + 1;
     for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         maggotNest = new MaggotNest();
         maggotNest->init();
         maggotNest->setWorldPointer(&_nivel);
+        maggotNest->setEnemiesPointer(&_enemies);
         maggotNest->spawnInMap();
         _enemies.push_back(maggotNest);
     }
-
 }
 
 void SceneGame::reinit()
 {
     mReinit = false;
+    _changeLevel = false;
+    _changeLevelTimer = 600;
+
+    if (_personaje.getInventoryWeapon1() != NULL) { // Dejando solo las dos armas que tiene el jugador
+        _weapons.resize(2);
+        _weapons.at(0) = _personaje.getInventoryWeapon0();
+        _weapons.at(1) = _personaje.getInventoryWeapon1();
+    }
+    else {
+        _weapons.resize(1);
+        _weapons.at(0) = _personaje.getInventoryWeapon0();
+    }
+
+    _cactus.resize(rand() % 7);
+    size_t size = _cactus.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        _cactus[i].init(rand() % 3);
+        _cactus[i].setWorldPointer(&_nivel);
+        _cactus[i].spawnInMap();
+    }
+
+    Chest* cofre;
+    for (size_t i = 0; i < 2; i++) // Cofre de munición y arma asegurado en cada mapa
+    {
+        cofre = new Chest();
+        _chest.push_back(*cofre);
+        _chest[i].init(i);
+        _chest[i].setWorldPointer(&_nivel);
+        _chest[i].setWeaponPointer(&_weapons);
+        _chest[i].spawnInMap();
+    }
+
+    if (rand() % 10 + 1 - 8 > 0) { // 20% probabilidad de que salga cofre de vida
+        cofre = new Chest();
+        _chest.push_back(*cofre);
+        _chest[_chest.size() - 1].init(2);
+        _chest[_chest.size() - 1].setWorldPointer(&_nivel);
+        _chest[_chest.size() - 1].setWeaponPointer(&_weapons);
+        _chest[_chest.size() - 1].spawnInMap();
+    }
+
+    if (rand() % 10 + 1 - 9 > 0) { // 10% probabilidad de que salga cofre de regalo
+        cofre = new Chest();
+        _chest.push_back(*cofre);
+        _chest[_chest.size() - 1].init(3);
+        _chest[_chest.size() - 1].setWorldPointer(&_nivel);
+        _chest[_chest.size() - 1].setWeaponPointer(&_weapons);
+        _chest[_chest.size() - 1].spawnInMap();
+    }
+
+    _personaje.spawnInMap();
+
+    Maggot* maggot;
+    size = rand() % 7 + 4;
+    for (size_t i = 0; i < size; i++) // Spawn enemigos
+    {
+        maggot = new Maggot();
+        maggot->init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png"));
+        maggot->setWorldPointer(&_nivel);
+        maggot->spawnInMap();
+        _enemies.push_back(maggot);
+    }
+
+    MaggotNest* maggotNest;
+    size = rand() % 2 + 1;
+    for (size_t i = 0; i < size; i++) // Spawn enemigos
+    {
+        maggotNest = new MaggotNest();
+        maggotNest->init();
+        maggotNest->setWorldPointer(&_nivel);
+        maggotNest->setEnemiesPointer(&_enemies);
+        maggotNest->spawnInMap();
+        _enemies.push_back(maggotNest);
+    }
 }
 
 void SceneGame::update()
@@ -160,6 +241,7 @@ void SceneGame::update()
             }
         }
     }
+    size_t deadEnemies = 0;
     size = _enemies.size();
     for (size_t i = 0; i < size; i++)
     {
@@ -173,7 +255,13 @@ void SceneGame::update()
                 }
             }
         }
+        else {
+            deadEnemies++;
+        }
     } 
+    if (size == deadEnemies) {
+        _changeLevel = true;
+    }
 
     for (size_t i = 0; i < _bullets.size(); i++)
     {
@@ -185,17 +273,53 @@ void SceneGame::update()
             continue;
         }
         _bullets[i]->update();
+        if (_nivel.getIDfromLayer(0, _bullets[i]->getX(), _bullets[i]->getY())) {
+            _bullets.erase(_bullets.begin() + i);
+            continue;
+        }
+        if (_nivel.getIDfromLayer(0, _bullets[i]->getX() + _bullets[i]->getW(), _bullets[i]->getY())) {
+            _bullets.erase(_bullets.begin() + i);
+            continue;
+        }
+        if (_nivel.getIDfromLayer(0, _bullets[i]->getX(), _bullets[i]->getY() + _bullets[i]->getH())) {
+            _bullets.erase(_bullets.begin() + i);
+            continue;
+        }
+        if (_nivel.getIDfromLayer(0, _bullets[i]->getX() + _bullets[i]->getW(), _bullets[i]->getY() + _bullets[i]->getH())) {
+            _bullets.erase(_bullets.begin() + i);
+            continue;
+        }
+
        
     }
-    std::cout << _bullets.size() << std::endl;
     _personaje.update();
     sCamera->update();
     _hud.update();
     sMouse->update();
 
+
+    /*
     if ((sInputControl->getKeyPressed(I_A))) { // 4Debug
         //sDirector->changeScene(GAME_OVER, 1);
-        //sHighscore->addScore(1);
+        _personaje.addAmmo(0);
+        std::cout << _personaje.getAmmo(0) << std::endl;
+    }
+    std::cout << "Ammo: " << _personaje.getAmmo(0) << std::endl;
+    std::cout << _bullets.size() << std::endl;*/
+    if (_personaje.getHP() <= 0) _changeLevel = true;
+    if (_changeLevel && _personaje.getHP() > 0) {
+        _changeLevelTimer -= global_elapsed_time;
+        if (_changeLevelTimer <= 0) {
+            sDirector->changeScene(GAME, 1);
+            deletePointers();
+        }
+    }
+    else if (_changeLevel && _personaje.getHP() <= 0) {
+        _changeLevelTimer -= global_elapsed_time;
+        if (_changeLevelTimer <= 0) {
+            deletePointers();
+            sDirector->changeScene(STATS, 1);
+        }
     }
 }
 
@@ -243,4 +367,24 @@ void SceneGame::render()
 
     //Update Screen
     sVideo->updateScreen();
+}
+
+void SceneGame::deletePointers()
+{
+    _cactus.resize(0);
+    _chest.resize(0);
+
+    size_t size = _enemies.size();
+    for (size_t i = 0; i < size; i++) // Spawn enemigos
+    {
+        delete _enemies[i];
+    }
+    _enemies.resize(0);
+
+    for (size_t i = 0; i < _weapons.size(); i++)
+    {
+        if (!(_weapons[i] == _personaje.getInventoryWeapon0() || _weapons[i] == _personaje.getInventoryWeapon1())) {
+            _weapons.erase(_weapons.begin() + i);
+        }
+    }
 }

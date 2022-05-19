@@ -54,7 +54,7 @@ void HUD::render()
 	}
 
 	// Nivel
-	Video::getInstance()->renderGraphic(_idNum, 20, 28, 12, 14, 0, _playerLevel * 16 + (_playerLevel * 2)); // EL 0 SE VE MAL?
+	Video::getInstance()->renderGraphic(_idNum, 20, 28, 12, 14, 0, _playerLevel * 16); // EL 0 SE VE MAL?
 
 	// Base barra de vida
 	Video::getInstance()->renderGraphic(_spriteID, 36 + 2 + 8, 8, 120, 28, 0, 0);
@@ -68,38 +68,44 @@ void HUD::render()
 	Video::getInstance()->renderGraphic(_idNum, 115, 14, 12, 14, 0, 14 * _player->getMaxHP() + _player->getMaxHP() * 2);
 
 	// Base Bullets
-	if (_player->getInventoryWeapon0()->getType() == 3) {
-		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 6, 0);
+	if (_player->getHP() > 0) {
+		if (_player->getInventoryWeapon0()->getType() == 3) {
+			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 6, 0);
+		}
+		else {
+			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 7, 0);
+		}
 	}
 	else {
 		Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 7, 0);
 	}
-
+	
 	// Bullets
 	if (_player->getAmmo(0) > 0){
 		if (_player->getAmmo(0) <= 42)
 		{
 			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 5, 0);
 		}
-		else if (_player->getAmmo(0) > 42)
+		else if (_player->getAmmo(0) > 200)
 		{
-			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 4, 0);
+			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 0, 0);
 		}
-		else if (_player->getAmmo(0) > 84)
+		else if (_player->getAmmo(0) > 168)
 		{
-			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 3, 0);
+			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22, 0);
 		}
 		else if (_player->getAmmo(0) > 126)
 		{
 			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 2, 0);
 		}
-		else if (_player->getAmmo(0) > 168)
+		else if (_player->getAmmo(0) > 84)
 		{
-			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 1, 0);
+			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 3, 0);
 		}
-		else if (_player->getAmmo(0) > 200)
+		else if (_player->getAmmo(0) > 42)
 		{
-			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 0, 0);
+			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 4, 0);
 		}
+
 	}
 }

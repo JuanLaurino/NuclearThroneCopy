@@ -25,7 +25,10 @@ protected:
 	int _contadorRDaño;
 	int _contadorAnim;
 	int _frame;
+	int _shootBlocked;
+	int _amountShoot;
 
+	int _actionCD;
 	int _shootCD;
 	int _currentShootCD;
 	int _ammo[5];
@@ -42,6 +45,7 @@ public:
 	void checkForItem();
 	void receiveDamage();
 	void shoot();
+	void swapWeapon();
 
 	int getHP() { return _HP; };
 	int getMaxHP() { return _MaxHP; };

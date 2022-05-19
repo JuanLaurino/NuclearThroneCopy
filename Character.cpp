@@ -86,8 +86,9 @@ void Character::checkForItem()
 		if (_weapons->at(i)->getState() == 0)
 		{
 			if (isOverlaping(_weapons->at(i)->getCollision())) {
-				if (sInputControl->getKeyPressed(I_E)) {
+				if (sInputControl->getKeyPressed(I_E) && _actionCD <= 0) {
 					pickUpWeapon(_weapons->at(i));
+					_actionCD = 300;
 					break;
 				}
 			}
@@ -113,37 +114,19 @@ void Character::receiveDamage()
 
 void Character::shoot()
 {
-	if (_ammo[_inventory[0]->getWeaponAmmoType()] > 0){
-		if (sInputControl->isClickJustPressed()) {
-			switch (_inventory[0]->getType())
-			{
-			case 0:
-				sInputControl->setClickJustPressedF();
-				_ammo[_inventory[0]->getWeaponAmmoType()] -= 1;
-				break;
-			case 1:
-				_ammo[_inventory[0]->getWeaponAmmoType()] -= 1;
-				break;
-			case 2:
-				sInputControl->setClickJustPressedF();
-				_ammo[_inventory[0]->getWeaponAmmoType()] -= 3;
-				break;
-			case 3:
-				sInputControl->setClickJustPressedF();
-				_ammo[_inventory[0]->getWeaponAmmoType()] -= 1;
-				break;
+	Bullet* bala;
+	bala = new Bullet();
+	_pBullet->push_back(bala);
+	_pBullet->at(_pBullet->size() - 1)->init(true, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 5, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());
+}
 
-			default:
-				break;
-			}
-		
-		
-			Bullet* bala;
-			bala = new Bullet();
-			_pBullet->push_back(bala);
-			_pBullet->at(_pBullet->size() - 1)->init(true, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 5, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());
-		}
-	}
+void Character::swapWeapon()
+{
+	Weapon* arma = _inventory[0];
+	_inventory[0] = _inventory[1];
+	_inventory[1] = arma;
+	_inventory[1]->setState(1);
+	_inventory[0]->setState(2);
 }
 
 void Character::dropWeapon() // Tira el arma que tiene equipada y se equipa la que tenía en el inventario. No puede tener 0 armas.

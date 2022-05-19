@@ -21,6 +21,7 @@ Cactus::~Cactus()
 
 void Cactus::init(int type)
 {
+	_state = ST_IDLE;
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/cactus.png");
 	_type = type;
 	_rectFrame.w = 21;

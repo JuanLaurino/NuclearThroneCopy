@@ -4,7 +4,6 @@
 
 class SceneStats : public Scene
 {
-	Highscore _highscore;
 public:
 	SceneStats();
 	~SceneStats();

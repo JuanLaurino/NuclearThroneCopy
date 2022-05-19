@@ -14,6 +14,9 @@
 
 class SceneGame : public Scene
 {
+	bool _changeLevel;
+	int _changeLevelTimer;
+
 	Level _nivel;
 	Fish _personaje;
 	HUD _hud;
@@ -31,5 +34,7 @@ public:
 	void reinit();
 	void update();
 	void render();
+
+	void deletePointers();
 };
 

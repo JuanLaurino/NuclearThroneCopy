@@ -109,6 +109,7 @@ void MaggotNest::render()
 
 void MaggotNest::receiveDamage(int damage)
 {
+	bool canSpawn;
 	if (_state != ST_ONHIT && _state != ST_FALLEN) {
 		_HP = _HP - damage;
 
@@ -120,10 +121,41 @@ void MaggotNest::receiveDamage(int damage)
 			for (size_t i = 0; i <= size; i++)
 			{
 				maggot = new Maggot();
-				_enemies->push_back(maggot);
 				maggot->init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png"));
 				maggot->setWorldPointer(_pLevel);
-				maggot->setXY(_Rect.x + rand() % 20 - 10, _Rect.y + rand()% 20 - 10);
+				
+				do
+				{
+					canSpawn = true;
+					maggot->setXY((_Rect.x + _Rect.w / 2 - 9 )+ rand() % 20, (_Rect.y + _Rect.h / 2  - 9 )+ rand() % 20);
+
+					// Esquinas de la imagen
+					if (_pLevel->getIDfromLayer(0, maggot->getX() , maggot->getY())) {
+						canSpawn = false;
+						continue;
+					}
+					if (_pLevel->getIDfromLayer(0, maggot->getX() + maggot->getW() , maggot->getY())) {
+						canSpawn = false;
+						continue;
+					}
+					if (_pLevel->getIDfromLayer(0, maggot->getX(), maggot->getY() + maggot->getH())) {
+						canSpawn = false;
+						continue;
+					}
+					if (_pLevel->getIDfromLayer(0, maggot->getX() + maggot->getW(), maggot->getY() + maggot->getH())) {
+						canSpawn = false;
+						continue;
+					}
+
+					// Centro de la imagen
+					if (_pLevel->getIDfromLayer(0, maggot->getX() + maggot->getW() / 2, maggot->getY() + maggot->getH() / 2)) {
+						canSpawn = false;
+						continue;
+					}
+
+
+				} while (!canSpawn);
+				_enemies->push_back(maggot);
 			}
 		}
 		else {

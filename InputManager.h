@@ -1,12 +1,12 @@
 #pragma once
 #include "SDL.h"
 #include "Main.h"
-
+#define totalTeclas 9
 class InputManager
 {
 	static InputManager* pInstance;
 	SDL_Event teclas;
-	bool _tecla[8];
+	bool _tecla[totalTeclas];
 	bool _firstTimePressed;
 public:
 	InputManager();

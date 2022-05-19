@@ -9,7 +9,9 @@
 #include "Main.h"
 #include "SceneMain.h"
 #include "SceneDirector.h"
+#include "Highscore.h"
 
+extern Highscore*		sHighscore;
 extern Mouse*           sMouse;
 extern SceneDirector*   sDirector;
 extern InputManager*    sInputControl;
@@ -31,13 +33,17 @@ SceneStats::~SceneStats()
 
 void SceneStats::init()
 {
-	_highscore.readScore();	
-	_highscore.saveScore();
+	Highscore::getInstance()->resetScore();
+	Highscore::getInstance()->readScore();
+	Highscore::getInstance()->saveScore();
 }
 
 void SceneStats::reinit()
 {
 	mReinit = false;
+
+	sHighscore->readScore();
+	sHighscore->saveScore();
 }
 
 void SceneStats::update()
@@ -47,5 +53,5 @@ void SceneStats::update()
 
 void SceneStats::render()
 {
-	_highscore.renderScore();
+	sHighscore->renderScore();
 }

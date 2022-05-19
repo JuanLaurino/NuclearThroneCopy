@@ -14,4 +14,4 @@
 #define Key_E 101
 
 // Teclas
-enum teclas { I_A, I_S, I_D, I_W, I_SPACE, I_E, I_CLICK, I_SCLICK };
+enum teclas { I_A, I_S, I_D, I_W, I_SPACE, I_E, I_CLICK, I_SCLICK, I_MOUSEW };

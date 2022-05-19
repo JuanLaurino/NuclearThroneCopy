@@ -13,6 +13,7 @@ public:
 	Highscore();
 	~Highscore();
 
+	void init();
 	void readScore();
 	void renderScore();
 

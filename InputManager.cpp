@@ -7,7 +7,7 @@ extern bool gameOn;
 
 InputManager::InputManager()
 {
-	for (size_t i = 0; i < 8; i++)
+	for (size_t i = 0; i < totalTeclas; i++)
 	{
 		_tecla[i] = false;
 	}
@@ -22,6 +22,9 @@ void InputManager::update()
 	while (SDL_PollEvent(&teclas)) {
 
 		switch (teclas.type) {
+		case SDL_MOUSEWHEEL:
+			_tecla[I_MOUSEW] = true;
+			break;
 		case SDL_KEYDOWN:
 			if (teclas.key.keysym.sym == Key_A) {
 				_tecla[I_A] = true;
@@ -99,7 +102,7 @@ void InputManager::getMousePos(int* x, int* y)
 
 bool InputManager::anyKeyPressed()
 {
-	for (size_t i = 0; i < 8; i++)
+	for (size_t i = 0; i < totalTeclas; i++)
 	{
 		if (_tecla[i] == true) {
 			return true;
@@ -110,7 +113,11 @@ bool InputManager::anyKeyPressed()
 
 bool InputManager::getKeyPressed(int tecla)
 {
-	if (tecla < 8 && tecla >= 0){
+	if (tecla == I_MOUSEW && _tecla[I_MOUSEW]) {
+		_tecla[I_MOUSEW] = false;
+		return true;
+	}
+	if (tecla < totalTeclas && tecla >= 0){
 		return _tecla[tecla];
 	}
 	return false;

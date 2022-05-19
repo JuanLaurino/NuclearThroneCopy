@@ -21,6 +21,7 @@ public:
 	void update();
 	void render();
 
+	int getState() { return _state; };
 	void receiveDamage(int damage);
 	void setEnemiesPointer(std::vector<GFXElementX*>* enemies) { _enemies = enemies; };
 };
