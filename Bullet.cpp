@@ -28,7 +28,7 @@ void Bullet::init(bool isFromPlayer, glm::vec2 initialPos, glm::vec2 finalPos, f
 	_damage = damage;
 	_isFromPlayer = isFromPlayer;
 	_speed = speed;
-	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/bullet.png");
+	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/bullet.png");
 	_Rect.x = (int)initialPos.x + _direction.x * 30;
 	_Rect.y = (int)initialPos.y + _direction.y * 30;
 	_Rect.w = 16;
