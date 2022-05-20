@@ -22,7 +22,7 @@ Cactus::~Cactus()
 void Cactus::init(int type)
 {
 	_state = ST_IDLE;
-	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/cactus.png");
+	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/LevelSprites/cactus.png");
 	_type = type;
 	_rectFrame.w = 21;
 	_rectFrame.h = 23;
@@ -52,5 +52,5 @@ void Cactus::render()
 		break;
 	}
 
-	sVideo->renderGraphic(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 3, _rectFrame.h - 2, _frame * _rectFrame.w + _frame * 2, _type * _rectFrame.h + _type + 1, _Rect.w, _Rect.h);
+	sVideo->renderGraphic(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 3, _rectFrame.h - 2, _frame * _rectFrame.w + _frame + 1, _type * _rectFrame.h + _type + 1, _Rect.w, _Rect.h);
 }

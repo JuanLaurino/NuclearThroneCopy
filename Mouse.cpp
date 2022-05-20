@@ -2,8 +2,13 @@
 #include "InputManager.h"
 #include "Video.h"
 #include <iostream>
+#include "ResourceManager.h"
+#include "Video.h"
 
 Mouse* Mouse::pInstance = nullptr;
+
+extern Video* sVideo;
+extern ResourceManager* sResourceManager;
 
 Mouse::Mouse()
 {
@@ -18,9 +23,9 @@ Mouse::~Mouse()
 {
 }
 
-void Mouse::init(int sprite)
+void Mouse::init()
 {
-	_spriteID = sprite;
+	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/UI/HUD/cursor.png");
 	_Rect.h = 1;
 	_Rect.w = 1;
 }

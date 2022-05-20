@@ -25,9 +25,9 @@ HUD::~HUD()
 
 void HUD::init()
 {
-	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/HUD.png");
-	_idNum = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/numbers.png");
-	_idAmmo = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/ammo.png");
+	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/UI/HUD/HUD.png");
+	_idNum = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/UI/HUD/numbers.png");
+	_idAmmo = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/UI/HUD/ammo.png");
 }
 
 void HUD::update()

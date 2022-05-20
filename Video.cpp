@@ -9,11 +9,6 @@ Video* Video::pInstance = nullptr;
 extern Camera* sCamera;
 
 Video::Video() {
-	_windowRect.x = 0;
-	_windowRect.y = 0;
-	_windowRect.w = WIN_WIDTH;
-	_windowRect.h = WIN_HEIGHT;
-
 	gWindow = NULL;
 	gRenderer = NULL;
 	SDL_Init(SDL_INIT_VIDEO);
@@ -22,9 +17,9 @@ Video::Video() {
 	
 	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	SDL_RenderSetIntegerScale(gRenderer, SDL_TRUE);
-	// SDL_HINT_RENDER_VSYNC | SDL_HINT_RENDER_SCALE_QUALITY
+	SDL_RenderSetLogicalSize(gRenderer, WIN_WIDTH, WIN_HEIGHT); 
+
 	SDL_ShowCursor(false); //Para meter mi propio cursor
-	SDL_RenderSetViewport(gRenderer, &_windowRect); // Para hacer resize de la screen y que se estire
 	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE); //Color por defecto negro
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 	SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1");

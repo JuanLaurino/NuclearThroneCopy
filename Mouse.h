@@ -7,7 +7,7 @@ public:
 	Mouse();
 	~Mouse();
 
-	void init(int sprite);
+	void init();
 	void update();
 	void render();
 

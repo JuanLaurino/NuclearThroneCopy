@@ -27,10 +27,10 @@ void Background::init()
 	for (size_t i = 0; i < 97; i++)
 	{
 		if (i < 10) {
-			_bSpriteID[i] = ResourceManager::getInstance()->loadAndGetGraphicID(Video::getInstance()->getRenderer(), ("Assets/background/background_00" + std::to_string(i) + ".jpg").c_str()); // Convierto de string a const char*
+			_bSpriteID[i] = ResourceManager::getInstance()->loadAndGetGraphicID(Video::getInstance()->getRenderer(), ("Assets/UI/BackgroundMenu/background_00" + std::to_string(i) + ".jpg").c_str()); // Convierto de string a const char*
 		}
 		else {
-			_bSpriteID[i] = ResourceManager::getInstance()->loadAndGetGraphicID(Video::getInstance()->getRenderer(), ("Assets/background/background_0" + std::to_string(i) + ".jpg").c_str());
+			_bSpriteID[i] = ResourceManager::getInstance()->loadAndGetGraphicID(Video::getInstance()->getRenderer(), ("Assets/UI/BackgroundMenu/background_0" + std::to_string(i) + ".jpg").c_str());
 		}
 	}
 	_spriteID = _bSpriteID[0];

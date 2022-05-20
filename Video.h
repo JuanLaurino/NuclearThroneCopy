@@ -5,7 +5,6 @@
 
 class Video
 {
-	SDL_Rect _windowRect;
 	static Video* pInstance;
 	Video();
 

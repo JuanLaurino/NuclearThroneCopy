@@ -46,11 +46,13 @@ SceneGame::~SceneGame()
 void SceneGame::init()
 {
     Highscore::getInstance()->init();
+    deletePointers();
+
     mReinit = false;
 
     _changeLevel = false;
     _changeLevelTimer = 600;
-    _nivel.init("Assets/levelBasico.tmx", sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/tileset_level.png"));
+    _nivel.init("Assets/Levels/level01.tmx", sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/LevelSprites/tileset_level.png"));
     
     _personaje.init();
     _personaje.setWorldPointer(&_nivel);
@@ -217,6 +219,10 @@ void SceneGame::reinit()
 
 void SceneGame::update()
 {
+    if ((sInputControl->getKeyPressed(I_SCLICK))) { // ?
+        sVideo->setFullScreen(true);
+    }
+
     //Clear Screen
     sVideo->clearScreen();
 
@@ -384,6 +390,7 @@ void SceneGame::deletePointers()
     for (size_t i = 0; i < _weapons.size(); i++)
     {
         if (!(_weapons[i] == _personaje.getInventoryWeapon0() || _weapons[i] == _personaje.getInventoryWeapon1())) {
+            delete _weapons[i];
             _weapons.erase(_weapons.begin() + i);
         }
     }

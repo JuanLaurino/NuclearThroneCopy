@@ -49,7 +49,7 @@ void SceneMain::init()
     _aMMainMenuB = -1;
 
     // ElementosGFX
-    sMouse->init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/cursor.png"));
+    sMouse->init();
     _bg.init();
     _logo.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/AMenu.png"));
     _tlogo.init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/menu/AThrone.png"));
@@ -87,7 +87,7 @@ void SceneMain::reinit()
 void SceneMain::update() {
     // QUITAR
     if ((sInputControl->getKeyPressed(I_D))) { 
-        sDirector->changeScene(GAME, 1);
+        sDirector->changeScene(GAME, 0);
     }
     // QUITAR
     // 

@@ -3,5 +3,9 @@
 class Bandit : public GFXElementX
 {
 
+public:
+	void init();
+	void update();
+	void render();
 };
 
