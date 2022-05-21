@@ -18,11 +18,21 @@ Maggot::~Maggot()
 {
 }
 
-void Maggot::init(int sprite)
+void Maggot::init(int type)
 {
-	_state = ST_IDLE;
+	if (type == 0) {
+		_damage = 1;
+		_rads = 1;
+		_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png");
+	}
+	else {
+		_damage = 2;
+		_rads = 3;
+		_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/radMaggot.png");
+	}
+
 	_HP = 2;
-	_spriteID = sprite;
+	_state = ST_IDLE;
 	_rectFrame.w = 16;
 	_rectFrame.h = 16;
 	_Rect.w = _rectFrame.w * 1.5;
@@ -120,7 +130,7 @@ void Maggot::receiveDamage(int damage)
 		if (_HP <= 0) {
 			_state = ST_FALLEN;
 			// Spawn rads
-			sHighscore->addScore(1);
+			sHighscore->addScore(_rads);
 		}
 		else {
 			_state = ST_ONHIT;

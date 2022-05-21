@@ -338,7 +338,7 @@ void Fish::render()
 	if (_flip) { // Rotación dependiendo de donde apunta el mouse
 		
 		if (_Rect.y + (_Rect.h / 2) - sCamera->getY() >= (sMouse->getY() + sMouse->getH() / 2)) {
-			_inventory[0]->renderInventory(weaponX, weaponY - 5, angulo, 2);
+			_inventory[0]->renderInHand(weaponX, weaponY - 5, angulo, 2);
 			// Render personaje
 			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 1);
 			// ----
@@ -347,14 +347,14 @@ void Fish::render()
 			// Render personaje
 			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 1);
 			// Render arma equipada
-			_inventory[0]->renderInventory(weaponX, weaponY - 5, angulo, 2);
+			_inventory[0]->renderInHand(weaponX, weaponY - 5, angulo, 2);
 		}	
 	}
 	else {
 		// Pintado arma
 		if (_Rect.y + (_Rect.h / 2) - sCamera->getY() >= (sMouse->getY() + sMouse->getH() / 2)) {
 			// Render arma equipada
-			_inventory[0]->renderInventory(weaponX, weaponY, angulo, 0);
+			_inventory[0]->renderInHand(weaponX, weaponY, angulo, 0);
 			// Render personaje
 			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 0);
 		}
@@ -362,7 +362,7 @@ void Fish::render()
 			// Render personaje
 			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 0);
 			// Render arma equipada
-			_inventory[0]->renderInventory(weaponX, weaponY, angulo, 0);
+			_inventory[0]->renderInHand(weaponX, weaponY, angulo, 0);
 		}
 	
 	}

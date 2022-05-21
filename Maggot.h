@@ -13,7 +13,7 @@ public:
 	Maggot();
 	~Maggot();
 
-	void init(int sprite);
+	void init(int type);
 	void update();
 	void render();
 

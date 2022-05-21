@@ -118,7 +118,7 @@ void SceneGame::init()
     for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         maggot = new Maggot();
-        maggot->init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png"));
+        maggot->init(0);
         maggot->setWorldPointer(&_nivel);
         maggot->spawnInMap();
         _enemies.push_back(maggot);
@@ -198,7 +198,7 @@ void SceneGame::reinit()
     for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         maggot = new Maggot();
-        maggot->init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png"));
+        maggot->init(0);
         maggot->setWorldPointer(&_nivel);
         maggot->spawnInMap();
         _enemies.push_back(maggot);
@@ -219,9 +219,9 @@ void SceneGame::reinit()
 
 void SceneGame::update()
 {
-    if ((sInputControl->getKeyPressed(I_SCLICK))) { // ?
-        sVideo->setFullScreen(true);
-    }
+    //if ((sInputControl->getKeyPressed(I_SCLICK))) { // ?
+    //    sVideo->setFullScreen(true);
+    //}
 
     //Clear Screen
     sVideo->clearScreen();

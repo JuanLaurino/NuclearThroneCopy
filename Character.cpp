@@ -129,16 +129,6 @@ void Character::swapWeapon()
 	_inventory[0]->setState(2);
 }
 
-void Character::dropWeapon() // Tira el arma que tiene equipada y se equipa la que tenía en el inventario. No puede tener 0 armas.
-{
-	if (_inventory[1] != nullptr) {
-		_inventory[0]->setState(0);
-		_inventory[0]->setXY(_Rect.x, _Rect.y);
-		_inventory[0] = _inventory[1];
-		_inventory[1] = nullptr;
-	}
-}
-
 void Character::pickUpWeapon(Weapon* wp) // ST_ON_GROUND, ST_ON_INVENTORY, ST_EQUIPED
 {
 	if (_inventory[1] == nullptr) {

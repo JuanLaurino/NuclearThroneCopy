@@ -21,7 +21,8 @@ public:
 	void init(int weaponType);
 	void update();
 	void render();
-	void renderInventory(int posX, int posY, double angulo, int rotated);
+	void renderInHand(int posX, int posY, double angulo, int rotated);
+	void renderInInventory();
 
 	int getWeaponDamage() { return _damage; };
 	int getWeaponCD() { return _cd; };

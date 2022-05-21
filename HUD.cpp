@@ -108,4 +108,13 @@ void HUD::render()
 		}
 
 	}
+
+	// Weapons	
+	if (_player->getInventoryWeapon0() != NULL) {
+		_player->getInventoryWeapon0()->renderInInventory();
+	}
+	
+	if (_player->getInventoryWeapon1() != NULL) {
+		_player->getInventoryWeapon1()->renderInInventory();
+	}
 }

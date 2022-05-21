@@ -91,17 +91,27 @@ void Weapon::render()
 	}
 }
 
-void Weapon::renderInventory(int posX, int posY, double angulo, int rotated)
+void Weapon::renderInHand(int posX, int posY, double angulo, int rotated)
+{
+	switch (_state)
+	{
+	case ST_EQUIPED:
+		sVideo->renderGraphicEx(_spriteID, posX, posY - _Rect.h, _Rect.w - 4, _Rect.h - 2, 1 + _state, 1 + _Rect.h * _weaponType + _weaponType, (int) _Rect.w * 1.5f, (int) _Rect.h * 1.5f, angulo + 180, 3, 20, rotated);
+		break;
+	default:
+		break;
+	}
+}
+
+void Weapon::renderInInventory()
 {
 	switch (_state)
 	{
 	case ST_ON_INVENTORY:
-		//sVideo->renderGraphic(_spriteID, 0, 0, _Rect.w, _Rect.h, _Rect.w * 1 + 1, _Rect.h * 2 + 2); //arreglar numeros
+		sVideo->renderGraphic(_spriteID, 120, 35, _Rect.w - 2, _Rect.h - 2, 24, 1 + _Rect.h * _weaponType + _weaponType, (int)_Rect.w * 1.5f, (int)_Rect.h * 1.5f);
 		break;
 	case ST_EQUIPED:
-		//sVideo->renderGraphic(_spriteID, 0, 0, _Rect.w, _Rect.h, _Rect.w * 2 + 2, _Rect.h * 2 + 2);
-
-		sVideo->renderGraphicEx(_spriteID, posX, posY - _Rect.h, _Rect.w - 4, _Rect.h - 2, 1 + _state, 1 + _Rect.h * _weaponType + _weaponType, (int) _Rect.w * 1.5f, (int) _Rect.h * 1.5f, angulo + 180, 3, 20, rotated);
+		sVideo->renderGraphic(_spriteID, 60, 35, _Rect.w - 1, _Rect.h - 2, 47, 1 + _Rect.h * _weaponType + _weaponType, (int)_Rect.w * 1.5f, (int)_Rect.h * 1.5f);
 		break;
 	default:
 		break;

@@ -121,13 +121,13 @@ void MaggotNest::receiveDamage(int damage)
 			for (size_t i = 0; i <= size; i++)
 			{
 				maggot = new Maggot();
-				maggot->init(sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/maggot.png"));
+				maggot->init(0);
 				maggot->setWorldPointer(_pLevel);
 				
 				do
 				{
 					canSpawn = true;
-					maggot->setXY((_Rect.x + _Rect.w / 2 - 9 )+ rand() % 20, (_Rect.y + _Rect.h / 2  - 9 )+ rand() % 20);
+					maggot->setXY((_Rect.x + _Rect.w / 2 - 19 )+ rand() % 40, (_Rect.y + _Rect.h / 2  - 19 )+ rand() % 40);
 
 					// Esquinas de la imagen
 					if (_pLevel->getIDfromLayer(0, maggot->getX() , maggot->getY())) {
