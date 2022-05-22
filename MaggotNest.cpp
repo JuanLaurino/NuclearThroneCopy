@@ -116,7 +116,7 @@ void MaggotNest::receiveDamage(int damage)
 		if (_HP <= 0) {
 			_state = ST_FALLEN;
 			// Spawn maggots
-			size_t size = rand() % 5 + 4;
+			size_t size = rand() % 3 + 3;
 			Maggot* maggot;
 			for (size_t i = 0; i <= size; i++)
 			{

@@ -240,9 +240,13 @@ void SceneGame::update()
         if (_cactus[i].getState() != 0) {
             for (size_t j = 0; j < _bullets.size(); j++) // Bullet.size porque el número puede cambiar
             {
-                if (_cactus[i].isOverlaping(_bullets[j]->getCollision())) {
-                    _cactus[i].receiveDamage();
-                    _bullets.erase(_bullets.begin() + j);
+                // if from player
+                if (_bullets[j]->getCollCounter() == -2) {
+                    if (_cactus[i].isOverlaping(_bullets[j]->getCollision())) {
+                        _cactus[i].receiveDamage();
+                        _bullets[j]->setCollided();
+                        break;
+                    }
                 }
             }
         }
@@ -255,9 +259,12 @@ void SceneGame::update()
         if (_enemies[i]->getState() != 0) {
             for (size_t j = 0; j < _bullets.size(); j++) // Bullet.size porque el número puede cambiar
             {
-                if (_enemies[i]->isOverlaping(_bullets[j]->getCollision())) {
-                    _enemies[i]->receiveDamage(_bullets[j]->getDamage());
-                    _bullets.erase(_bullets.begin() + j);
+                if (_bullets[j]->getCollCounter() == -2) {
+                    if (_enemies[i]->isOverlaping(_bullets[j]->getCollision())) {
+                        _enemies[i]->receiveDamage(_bullets[j]->getDamage());
+                        _bullets[j]->setCollided();
+                        break;
+                    }
                 }
             }
         }
@@ -271,32 +278,38 @@ void SceneGame::update()
 
     for (size_t i = 0; i < _bullets.size(); i++)
     {
-        if (_bullets[i]->getX() < 0 - _bullets[i]->getW() ||
-            _bullets[i]->getX() > _nivel.getMapWidth() ||
-            _bullets[i]->getY() < 0 - _bullets[i]->getW() ||
-            _bullets[i]->getY() > _nivel.getMapHeight()) {
-            _bullets.erase(_bullets.begin() + i);
-            continue;
-        }
-        _bullets[i]->update();
-        if (_nivel.getIDfromLayer(0, _bullets[i]->getX(), _bullets[i]->getY())) {
-            _bullets.erase(_bullets.begin() + i);
-            continue;
-        }
-        if (_nivel.getIDfromLayer(0, _bullets[i]->getX() + _bullets[i]->getW(), _bullets[i]->getY())) {
-            _bullets.erase(_bullets.begin() + i);
-            continue;
-        }
-        if (_nivel.getIDfromLayer(0, _bullets[i]->getX(), _bullets[i]->getY() + _bullets[i]->getH())) {
-            _bullets.erase(_bullets.begin() + i);
-            continue;
-        }
-        if (_nivel.getIDfromLayer(0, _bullets[i]->getX() + _bullets[i]->getW(), _bullets[i]->getY() + _bullets[i]->getH())) {
+        if (_bullets[i]->getCollCounter() >= 640) {
+            delete _bullets[i];
             _bullets.erase(_bullets.begin() + i);
             continue;
         }
 
-       
+        _bullets[i]->update();
+
+        if (_bullets[i]->getX() < 0 - _bullets[i]->getW() ||
+            _bullets[i]->getX() > _nivel.getMapWidth() ||
+            _bullets[i]->getY() < 0 - _bullets[i]->getW() ||
+            _bullets[i]->getY() > _nivel.getMapHeight()) {
+            _bullets[i]->setCollided();
+            continue;
+        }
+
+        if (_nivel.getIDfromLayer(0, _bullets[i]->getX(), _bullets[i]->getY())) {
+            _bullets[i]->setCollided();
+            continue;
+        }
+        if (_nivel.getIDfromLayer(0, _bullets[i]->getX() + _bullets[i]->getW(), _bullets[i]->getY())) {
+            _bullets[i]->setCollided();
+            continue;
+        }
+        if (_nivel.getIDfromLayer(0, _bullets[i]->getX(), _bullets[i]->getY() + _bullets[i]->getH())) {
+            _bullets[i]->setCollided();
+            continue;
+        }
+        if (_nivel.getIDfromLayer(0, _bullets[i]->getX() + _bullets[i]->getW(), _bullets[i]->getY() + _bullets[i]->getH())) {
+            _bullets[i]->setCollided();
+            continue;
+        }
     }
     _personaje.update();
     sCamera->update();
@@ -312,6 +325,7 @@ void SceneGame::update()
     }
     std::cout << "Ammo: " << _personaje.getAmmo(0) << std::endl;
     std::cout << _bullets.size() << std::endl;*/
+
     if (_personaje.getHP() <= 0) _changeLevel = true;
     if (_changeLevel && _personaje.getHP() > 0) {
         _changeLevelTimer -= global_elapsed_time;

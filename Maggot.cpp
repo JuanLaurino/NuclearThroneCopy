@@ -129,11 +129,17 @@ void Maggot::receiveDamage(int damage)
 
 		if (_HP <= 0) {
 			_state = ST_FALLEN;
+			_frame = 0;
+			_contadorAnim = 0;
+			_contador = 0;
 			// Spawn rads
 			sHighscore->addScore(_rads);
 		}
 		else {
 			_state = ST_ONHIT;
+			_frame = 0;
+			_contadorAnim = 0;
+			_contador = 0;
 		}
 	}
 }

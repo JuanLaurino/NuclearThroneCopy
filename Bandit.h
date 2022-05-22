@@ -2,7 +2,7 @@
 #include "GFXElementX.h"
 class Bandit : public GFXElementX
 {
-	enum BANDIT_STATE { ST_FALLEN, ST_IDLE, ST_ONHIT, ST_MOVING }; // FALLEN SIEMPRE 0
+	enum BANDIT_STATE { ST_FALLEN, ST_IDLE, ST_ONHIT, ST_MOVING, ST_ATTACKING }; // FALLEN SIEMPRE 0
 
 	BANDIT_STATE _state;
 
