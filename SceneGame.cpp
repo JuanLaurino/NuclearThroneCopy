@@ -13,6 +13,7 @@
 #include <iostream>
 #include "MaggotNest.h"
 #include "Highscore.h"
+#include "Bandit.h"
 
 extern Mouse*           sMouse;
 extern SceneDirector*   sDirector;
@@ -135,6 +136,19 @@ void SceneGame::init()
         maggotNest->spawnInMap();
         _enemies.push_back(maggotNest);
     }
+
+    Bandit* bandit;
+    size = rand() % 2 + 1;
+    for (size_t i = 0; i < size; i++) // Spawn enemigos
+    {
+        bandit = new Bandit();
+        bandit->init();
+        bandit->setWorldPointer(&_nivel);
+        bandit->setPlayerPointer(&_personaje);
+        bandit->setBulletsPointer(&_bullets);
+        bandit->spawnInMap();
+        _enemies.push_back(bandit);
+    }
 }
 
 void SceneGame::reinit()
@@ -214,6 +228,19 @@ void SceneGame::reinit()
         maggotNest->setEnemiesPointer(&_enemies);
         maggotNest->spawnInMap();
         _enemies.push_back(maggotNest);
+    }
+
+    Bandit* bandit;
+    size = rand() % 2 + 1;
+    for (size_t i = 0; i < size; i++) // Spawn enemigos
+    {
+        bandit = new Bandit();
+        bandit->init();
+        bandit->setWorldPointer(&_nivel);
+        bandit->setPlayerPointer(&_personaje);
+        bandit->setBulletsPointer(&_bullets);
+        bandit->spawnInMap();
+        _enemies.push_back(bandit);
     }
 }
 

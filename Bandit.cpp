@@ -23,11 +23,12 @@ void Bandit::init()
 	_state = ST_IDLE;
 	_HP = 2;
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/bandit.png");
-	_rectFrame.w = 16;
-	_rectFrame.h = 16;
-	_Rect.w = _rectFrame.w * 1.5;
-	_Rect.h = _rectFrame.h * 1.5;
+	_rectFrame.w = 24;
+	_rectFrame.h = 24;
+	_Rect.w = _rectFrame.w * 1.8f;
+	_Rect.h = _rectFrame.h * 1.8f;
 	_leftSpaceInSprite = 1;
+	_spreadAngle = 20;
 }
 
 void Bandit::update()
@@ -51,6 +52,7 @@ void Bandit::update()
 			_state = ST_IDLE;
 			_frame = 0;
 		}
+		
 		break;
 	case Bandit::ST_MOVING:
 		if (!_moving) {
@@ -112,8 +114,17 @@ void Bandit::render()
 	sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _Rect.w, _Rect.h, 0, 0, 0, _dir);
 }
 
+void Bandit::shoot()
+{
+	Bullet* bala;
+	bala = new Bullet();
+	_pBullet->push_back(bala);
+	_pBullet->at(_pBullet->size() - 1)->init(1, glm::vec2{ (float)(_Rect.x) + _Rect.w / 2, (float)(_Rect.y) + _Rect.h / 2 }, glm::vec2{ (float)_pPlayer->getX() + sCamera->getX(), (float)_pPlayer->getY() + sCamera->getY() }, 5, _damage, _spreadAngle);
+}
+
 void Bandit::receiveDamage(int damage)
 {
+	shoot();
 	if (_state != ST_ONHIT && _state != ST_FALLEN) {
 		_HP = _HP - damage;
 
