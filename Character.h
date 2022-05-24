@@ -53,7 +53,6 @@ public:
 	Weapon* getInventoryWeapon0() { return _inventory[0]; };
 	Weapon* getInventoryWeapon1() { return _inventory[1]; };
 
-	void dropWeapon(); // Deprecated Xd 
 	void pickUpWeapon(Weapon* wp);
 	void addHP(short amount);
 	void addAmmo(short type);

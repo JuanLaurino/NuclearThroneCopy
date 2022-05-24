@@ -117,7 +117,7 @@ void Character::shoot()
 	Bullet* bala;
 	bala = new Bullet();
 	_pBullet->push_back(bala);
-	_pBullet->at(_pBullet->size() - 1)->init(true, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 5, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());
+	_pBullet->at(_pBullet->size() - 1)->init(0, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 10, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());
 }
 
 void Character::swapWeapon()
@@ -127,16 +127,6 @@ void Character::swapWeapon()
 	_inventory[1] = arma;
 	_inventory[1]->setState(1);
 	_inventory[0]->setState(2);
-}
-
-void Character::dropWeapon() // Tira el arma que tiene equipada y se equipa la que tenía en el inventario. No puede tener 0 armas.
-{
-	if (_inventory[1] != nullptr) {
-		_inventory[0]->setState(0);
-		_inventory[0]->setXY(_Rect.x, _Rect.y);
-		_inventory[0] = _inventory[1];
-		_inventory[1] = nullptr;
-	}
 }
 
 void Character::pickUpWeapon(Weapon* wp) // ST_ON_GROUND, ST_ON_INVENTORY, ST_EQUIPED

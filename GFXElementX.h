@@ -29,6 +29,8 @@ protected:
 
 	int _movX;
 	int _movY;
+
+	int _rads;
 public:
 	GFXElementX();
 	~GFXElementX();
