@@ -12,6 +12,8 @@ class Bandit : public GFXElementX
 	int _contadorAnim;
 	int _frame;
 	int _spreadAngle;
+	int _viewDistance;
+	int _shootCD;
 
 	Character* _pPlayer;
 public:

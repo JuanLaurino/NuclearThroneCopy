@@ -43,6 +43,7 @@ void Bullet::init(int type, glm::vec2 initialPos, glm::vec2 finalPos, float spee
 	_collided = false;
 
 	_angle = ((float)(atan2(_direction.x, _direction.y) * 180.0f / 3.1415f) -90.0f) * -1.0f; // Vector a grados
+
 	switch (_bulletType)
 	{
 	case Bullet::Player_Bullet:

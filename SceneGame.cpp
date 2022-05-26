@@ -138,7 +138,7 @@ void SceneGame::init()
     }
 
     Bandit* bandit;
-    size = rand() % 2 + 1;
+    size = 1; // rand() % 2 + 1;
     for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         bandit = new Bandit();
