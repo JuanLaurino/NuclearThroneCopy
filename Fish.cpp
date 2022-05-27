@@ -76,7 +76,18 @@ void Fish::update()
 	}
 
 	checkForItem();
-	receiveDamage();
+
+	if (_canReceiveDamage){
+		receiveDamage();
+	}
+	else {
+		_contadorRDaño += global_elapsed_time;
+		if (_contadorRDaño >= 160) {
+			_canReceiveDamage = true;
+			_contadorRDaño = 0;
+		}
+	}
+
 	bool moving = false;
 
 	_currentShootCD -= global_elapsed_time;
@@ -370,28 +381,33 @@ void Fish::render()
 
 void Fish::receiveDamage()
 {
-	if (_canReceiveDamage) {
-		if (_fishState != ST_ONHIT && _fishState != ST_FALLEN && _fishState != ST_ROLL)
+	if (_fishState != ST_ONHIT && _fishState != ST_FALLEN && _fishState != ST_ROLL)
+	{
+		size_t size = _enemies->size();
+		for (size_t i = 0; i < size; i++)
 		{
-			size_t size = _enemies->size();
-			for (size_t i = 0; i < size; i++)
-			{
-				if (_enemies->at(i)->getState() != 0) { // Si el enemigo no está muerto (State 0 es siempre muerto)
-					if (isOverlaping(_enemies->at(i)->getCollision())) {
-						_HP -= _enemies->at(i)->getDamage();
-						_fishState = ST_ONHIT;
-						_canReceiveDamage = false;
-						break;
-					}
+			if (_enemies->at(i)->getState() != 0) { // Si el enemigo no está muerto (State 0 es siempre muerto)
+				if (isOverlaping(_enemies->at(i)->getCollision())) {
+					_HP -= _enemies->at(i)->getDamage();
+					_fishState = ST_ONHIT;
+					_canReceiveDamage = false;
+					break;
 				}
 			}
 		}
 	}
-	else {
-		_contadorRDaño += global_elapsed_time;
-		if (_contadorRDaño >= 160) {
-			_canReceiveDamage = true;
-			_contadorRDaño = false;
+}
+
+void Fish::receiveDamage(int damage)
+{
+	if (_canReceiveDamage) {
+		if (_fishState != ST_ONHIT && _fishState != ST_FALLEN && _fishState != ST_ROLL)
+		{
+			_contadorAnim = 0;
+			_frame = 0;
+			_HP -= damage;
+			_fishState = ST_ONHIT;
+			_canReceiveDamage = false;
 		}
 	}
 }

@@ -20,5 +20,6 @@ public:
 	void render();
 
 	void receiveDamage();
+	void receiveDamage(int damage);
 };
 

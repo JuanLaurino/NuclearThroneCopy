@@ -51,10 +51,11 @@ void Bullet::init(int type, glm::vec2 initialPos, glm::vec2 finalPos, float spee
 
 		break;
 	case Bullet::Bandit_Bullet:
-		_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/bullet.png");
+		_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/banditBullet.png");
+		_rectFrame.y = 32;
 		break;
 	case Bullet::Scorpion_Bullet:
-		_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/goldenScorpion.png");
+		_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/ScorpionBullet.png");
 		break;
 	default:
 		break;
@@ -65,39 +66,26 @@ void Bullet::update()
 {
 	if (_collided) {
 		_collidedCounter += global_elapsed_time;
+		switch ((int)round(_collidedCounter / 160))
+		{
+		case 0:
+			_rectFrame.y = 64;
+			break;
+		case 1:
+			_rectFrame.y = 96;
+			break;
+		case 2:
+			_rectFrame.y = 128;
+			break;
+		default:
+			_rectFrame.y = 160;
+			break;
+		}
 	}
 	else {
 		_Rect.x += (int)round(_speed * _direction.x);
 		_Rect.y += (int)round(_speed * _direction.y);
 	}
-
-	switch (_bulletType)
-	{
-	case Bullet::Player_Bullet:
-		if (_collided) {
-			switch ((int)round(_collidedCounter / 160))
-			{
-			case 0:
-				_rectFrame.y = 64;
-				break;
-			case 1:
-				_rectFrame.y = 96;
-				break;
-			case 2:
-				_rectFrame.y = 128;
-				break;
-			default:
-				_rectFrame.y = 160;
-				break;
-			}
-		}
-		break;
-	case Bullet::Scorpion_Bullet:
-		break;
-	default:
-		break;
-	}
-
 }
 
 void Bullet::render()
@@ -113,7 +101,7 @@ void Bullet::render()
 		}
 		break;
 	case Bullet::Bandit_Bullet:
-		sVideo->renderGraphic(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w, _Rect.h);
+		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w, _Rect.h, _rectFrame.x, _rectFrame.y, _angle, 16, 16, 0);
 		break;
 	case Bullet::Scorpion_Bullet:
 		sVideo->renderGraphic(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w, _Rect.h, _rectFrame.x, _rectFrame.y);

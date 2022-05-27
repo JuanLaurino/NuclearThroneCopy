@@ -21,6 +21,9 @@ Bandit::~Bandit()
 
 void Bandit::init()
 {
+	_weapon.init(1);
+	_weapon.setState(ST_EQUIPED);
+	_flip = false;
 	_state = ST_IDLE;
 	_HP = 2;
 	_damage = 2;
@@ -30,7 +33,7 @@ void Bandit::init()
 	_Rect.w = _rectFrame.w * 1.8f;
 	_Rect.h = _rectFrame.h * 1.8f;
 	_leftSpaceInSprite = 1;
-	_spreadAngle = 20;
+	_spreadAngle = 30;
 	_viewDistance = rand() % 100 + 100;
 }
 
@@ -44,6 +47,7 @@ void Bandit::update()
 		if (_contador >= 200) {
 			_state = ST_MOVING;
 			_contador = 0;
+			_frame = 0;
 		}
 		break;
 	case Bandit::ST_ONHIT:
@@ -56,18 +60,22 @@ void Bandit::update()
 		
 		break;
 	case Bandit::ST_MOVING:
-		move();
 
 		if (_pPlayer->getX() + _pPlayer->getW() / 2 >= _Rect.x - _viewDistance + _Rect.h / 2) {
 			if (_pPlayer->getX() + _pPlayer->getW() / 2 <= _Rect.x + _viewDistance + _Rect.h / 2) {
-				std::cout << "CercaX: " << _contador << std::endl;
 				if (_pPlayer->getY() + _pPlayer->getH() / 2 >= _Rect.y - _viewDistance + _Rect.w / 2) {
 					if (_pPlayer->getY() + _pPlayer->getH() / 2 <= _Rect.y + _viewDistance + _Rect.w / 2) {
-						std::cout << "CercaY: " << _contador << std::endl;
 						if (_shootCD <= 0) {
 							shoot();
+							_state = ST_ATTACKING;
+							_contador = 0;
 							_shootCD = rand() % 3000 + 500;
+							_frame = 0;
 						}
+						else {
+							move();
+						}
+
 						break;
 					}
 					else {
@@ -95,6 +103,13 @@ void Bandit::update()
 			_contador = 0;
 		}
 		break;
+	case Bandit::ST_ATTACKING:
+		if (_contador >= 400) {
+			_state = ST_IDLE;
+			_contador = 0;
+			_frame = 0;
+		}
+		break;
 	default:
 		break;
 	}
@@ -102,6 +117,10 @@ void Bandit::update()
 
 void Bandit::render()
 {
+	if (_contadorAnim >= 160) {
+		_frame++;
+		_contadorAnim = 0;
+	}
 
 	_contadorAnim += global_elapsed_time;
 	switch (_state)
@@ -110,8 +129,8 @@ void Bandit::render()
 		if (_frame >= 4) {
 			_frame = 0;
 		}
-		_rectFrame.x = 0;
-		_rectFrame.y = _rectFrame.h * _frame + _frame;
+		_rectFrame.x = _rectFrame.w * _frame + _frame;
+		_rectFrame.y = 0;
 		break;
 	case Bandit::ST_ONHIT:
 		if (_frame >= 2) {
@@ -138,51 +157,63 @@ void Bandit::render()
 		_rectFrame.x = _rectFrame.w * _frame + _frame;
 		_rectFrame.y = _rectFrame.h * 2 + 2;
 		break;
+	case Bandit::ST_ATTACKING:
+		_frame = 0;
+		_rectFrame.x = 0;
+		_rectFrame.y = 0;
+		break;
 	default:
 		break;
 	}
 
-	if (_contadorAnim >= 160) {
-		_frame++;
-		_contadorAnim = 0;
+
+	if (_state == ST_FALLEN) {
+		if (_flip) {
+			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _Rect.w, _Rect.h, 0, 0, 0, 1);
+		}
+		else {
+			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _Rect.w, _Rect.h, 0, 0, 0, 0);
+		}
+		return;
 	}
 
 	int weaponX = _Rect.x + _Rect.w / 2 - sCamera->getX();
-	int weaponY = _Rect.y + _Rect.h - sCamera->getY();
-	int delta_x = weaponX - _pPlayer->getX();
-	int delta_y = weaponY - _pPlayer->getY();
+	int weaponY = _Rect.y + _Rect.h / 2 - sCamera->getY() + 10;
+	int delta_x = weaponX - (_pPlayer->getX() + _pPlayer->getW() / 2 - sCamera->getX());
+	int delta_y = weaponY - (_pPlayer->getY() + _pPlayer->getH() / 2 - sCamera->getY());
 	double angulo = (atan2(delta_y, delta_x) * 180) / 3.1416;
 	// Rotacion de la bala?
-	bool _flip = (_Rect.x + (_rectFrame.w / 2) - sCamera->getX()) >= (_pPlayer->getX() + _pPlayer->getW() / 2);
+	_flip = (_Rect.x + (_rectFrame.w / 2)) >= (_pPlayer->getX() + _pPlayer->getW() / 2);
 	if (_flip) { // 
 
-		if (_Rect.y + (_Rect.h / 2) - sCamera->getY() >= (_pPlayer->getY() + _pPlayer->getH() / 2)) {
-			sVideo->renderGraphicEx(_spriteID, weaponX, weaponY, 24, 8, _rectFrame.w * 4 + 1, 0, angulo, 12, 4, 1);
+		if (_Rect.y + (_Rect.h / 2) - sCamera->getY() >= (_pPlayer->getY() + _pPlayer->getH() / 2 - sCamera->getY())) {
+			// Render arma equipada
+			_weapon.renderInHand(weaponX, weaponY - 5, angulo, 2);
 
 			// Render Enemigo
-			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w - 2, _Rect.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, 0, 0, 0, 1);
+			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _Rect.w, _Rect.h, 0, 0, 0, 1);
 
 		}
 		else {
 			// Render Enemigo
-			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w - 2, _Rect.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, 0, 0, 0, 1);
+			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _Rect.w, _Rect.h, 0, 0, 0, 1);
 			// Render arma equipada
-			sVideo->renderGraphicEx(_spriteID, weaponX, weaponY, 24, 8, _rectFrame.w * 4 + 1, 0, angulo, 12, 4, 1);
+			_weapon.renderInHand(weaponX, weaponY - 5, angulo, 2);
 		}
 	}
 	else {
 		// Pintado arma
-		if (_Rect.y + (_Rect.h / 2) - sCamera->getY() >= (_pPlayer->getY() + _pPlayer->getH() / 2)) {
+		if (_Rect.y + (_Rect.h / 2) - sCamera->getY() >= (_pPlayer->getY() + _pPlayer->getH() / 2 - sCamera->getY())) {
 			// Render arma equipada
-			sVideo->renderGraphicEx(_spriteID, weaponX, weaponY, 24, 8, _rectFrame.w * 4 + 1, 0, angulo, 12, 4, 1);
+			_weapon.renderInHand(weaponX, weaponY, angulo, 0);
 			// Render enemigo
-			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w - 2, _Rect.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, 0, 0, 0, 0);
+			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _Rect.w, _Rect.h, 0, 0, 0, 0);
 		}
 		else {
 			// Render personaje
-			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w - 2, _Rect.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, 0, 0, 0, 0);
+			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _Rect.w, _Rect.h, 0, 0, 0, 0);
 			// Render arma equipada
-			sVideo->renderGraphicEx(_spriteID, weaponX, weaponY, 24, 8, _rectFrame.w * 4 + 1, 0, angulo, 12, 4, 1);
+			_weapon.renderInHand(weaponX, weaponY, angulo, 0);
 		}
 
 	}
@@ -193,21 +224,27 @@ void Bandit::shoot()
 	Bullet* bala;
 	bala = new Bullet();
 	_pBullet->push_back(bala);
-	_pBullet->at(_pBullet->size() - 1)->init(1, glm::vec2{ (float)(_Rect.x) + _Rect.w / 2, (float)(_Rect.y) + _Rect.h / 2 }, glm::vec2{ (float)_pPlayer->getX(), (float)_pPlayer->getY() }, 5, _damage, _spreadAngle);
+	_pBullet->at(_pBullet->size() - 1)->init(1, glm::vec2{ (float)(_Rect.x) + _Rect.w / 2, (float)(_Rect.y) + _Rect.h / 2 }, glm::vec2{ (float)_pPlayer->getX(), (float)_pPlayer->getY() }, 3, _damage, _spreadAngle);
 }
 
 void Bandit::receiveDamage(int damage)
 {
-	if (_state != ST_ONHIT && _state != ST_FALLEN) {
+	if (_state != ST_FALLEN) {
 		_HP = _HP - damage;
 
 		if (_HP <= 0) {
 			_state = ST_FALLEN;
+			_frame = 0;
+			_contadorAnim = 0;
+			_contador = 0;
 			// Spawn rads
 			sHighscore->addScore(2);
 		}
 		else {
 			_state = ST_ONHIT;
+			_frame = 0;
+			_contadorAnim = 0;
+			_contador = 0;
 		}
 	}
 }

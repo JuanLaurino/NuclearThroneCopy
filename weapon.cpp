@@ -27,14 +27,14 @@ void Weapon::init(int weaponType)
 	switch (_weaponType)
 	{
 	case 0:
-		_cd = 200;
+		_cd = 180;
 		_damage = 3;
 		_ammoType = 0;
 		_spreadAngle = 4;
 		_automatic = false;
 		break;
 	case 1:
-		_cd = 70;
+		_cd = 160;
 		_damage = 2;
 		_ammoType = 0;
 		_spreadAngle = 4;
@@ -66,17 +66,6 @@ void Weapon::init(int weaponType)
 
 void Weapon::update()
 {
-	switch (_state)
-	{
-	case ST_ON_GROUND:
-		break;
-	case ST_EQUIPED:
-		break;
-	case ST_ON_INVENTORY:
-		break;
-	default:
-		break;
-	}
 }
 
 void Weapon::render()

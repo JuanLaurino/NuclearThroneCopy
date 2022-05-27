@@ -52,14 +52,16 @@ Level::~Level()
 {
 }
 
-void Level::init(const char* XMLMap, int sprite)
+void Level::init()
 {
-	_spriteID = sprite;
+	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/LevelSprites/tileset_level.png");
+
 	tinyxml2::XMLDocument mapa;
-	if (mapa.LoadFile(XMLMap) != tinyxml2::XML_SUCCESS) {
+	if (mapa.LoadFile(("Assets/Levels/level0" + std::to_string(rand() % 7) + ".tmx").c_str()) != tinyxml2::XML_SUCCESS) {
 		std::cout << "Error XML: " << mapa.ErrorStr();
 		exit(1);
 	}
+
 
 	tinyxml2::XMLElement* root = mapa.FirstChildElement();
 	tinyxml2::XMLElement* tileset = root->FirstChildElement();

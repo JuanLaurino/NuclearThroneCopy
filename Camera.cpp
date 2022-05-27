@@ -3,7 +3,10 @@
 #include "Main.h"
 #include "Character.h"
 #include "Level.h"
-Camera* Camera::pInstance = nullptr;
+#include "Mouse.h"
+
+Camera* Camera::pInstance = nullptr; 
+extern Mouse* sMouse;
 
 Camera::Camera()
 {
@@ -44,8 +47,8 @@ void Camera::init(Character* pJugador, Level* mapa)
 
 void Camera::update()
 {	
-	_Rect.x = (_pJugador->getX() + (_pJugador->getW() / 2)) - (WIN_WIDTH / 2);
-	_Rect.y = (_pJugador->getY() + (_pJugador->getH() / 2)) - (WIN_HEIGHT / 2);
+	_Rect.x = (_pJugador->getX() + (_pJugador->getW() / 2)) - (WIN_WIDTH / 2)  + sMouse->getX() / 3 - (WIN_WIDTH / 6);
+	_Rect.y = (_pJugador->getY() + (_pJugador->getH() / 2)) - (WIN_HEIGHT / 2) + sMouse->getY() / 3 - (WIN_HEIGHT / 6);
 
 	if (_Rect.x < 0) {
 		_Rect.x = 0;

@@ -36,7 +36,7 @@ public:
 	Level();
 	~Level();
 
-	void init(const char* XMLMap, int sprite);
+	void init();
 
 	void update();
 	void render();

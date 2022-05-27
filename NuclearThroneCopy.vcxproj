@@ -169,6 +169,7 @@
     <ClInclude Include="MaggotNest.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="PickableObject.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="MaggotNest.cpp" />
     <ClCompile Include="MainForDirector.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="PickableObject.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneDirector.cpp" />
@@ -224,9 +226,6 @@
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="Video.cpp" />
     <ClCompile Include="Weapon.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NuclearThroneCopy.rc" />

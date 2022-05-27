@@ -38,6 +38,7 @@ SceneGame::SceneGame()
 
     _changeLevel = false;
     _changeLevelTimer = 600;
+    _dificultad = 0;
 }
 
 SceneGame::~SceneGame()
@@ -53,7 +54,8 @@ void SceneGame::init()
 
     _changeLevel = false;
     _changeLevelTimer = 600;
-    _nivel.init("Assets/Levels/level01.tmx", sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/LevelSprites/tileset_level.png"));
+    _dificultad = 1;
+    _nivel.init();
     
     _personaje.init();
     _personaje.setWorldPointer(&_nivel);
@@ -61,6 +63,7 @@ void SceneGame::init()
     _personaje.setWeaponPointer(&_weapons);
     _personaje.setChestPointer(&_chest);
     _personaje.setEnemiesPointer(&_enemies);
+    _personaje.setObjectPointer(&_pickableObjects);
 
     // Arma inicial
     Weapon* arma = new Weapon();
@@ -74,7 +77,7 @@ void SceneGame::init()
 
     sCamera->init(&_personaje, &_nivel);
 
-    _cactus.resize(rand() % 7);
+    _cactus.resize(rand() % 5);
     size_t size = _cactus.size();
     for (size_t i = 0; i < size; i++)
     {
@@ -115,7 +118,7 @@ void SceneGame::init()
     _personaje.spawnInMap();
 
     Maggot* maggot;
-    size = rand() % 7 + 4;
+    size = rand() % 7 + _dificultad + 4;
     for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         maggot = new Maggot();
@@ -126,7 +129,7 @@ void SceneGame::init()
     }
 
     MaggotNest* maggotNest;
-    size = rand() % 2 + 1;
+    size = rand() % _dificultad;
     for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         maggotNest = new MaggotNest();
@@ -138,7 +141,7 @@ void SceneGame::init()
     }
 
     Bandit* bandit;
-    size = 1; // rand() % 2 + 1;
+    size = rand() % 4 + _dificultad;
     for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         bandit = new Bandit();
@@ -149,6 +152,7 @@ void SceneGame::init()
         bandit->spawnInMap();
         _enemies.push_back(bandit);
     }
+
 }
 
 void SceneGame::reinit()
@@ -156,6 +160,9 @@ void SceneGame::reinit()
     mReinit = false;
     _changeLevel = false;
     _changeLevelTimer = 600;
+    _dificultad++;
+
+    _nivel.init();
 
     if (_personaje.getInventoryWeapon1() != NULL) { // Dejando solo las dos armas que tiene el jugador
         _weapons.resize(2);
@@ -208,7 +215,7 @@ void SceneGame::reinit()
     _personaje.spawnInMap();
 
     Maggot* maggot;
-    size = rand() % 7 + 4;
+    size = rand() % 7 + _dificultad + 4;
     for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         maggot = new Maggot();
@@ -219,7 +226,7 @@ void SceneGame::reinit()
     }
 
     MaggotNest* maggotNest;
-    size = rand() % 2 + 1;
+    size = rand() % _dificultad;
     for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         maggotNest = new MaggotNest();
@@ -231,7 +238,7 @@ void SceneGame::reinit()
     }
 
     Bandit* bandit;
-    size = rand() % 2 + 1;
+    size = rand() % 4 + _dificultad;
     for (size_t i = 0; i < size; i++) // Spawn enemigos
     {
         bandit = new Bandit();
@@ -336,6 +343,16 @@ void SceneGame::update()
         if (_nivel.getIDfromLayer(0, _bullets[i]->getX() + _bullets[i]->getW(), _bullets[i]->getY() + _bullets[i]->getH())) {
             _bullets[i]->setCollided();
             continue;
+        }
+        
+        if (!_bullets[i]->isBulletFromPlayer()) {// bullet collision with player
+            if (_bullets[i]->getCollCounter() == -1) { 
+                if (_personaje.isOverlaping(_bullets[i]->getCollision())) {
+                    _personaje.receiveDamage(_bullets[i]->getDamage());
+                    _bullets[i]->setCollided();
+                    break;
+                }
+            }
         }
     }
     _personaje.update();

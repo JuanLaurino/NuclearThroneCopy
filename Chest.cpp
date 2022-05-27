@@ -4,9 +4,6 @@
 #include "Video.h"
 #include "Camera.h"
 
-#include <stdlib.h>
-#include <time.h>
-
 extern Video*			sVideo;
 extern ResourceManager* sResourceManager;
 extern Uint32           global_elapsed_time;
@@ -38,24 +35,23 @@ void Chest::init(int tipo)
 	_type = tipo;
 	switch (_type)
 	{
-	case 0:
-		break;
-	case 1:
-		break;
-	case 2:
-		break;
-	case 3:
+	case 4:
+		_rectFrame.y = 65;
+		_rectFrame.x = 0;
+		_rectFrame.h = 16;
+		_rectFrame.w = 10;
+		_Rect.h = 32;
+		_Rect.w = 20;
 		break;
 	default:
+		_rectFrame.y = 15 * _type + _type;
+		_rectFrame.x = 0;
+		_rectFrame.h = 15;
+		_rectFrame.w = 16;
+		_Rect.h = 30;
+		_Rect.w = 32;
 		break;
 	}
-
-	_rectFrame.y = 15 * _type + _type;
-	_rectFrame.x = 0;
-	_rectFrame.h = 15;
-	_rectFrame.w = 16;
-	_Rect.h = 30;
-	_Rect.w = 32;
 
 	_wait = rand() % 4000 + 2001;
 }

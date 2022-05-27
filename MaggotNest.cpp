@@ -110,7 +110,7 @@ void MaggotNest::render()
 void MaggotNest::receiveDamage(int damage)
 {
 	bool canSpawn;
-	if (_state != ST_ONHIT && _state != ST_FALLEN) {
+	if (_state != ST_FALLEN) {
 		_HP = _HP - damage;
 
 		if (_HP <= 0) {
@@ -152,7 +152,6 @@ void MaggotNest::receiveDamage(int damage)
 						canSpawn = false;
 						continue;
 					}
-
 
 				} while (!canSpawn);
 				_enemies->push_back(maggot);

@@ -104,19 +104,19 @@ void GFXElementX::spawnInMap()
 		_Rect.y = rand() % _pLevel->getMapHeight();
 
 		// Esquinas de la imagen
-		if (_pLevel->getIDfromLayer(0, _Rect.x, _Rect.y)) {
+		if (_pLevel->getIDfromLayer(0, _Rect.x - 4, _Rect.y - 4)) {
 			canSpawn = false;
 			continue;
 		}
-		if (_pLevel->getIDfromLayer(0, _Rect.x + _Rect.w, _Rect.y)) {
+		if (_pLevel->getIDfromLayer(0, _Rect.x + _Rect.w + 4, _Rect.y - 4)) {
 			canSpawn = false;
 			continue;
 		}
-		if (_pLevel->getIDfromLayer(0, _Rect.x, _Rect.y + _Rect.h)) {
+		if (_pLevel->getIDfromLayer(0, _Rect.x - 4, _Rect.y + _Rect.h + 4)) {
 			canSpawn = false;
 			continue;
 		}
-		if (_pLevel->getIDfromLayer(0, _Rect.x + _Rect.w, _Rect.y + _Rect.h)) {
+		if (_pLevel->getIDfromLayer(0, _Rect.x + _Rect.w + 4, _Rect.y + _Rect.h + 4)) {
 			canSpawn = false;
 			continue;
 		}

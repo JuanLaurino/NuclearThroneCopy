@@ -4,6 +4,7 @@
 #include "SceneDirector.h"
 #include "Camera.h"
 #include "Mouse.h"
+#include "Highscore.h"
 #include <iostream>
 
 extern InputManager*	sInputControl;
@@ -12,6 +13,7 @@ extern Uint32           global_elapsed_time;
 extern Camera*			sCamera;
 extern Mouse*			sMouse;
 extern ResourceManager* sResourceManager;
+extern Highscore*		sHighscore;
 
 Character::Character()
 {
@@ -91,6 +93,30 @@ void Character::checkForItem()
 					_actionCD = 300;
 					break;
 				}
+			}
+		}
+	}
+
+	size = _objects->size();
+	for (size_t i = 0; i < size; i++)
+	{
+		if (isOverlaping(_objects->at(i)->getCollision())) {
+			switch (_objects->at(i)->getType())
+			{
+			case 0:
+				sHighscore->addScore(1);
+				break;
+			case 1:
+				sHighscore->addScore(3);
+				break;
+			case 2:
+				addHP(1);
+				break;
+			case 3:
+				addAmmo(0);
+				break;
+			default:
+				break;
 			}
 		}
 	}

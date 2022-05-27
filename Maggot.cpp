@@ -124,7 +124,7 @@ void Maggot::render()
 
 void Maggot::receiveDamage(int damage)
 {
-	if (_state != ST_ONHIT && _state != ST_FALLEN) {
+	if (_state != ST_FALLEN) {
 		_HP = _HP - damage;
 
 		if (_HP <= 0) {
