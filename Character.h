@@ -4,7 +4,6 @@
 #include "weapon.h"
 #include "Chest.h"
 #include "Maggot.h"
-#include "PickableObject.h"
 #include <iostream>
 #include <vector>
 
@@ -40,7 +39,6 @@ protected:
 	std::vector<Weapon*>*			 _weapons;
 	std::vector<Chest>*				 _chest;
 	std::vector<GFXElementX*>		*_enemies;
-	std::vector<PickableObject*>	*_objects;
 public:
 	Character();
 	~Character();
@@ -63,7 +61,7 @@ public:
 	void setWeaponPointer(std::vector<Weapon*> *weapons) { _weapons = weapons; };
 	void setChestPointer(std::vector<Chest>* chest) { _chest = chest; };
 	void setEnemiesPointer(std::vector<GFXElementX*>* enemies) { _enemies = enemies; };
-	void setObjectPointer(std::vector<PickableObject*>* objects) { _objects = objects; };
+	void setCanReceiveDamage(bool can) { _canReceiveDamage = can; };
 
 	void setWeapon00(Weapon* wp) { _inventory[0] = wp; wp->setState(2); };
 	void setWeapon01(Weapon* wp) { _inventory[1] = wp; wp->setState(1); };

@@ -1,5 +1,7 @@
 #pragma once
 #include "GFXElement.h"
+#include "Character.h"
+
 class PickableObject : public GFXElement
 {
 	enum OBJECT_STATE { ST_IDLE, ST_ANIM};
@@ -13,6 +15,7 @@ class PickableObject : public GFXElement
 	int _contador;
 	int _contadorAnim;
 	int _frame;
+	int _rotation;
 public:
 	PickableObject();
 	~PickableObject();
@@ -21,6 +24,7 @@ public:
 	void update();
 	void render();
 
+	void moveTo(notSDL_Rect* rect);
 	int getType() { return _type; };
 };
 

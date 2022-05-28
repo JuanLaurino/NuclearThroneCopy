@@ -14,6 +14,7 @@
 #include "MaggotNest.h"
 #include "Highscore.h"
 #include "Bandit.h"
+#include "PickableObject.h"
 
 extern Mouse*           sMouse;
 extern SceneDirector*   sDirector;
@@ -35,6 +36,7 @@ SceneGame::SceneGame()
     _bullets.resize(0);
     _weapons.resize(0);
     _cactus.resize(0);
+    _pickableObjects.resize(0);
 
     _changeLevel = false;
     _changeLevelTimer = 600;
@@ -44,6 +46,7 @@ SceneGame::SceneGame()
 SceneGame::~SceneGame()
 {
 }
+// setPlayerPointer
 
 void SceneGame::init()
 {
@@ -53,7 +56,7 @@ void SceneGame::init()
     mReinit = false;
 
     _changeLevel = false;
-    _changeLevelTimer = 600;
+    _changeLevelTimer = 3500;
     _dificultad = 1;
     _nivel.init();
     
@@ -76,92 +79,19 @@ void SceneGame::init()
     _hud.init();
 
     sCamera->init(&_personaje, &_nivel);
-
-    _cactus.resize(rand() % 5);
-    size_t size = _cactus.size();
-    for (size_t i = 0; i < size; i++)
-    {
-        _cactus[i].init(rand() % 3);
-        _cactus[i].setWorldPointer(&_nivel);
-        _cactus[i].spawnInMap();
-    }
-
-    Chest *cofre;
-    for (size_t i = 0; i < 2; i++) // Cofre de munición y arma asegurado en cada mapa
-    {
-        cofre = new Chest();
-        _chest.push_back(*cofre); 
-        _chest[i].init(i);
-        _chest[i].setWorldPointer(&_nivel);
-        _chest[i].setWeaponPointer(&_weapons);
-        _chest[i].spawnInMap();
-    }
-
-    if (rand() % 10 + 1 - 8 > 0) { // 20% probabilidad de que salga cofre de vida
-        cofre = new Chest();
-        _chest.push_back(*cofre);
-        _chest[_chest.size() - 1].init(2);
-        _chest[_chest.size() - 1].setWorldPointer(&_nivel);
-        _chest[_chest.size() - 1].setWeaponPointer(&_weapons);
-        _chest[_chest.size() - 1].spawnInMap();
-    }
-
-    if (rand() % 10 + 1 - 9 > 0) { // 10% probabilidad de que salga cofre de regalo
-        cofre = new Chest();
-        _chest.push_back(*cofre);
-        _chest[_chest.size() - 1].init(3);
-        _chest[_chest.size() - 1].setWorldPointer(&_nivel);
-        _chest[_chest.size() - 1].setWeaponPointer(&_weapons);
-        _chest[_chest.size() - 1].spawnInMap();
-    }
-
-    _personaje.spawnInMap();
-
-    Maggot* maggot;
-    size = rand() % 7 + _dificultad + 4;
-    for (size_t i = 0; i < size; i++) // Spawn enemigos
-    {
-        maggot = new Maggot();
-        maggot->init(0);
-        maggot->setWorldPointer(&_nivel);
-        maggot->spawnInMap();
-        _enemies.push_back(maggot);
-    }
-
-    MaggotNest* maggotNest;
-    size = rand() % _dificultad;
-    for (size_t i = 0; i < size; i++) // Spawn enemigos
-    {
-        maggotNest = new MaggotNest();
-        maggotNest->init();
-        maggotNest->setWorldPointer(&_nivel);
-        maggotNest->setEnemiesPointer(&_enemies);
-        maggotNest->spawnInMap();
-        _enemies.push_back(maggotNest);
-    }
-
-    Bandit* bandit;
-    size = rand() % 4 + _dificultad;
-    for (size_t i = 0; i < size; i++) // Spawn enemigos
-    {
-        bandit = new Bandit();
-        bandit->init();
-        bandit->setWorldPointer(&_nivel);
-        bandit->setPlayerPointer(&_personaje);
-        bandit->setBulletsPointer(&_bullets);
-        bandit->spawnInMap();
-        _enemies.push_back(bandit);
-    }
-
+    spawnActorsInMap();
 }
 
 void SceneGame::reinit()
 {
     mReinit = false;
     _changeLevel = false;
-    _changeLevelTimer = 600;
+    _changeLevelTimer = 3500;
     _dificultad++;
 
+    _justSpawned = true;
+    _timer = 0;
+    _personaje.setCanReceiveDamage(false);
     _nivel.init();
 
     if (_personaje.getInventoryWeapon1() != NULL) { // Dejando solo las dos armas que tiene el jugador
@@ -174,81 +104,7 @@ void SceneGame::reinit()
         _weapons.at(0) = _personaje.getInventoryWeapon0();
     }
 
-    _cactus.resize(rand() % 7);
-    size_t size = _cactus.size();
-    for (size_t i = 0; i < size; i++)
-    {
-        _cactus[i].init(rand() % 3);
-        _cactus[i].setWorldPointer(&_nivel);
-        _cactus[i].spawnInMap();
-    }
-
-    Chest* cofre;
-    for (size_t i = 0; i < 2; i++) // Cofre de munición y arma asegurado en cada mapa
-    {
-        cofre = new Chest();
-        _chest.push_back(*cofre);
-        _chest[i].init(i);
-        _chest[i].setWorldPointer(&_nivel);
-        _chest[i].setWeaponPointer(&_weapons);
-        _chest[i].spawnInMap();
-    }
-
-    if (rand() % 10 + 1 - 8 > 0) { // 20% probabilidad de que salga cofre de vida
-        cofre = new Chest();
-        _chest.push_back(*cofre);
-        _chest[_chest.size() - 1].init(2);
-        _chest[_chest.size() - 1].setWorldPointer(&_nivel);
-        _chest[_chest.size() - 1].setWeaponPointer(&_weapons);
-        _chest[_chest.size() - 1].spawnInMap();
-    }
-
-    if (rand() % 10 + 1 - 9 > 0) { // 10% probabilidad de que salga cofre de regalo
-        cofre = new Chest();
-        _chest.push_back(*cofre);
-        _chest[_chest.size() - 1].init(3);
-        _chest[_chest.size() - 1].setWorldPointer(&_nivel);
-        _chest[_chest.size() - 1].setWeaponPointer(&_weapons);
-        _chest[_chest.size() - 1].spawnInMap();
-    }
-
-    _personaje.spawnInMap();
-
-    Maggot* maggot;
-    size = rand() % 7 + _dificultad + 4;
-    for (size_t i = 0; i < size; i++) // Spawn enemigos
-    {
-        maggot = new Maggot();
-        maggot->init(0);
-        maggot->setWorldPointer(&_nivel);
-        maggot->spawnInMap();
-        _enemies.push_back(maggot);
-    }
-
-    MaggotNest* maggotNest;
-    size = rand() % _dificultad;
-    for (size_t i = 0; i < size; i++) // Spawn enemigos
-    {
-        maggotNest = new MaggotNest();
-        maggotNest->init();
-        maggotNest->setWorldPointer(&_nivel);
-        maggotNest->setEnemiesPointer(&_enemies);
-        maggotNest->spawnInMap();
-        _enemies.push_back(maggotNest);
-    }
-
-    Bandit* bandit;
-    size = rand() % 4 + _dificultad;
-    for (size_t i = 0; i < size; i++) // Spawn enemigos
-    {
-        bandit = new Bandit();
-        bandit->init();
-        bandit->setWorldPointer(&_nivel);
-        bandit->setPlayerPointer(&_personaje);
-        bandit->setBulletsPointer(&_bullets);
-        bandit->spawnInMap();
-        _enemies.push_back(bandit);
-    }
+    spawnActorsInMap();
 }
 
 void SceneGame::update()
@@ -256,6 +112,13 @@ void SceneGame::update()
     //if ((sInputControl->getKeyPressed(I_SCLICK))) { // ?
     //    sVideo->setFullScreen(true);
     //}
+    if (_timer >= 600 && _justSpawned) {
+        _personaje.setCanReceiveDamage(true);
+        _justSpawned = false;
+    }
+    else {
+        _timer += global_elapsed_time;
+    }
 
     //Clear Screen
     sVideo->clearScreen();
@@ -295,7 +158,7 @@ void SceneGame::update()
             {
                 if (_bullets[j]->getCollCounter() == -2) {
                     if (_enemies[i]->isOverlaping(_bullets[j]->getCollision())) {
-                        _enemies[i]->receiveDamage(_bullets[j]->getDamage());
+                        _enemies[i]->receiveDamageFromBullet(_bullets[j]->getDamage(), _bullets[j]->getSpeedX(), _bullets[j]->getSpeedY(), _personaje.getDistance(_enemies[i]->getCollision()));
                         _bullets[j]->setCollided();
                         break;
                     }
@@ -355,6 +218,15 @@ void SceneGame::update()
             }
         }
     }
+    size = _pickableObjects.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        _pickableObjects[i]->update();
+        if (_changeLevel && _personaje.getHP() > 0) {
+            _pickableObjects[i]->moveTo(_personaje.getCollision());
+        }
+    }    
+
     _personaje.update();
     sCamera->update();
     _hud.update();
@@ -370,10 +242,15 @@ void SceneGame::update()
     std::cout << "Ammo: " << _personaje.getAmmo(0) << std::endl;
     std::cout << _bullets.size() << std::endl;*/
 
-    if (_personaje.getHP() <= 0) _changeLevel = true;
+    if (_personaje.getHP() <= 0) {
+        _changeLevel = true;
+    }
     if (_changeLevel && _personaje.getHP() > 0) {
+        _personaje.setState(3);
+
         _changeLevelTimer -= global_elapsed_time;
         if (_changeLevelTimer <= 0) {
+            _personaje.setState(0);
             sDirector->changeScene(GAME, 1);
             deletePointers();
         }
@@ -418,6 +295,12 @@ void SceneGame::render()
         _enemies[i]->render(); //receive dmg
     }
 
+    size = _pickableObjects.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        _pickableObjects[i]->render();
+    }
+
     _personaje.render();
 
     size = _bullets.size();
@@ -431,6 +314,88 @@ void SceneGame::render()
 
     //Update Screen
     sVideo->updateScreen();
+}
+
+void SceneGame::spawnActorsInMap()
+{
+    _cactus.resize(rand() % 7);
+    size_t size = _cactus.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        _cactus[i].init(rand() % 3);
+        _cactus[i].setWorldPointer(&_nivel);
+        _cactus[i].spawnInMap();
+    }
+
+    Chest* cofre;
+    for (size_t i = 0; i < 2; i++) // Cofre de munición y arma asegurado en cada mapa
+    {
+        cofre = new Chest();
+        _chest.push_back(*cofre);
+        _chest[i].init(i);
+        _chest[i].setWorldPointer(&_nivel);
+        _chest[i].setWeaponPointer(&_weapons);
+        _chest[i].spawnInMap();
+    }
+
+    if (rand() % 10 + 1 - 8 > 0) { // 20% probabilidad de que salga cofre de vida
+        cofre = new Chest();
+        _chest.push_back(*cofre);
+        _chest[_chest.size() - 1].init(2);
+        _chest[_chest.size() - 1].setWorldPointer(&_nivel);
+        _chest[_chest.size() - 1].setWeaponPointer(&_weapons);
+        _chest[_chest.size() - 1].spawnInMap();
+    }
+
+    if (rand() % 10 + 1 - 9 > 0) { // 10% probabilidad de que salga cofre de regalo
+        cofre = new Chest();
+        _chest.push_back(*cofre);
+        _chest[_chest.size() - 1].init(3);
+        _chest[_chest.size() - 1].setWorldPointer(&_nivel);
+        _chest[_chest.size() - 1].setWeaponPointer(&_weapons);
+        _chest[_chest.size() - 1].spawnInMap();
+    }
+
+    _personaje.spawnInMap();
+
+    Maggot* maggot;
+    size = rand() % 7 + _dificultad + 4;
+    for (size_t i = 0; i < size; i++) // Spawn enemigos
+    {
+        maggot = new Maggot();
+        maggot->init(0);
+        maggot->setWorldPointer(&_nivel);
+        maggot->spawnInMap();
+        maggot->setObjectPointer(&_pickableObjects);
+        _enemies.push_back(maggot);
+    }
+
+    MaggotNest* maggotNest;
+    size = rand() % _dificultad;
+    for (size_t i = 0; i < size; i++) // Spawn enemigos
+    {
+        maggotNest = new MaggotNest();
+        maggotNest->init();
+        maggotNest->setWorldPointer(&_nivel);
+        maggotNest->setEnemiesPointer(&_enemies);
+        maggotNest->spawnInMap();
+        maggotNest->setObjectPointer(&_pickableObjects);
+        _enemies.push_back(maggotNest);
+    }
+
+    Bandit* bandit;
+    size = rand() % 4 + _dificultad;
+    for (size_t i = 0; i < size; i++) // Spawn enemigos
+    {
+        bandit = new Bandit();
+        bandit->init();
+        bandit->setWorldPointer(&_nivel);
+        bandit->setPlayerPointer(&_personaje);
+        bandit->setBulletsPointer(&_bullets);
+        bandit->spawnInMap();
+        bandit->setObjectPointer(&_pickableObjects);
+        _enemies.push_back(bandit);
+    }
 }
 
 void SceneGame::deletePointers()
@@ -452,4 +417,11 @@ void SceneGame::deletePointers()
             _weapons.erase(_weapons.begin() + i);
         }
     }
+
+    size = _pickableObjects.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        delete _pickableObjects[i];
+    }
+    _pickableObjects.resize(0);
 }

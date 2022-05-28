@@ -30,8 +30,8 @@ void Bandit::init()
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/bandit.png");
 	_rectFrame.w = 24;
 	_rectFrame.h = 24;
-	_Rect.w = _rectFrame.w * 1.8f;
-	_Rect.h = _rectFrame.h * 1.8f;
+	_Rect.w = (int)_rectFrame.w * 1.8f;
+	_Rect.h = (int)_rectFrame.h * 1.8f;
 	_leftSpaceInSprite = 1;
 	_spreadAngle = 30;
 	_viewDistance = rand() % 100 + 100;
@@ -108,6 +108,26 @@ void Bandit::update()
 			_state = ST_IDLE;
 			_contador = 0;
 			_frame = 0;
+		}
+		break;
+	case Bandit::ST_FALLEN:
+		if (_contador <= 100 + _corpseSpeed * 5) {
+			_Rect.x += (int)round(_corpseSpeed * _XVector);
+			if (_XVector > 0) {
+				checkCollision(I_D);
+			}
+			else {
+				checkCollision(I_A);
+			}
+
+
+			_Rect.y += (int)round(_corpseSpeed * _YVector);
+			if (_YVector > 0) {
+				checkCollision(I_S);
+			}
+			else {
+				checkCollision(I_W);
+			}
 		}
 		break;
 	default:
@@ -227,7 +247,7 @@ void Bandit::shoot()
 	_pBullet->at(_pBullet->size() - 1)->init(1, glm::vec2{ (float)(_Rect.x) + _Rect.w / 2, (float)(_Rect.y) + _Rect.h / 2 }, glm::vec2{ (float)_pPlayer->getX(), (float)_pPlayer->getY() }, 3, _damage, _spreadAngle);
 }
 
-void Bandit::receiveDamage(int damage)
+void Bandit::receiveDamageFromBullet(int damage, float x, float y, float speed)
 {
 	if (_state != ST_FALLEN) {
 		_HP = _HP - damage;
@@ -237,8 +257,36 @@ void Bandit::receiveDamage(int damage)
 			_frame = 0;
 			_contadorAnim = 0;
 			_contador = 0;
-			// Spawn rads
-			sHighscore->addScore(2);
+
+			spawnRads(_rads);
+			_XVector = x;
+			_YVector = y;
+			if (speed >= 1000) {
+				_corpseSpeed = 1;
+			}
+			else if (speed >= 500) {
+				_corpseSpeed = 3;
+			}
+			else if (speed >= 400) {
+				_corpseSpeed = 5;
+			}
+			else if (speed >= 300) {
+				_corpseSpeed = 7;
+			}
+			else if (speed >= 200) {
+				_corpseSpeed = 9;
+			}
+			else {
+				_corpseSpeed = 13;
+			}
+			if (rand() % 20 == 0) { // 5% chance de que spawnee un objeto
+				if (rand() % 2) {
+					spawnObject(0);
+				}
+				else {
+					spawnObject(1);
+				}
+			}
 		}
 		else {
 			_state = ST_ONHIT;
@@ -248,4 +296,3 @@ void Bandit::receiveDamage(int damage)
 		}
 	}
 }
-

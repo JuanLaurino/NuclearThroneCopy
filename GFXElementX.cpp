@@ -6,6 +6,7 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include "Main.h"
+#include "PickableObject.h"
 
 
 extern Video* sVideo;
@@ -91,7 +92,171 @@ void GFXElementX::render()
 
 void GFXElementX::receiveDamage(int damage)
 {
-	_HP -= damage;
+	return;
+}
+
+void GFXElementX::receiveDamageFromBullet(int damage, float x, float y, float speed)
+{
+}
+
+void GFXElementX::spawnRads(int amount)
+{
+	bool canSpawn = true;
+	PickableObject* rads;
+	do
+	{
+		if (amount >= 3) {
+			if (rand() % 2) {
+				rads = new PickableObject();
+				do
+				{
+					canSpawn = true;
+					rads->init(1, (_Rect.x + _Rect.w / 2 - 19) + rand() % 40, (_Rect.y + _Rect.h / 2 - 19) + rand() % 40);
+
+					// Esquinas de la imagen
+					if (_pLevel->getIDfromLayer(0, rads->getX(), rads->getY())) {
+						canSpawn = false;
+						continue;
+					}
+					if (_pLevel->getIDfromLayer(0, rads->getX() + rads->getW(), rads->getY())) {
+						canSpawn = false;
+						continue;
+					}
+					if (_pLevel->getIDfromLayer(0, rads->getX(), rads->getY() + rads->getH())) {
+						canSpawn = false;
+						continue;
+					}
+					if (_pLevel->getIDfromLayer(0, rads->getX() + rads->getW(), rads->getY() + rads->getH())) {
+						canSpawn = false;
+						continue;
+					}
+
+					// Centro de la imagen
+					if (_pLevel->getIDfromLayer(0, rads->getX() + rads->getW() / 2, rads->getY() + rads->getH() / 2)) {
+						canSpawn = false;
+						continue;
+					}
+
+				} while (!canSpawn);
+				_objects->push_back(rads);
+				amount -= 3;
+			}
+			else {
+				rads = new PickableObject();
+				do
+				{
+					canSpawn = true;
+					rads->init(0, (_Rect.x + _Rect.w / 2 - 19) + rand() % 40, (_Rect.y + _Rect.h / 2 - 19) + rand() % 40);
+
+					// Esquinas de la imagen
+					if (_pLevel->getIDfromLayer(0, rads->getX(), rads->getY())) {
+						canSpawn = false;
+						continue;
+					}
+					if (_pLevel->getIDfromLayer(0, rads->getX() + rads->getW(), rads->getY())) {
+						canSpawn = false;
+						continue;
+					}
+					if (_pLevel->getIDfromLayer(0, rads->getX(), rads->getY() + rads->getH())) {
+						canSpawn = false;
+						continue;
+					}
+					if (_pLevel->getIDfromLayer(0, rads->getX() + rads->getW(), rads->getY() + rads->getH())) {
+						canSpawn = false;
+						continue;
+					}
+
+					// Centro de la imagen
+					if (_pLevel->getIDfromLayer(0, rads->getX() + rads->getW() / 2, rads->getY() + rads->getH() / 2)) {
+						canSpawn = false;
+						continue;
+					}
+
+				} while (!canSpawn);
+				_objects->push_back(rads);
+				amount--;
+			}
+		}
+		else {
+			rads = new PickableObject();
+			do
+			{
+				canSpawn = true;
+				rads->init(0, (_Rect.x + _Rect.w / 2 - 19) + rand() % 40, (_Rect.y + _Rect.h / 2 - 19) + rand() % 40);
+
+				// Esquinas de la imagen
+				if (_pLevel->getIDfromLayer(0, rads->getX(), rads->getY())) {
+					canSpawn = false;
+					continue;
+				}
+				if (_pLevel->getIDfromLayer(0, rads->getX() + rads->getW(), rads->getY())) {
+					canSpawn = false;
+					continue;
+				}
+				if (_pLevel->getIDfromLayer(0, rads->getX(), rads->getY() + rads->getH())) {
+					canSpawn = false;
+					continue;
+				}
+				if (_pLevel->getIDfromLayer(0, rads->getX() + rads->getW(), rads->getY() + rads->getH())) {
+					canSpawn = false;
+					continue;
+				}
+
+				// Centro de la imagen
+				if (_pLevel->getIDfromLayer(0, rads->getX() + rads->getW() / 2, rads->getY() + rads->getH() / 2)) {
+					canSpawn = false;
+					continue;
+				}
+
+			} while (!canSpawn);
+			_objects->push_back(rads);
+			amount--;
+		}
+	} while (amount > 0);
+}
+
+void GFXElementX::spawnObject(bool hpdrop)
+{
+	bool canSpawn = true;
+	PickableObject* item;
+
+	item = new PickableObject();
+	do
+	{
+		canSpawn = true;
+		if (hpdrop) {
+			item->init(2, (_Rect.x + _Rect.w / 2 - 19) + rand() % 40, (_Rect.y + _Rect.h / 2 - 19) + rand() % 40);
+		}
+		else {
+			item->init(3, (_Rect.x + _Rect.w / 2 - 19) + rand() % 40, (_Rect.y + _Rect.h / 2 - 19) + rand() % 40);
+		}
+
+		// Esquinas de la imagen
+		if (_pLevel->getIDfromLayer(0, item->getX(), item->getY())) {
+			canSpawn = false;
+			continue;
+		}
+		if (_pLevel->getIDfromLayer(0, item->getX() + item->getW(), item->getY())) {
+			canSpawn = false;
+			continue;
+		}
+		if (_pLevel->getIDfromLayer(0, item->getX(), item->getY() + item->getH())) {
+			canSpawn = false;
+			continue;
+		}
+		if (_pLevel->getIDfromLayer(0, item->getX() + item->getW(), item->getY() + item->getH())) {
+			canSpawn = false;
+			continue;
+		}
+
+		// Centro de la imagen
+		if (_pLevel->getIDfromLayer(0, item->getX() + item->getW() / 2, item->getY() + item->getH() / 2)) {
+			canSpawn = false;
+			continue;
+		}
+
+	} while (!canSpawn);
+	_objects->push_back(item);
 }
 
 void GFXElementX::spawnInMap()

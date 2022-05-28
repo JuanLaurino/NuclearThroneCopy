@@ -11,13 +11,15 @@
 #include "Cactus.h"
 #include "Bullet.h"
 #include "HUD.h"
-#include "PickableObject.h"
 
 class SceneGame : public Scene
 {
 	bool	_changeLevel;
 	int		_changeLevelTimer;
 	int		_dificultad;
+
+	bool	_justSpawned;
+	int		_timer;
 
 	Level	_nivel;
 	Fish	_personaje;
@@ -28,7 +30,7 @@ class SceneGame : public Scene
 	std::vector<GFXElementX*>		_enemies; 
 	std::vector<Weapon*>			_weapons;
 	std::vector<Bullet*>			_bullets;
-	std::vector<PickableObject*>	_pickableObjects;
+	std::vector<GFXElement*>		_pickableObjects;
 
 public:
 	SceneGame();
@@ -39,6 +41,7 @@ public:
 	void update();
 	void render();
 
+	void spawnActorsInMap();
 	void deletePointers();
 };
 

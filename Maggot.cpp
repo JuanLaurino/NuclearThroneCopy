@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "Video.h"
 #include "Camera.h"
+#include "Main.h"
 
 extern Video*			sVideo;
 extern ResourceManager* sResourceManager;
@@ -35,8 +36,8 @@ void Maggot::init(int type)
 	_state = ST_IDLE;
 	_rectFrame.w = 16;
 	_rectFrame.h = 16;
-	_Rect.w = _rectFrame.w * 1.5;
-	_Rect.h = _rectFrame.h * 1.5;
+	_Rect.w = (int)_rectFrame.w * 1.5;
+	_Rect.h = (int)_rectFrame.h * 1.5;
 	_leftSpaceInSprite = 1;
 }
 
@@ -69,6 +70,24 @@ void Maggot::update()
 		}
 		break;
 	case Maggot::ST_FALLEN:
+		if (_contador <= 100 + _corpseSpeed * 5) {
+			_Rect.x += (int)round(_corpseSpeed * _XVector);
+			if (_XVector > 0) {
+				checkCollision(I_D);
+			}
+			else {
+				checkCollision(I_A);
+			}
+
+
+			_Rect.y += (int)round(_corpseSpeed * _YVector);
+			if (_YVector > 0) {
+				checkCollision(I_S);
+			}
+			else {
+				checkCollision(I_W);
+			}
+		}
 		break;
 	default:
 		break;
@@ -122,7 +141,7 @@ void Maggot::render()
 	sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _Rect.w, _Rect.h, 0, 0, 0, _dir);
 }
 
-void Maggot::receiveDamage(int damage)
+void Maggot::receiveDamageFromBullet(int damage, float x, float y, float speed)
 {
 	if (_state != ST_FALLEN) {
 		_HP = _HP - damage;
@@ -133,7 +152,33 @@ void Maggot::receiveDamage(int damage)
 			_contadorAnim = 0;
 			_contador = 0;
 			// Spawn rads
-			sHighscore->addScore(_rads);
+			spawnRads(_rads);
+			_XVector = x;
+			_YVector = y;
+			if (speed >= 500) {
+				_corpseSpeed = 1;
+			}
+			else if (speed >= 400) {
+				_corpseSpeed = 3;
+			}
+			else if (speed >= 300) {
+				_corpseSpeed = 5;
+			}
+			else if (speed >= 200) {
+				_corpseSpeed = 7;
+			}
+			else {
+				_corpseSpeed = 10;
+			}
+
+			if (rand() % 20 == 0) { // 5% chance de que spawnee un objeto
+				if (rand() % 2) {
+					spawnObject(0);
+				}
+				else {
+					spawnObject(1);
+				}
+			}
 		}
 		else {
 			_state = ST_ONHIT;

@@ -107,7 +107,7 @@ void MaggotNest::render()
 	sVideo->renderGraphic(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w, _Rect.h, _rectFrame.x, _rectFrame.y);
 }
 
-void MaggotNest::receiveDamage(int damage)
+void MaggotNest::receiveDamageFromBullet(int damage, float x, float y, float speed)
 {
 	bool canSpawn;
 	if (_state != ST_FALLEN) {
@@ -123,18 +123,18 @@ void MaggotNest::receiveDamage(int damage)
 				maggot = new Maggot();
 				maggot->init(0);
 				maggot->setWorldPointer(_pLevel);
-				
+				maggot->setObjectPointer(_objects);
 				do
 				{
 					canSpawn = true;
-					maggot->setXY((_Rect.x + _Rect.w / 2 - 19 )+ rand() % 40, (_Rect.y + _Rect.h / 2  - 19 )+ rand() % 40);
+					maggot->setXY((_Rect.x + _Rect.w / 2 - 19) + rand() % 40, (_Rect.y + _Rect.h / 2 - 19) + rand() % 40);
 
 					// Esquinas de la imagen
-					if (_pLevel->getIDfromLayer(0, maggot->getX() , maggot->getY())) {
+					if (_pLevel->getIDfromLayer(0, maggot->getX(), maggot->getY())) {
 						canSpawn = false;
 						continue;
 					}
-					if (_pLevel->getIDfromLayer(0, maggot->getX() + maggot->getW() , maggot->getY())) {
+					if (_pLevel->getIDfromLayer(0, maggot->getX() + maggot->getW(), maggot->getY())) {
 						canSpawn = false;
 						continue;
 					}

@@ -16,9 +16,12 @@ public:
 	GFXElement();
 	~GFXElement();
 
-	void init(int sprite);
-	void update();
-	void render();
+	virtual void init(int sprite);
+	virtual void update();
+	virtual void render();
+
+	virtual void moveTo(notSDL_Rect* rect);
+	virtual int getType() { return -1; };
 
 	int getX() { return _Rect.x; };
 	int getY() { return _Rect.y; };
@@ -31,6 +34,8 @@ public:
 
 	void setGraphicID(int sprite);
 	int getGraphicID();
+
+	int getDistance(notSDL_Rect* otherElement);
 
 	notSDL_Rect* getCollision() { return &_Rect; };
 };

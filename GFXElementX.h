@@ -15,22 +15,27 @@ protected:
 
 	int _damage;
 	int _HP;
-	int _CD;
 	bool _dir;
 	bool _moving;
-
 	int _empezarMovimiento;
 	int _terminarMovimiento;
 
+	int _CD;
 	int _CDY;
 	int _CDX;	
 	int _CDYT;
 	int _CDXT;
 
+	float _XVector;
+	float _YVector;
+	float _corpseSpeed;
+
 	int _movX;
 	int _movY;
 
 	int _rads;
+
+	std::vector<GFXElement*>* _objects;
 public:
 	GFXElementX();
 	~GFXElementX();
@@ -47,8 +52,15 @@ public:
 	};
 
 	virtual void receiveDamage(int damage);
+	virtual void receiveDamageFromBullet(int damage, float x, float y, float speed);
+
 	void setWorldPointer(Level* nivel) { _pLevel = nivel; };
 	void setBulletsPointer(std::vector<Bullet*>* balas) { _pBullet = balas; };
+	void setObjectPointer(std::vector<GFXElement*>* objects) { _objects = objects; };
+
+	void spawnRads(int amount);
+	void spawnObject(bool hpdrop);
+
 	void spawnInMap();
 	void checkCollision(int direction);
 	bool isOverlaping(notSDL_Rect* obj01);

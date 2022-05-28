@@ -7,7 +7,7 @@ class Chest : public GFXElementX
 	enum CHEST_STATE { ST_IDLE, ST_ANIM, ST_OPENING, ST_OPEN };
 
 	CHEST_STATE _chestState;
-	short _type;
+	int _type;
 	int _wait;
 	int _ammoType;
 
@@ -27,7 +27,7 @@ public:
 	void setWeaponPointer(std::vector<Weapon*>* weapons) { _weapons = weapons; }
 	void open();
 	bool isOpen();
-	short getType() { return _type; };
+	int getType() { return _type; };
 	int getAmmoType() { return _ammoType; };
 };
 

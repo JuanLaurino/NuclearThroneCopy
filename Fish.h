@@ -11,6 +11,7 @@ class Fish :public Character
 
 	int _rotation;
 	bool _flip;
+	bool _roll;
 public:
 	Fish();
 	~Fish();
@@ -21,5 +22,7 @@ public:
 
 	void receiveDamage();
 	void receiveDamage(int damage);
+
+	void setState(int state) { _fishState = (FISH_STATE)state; };
 };
 

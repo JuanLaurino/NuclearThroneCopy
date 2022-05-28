@@ -32,6 +32,10 @@ void GFXElement::render()
 	Video::getInstance()->renderGraphic(_spriteID, _Rect.x, _Rect.y, _Rect.w, _Rect.h);
 }
 
+void GFXElement::moveTo(notSDL_Rect* rect)
+{
+}
+
 void GFXElement::setGraphicID(int sprite)
 {
 	_spriteID = sprite;
@@ -41,4 +45,9 @@ void GFXElement::setGraphicID(int sprite)
 int GFXElement::getGraphicID()
 {
 	return _spriteID;
+}
+
+int GFXElement::getDistance(notSDL_Rect* otherElement)
+{
+	return (int)sqrt(pow((_Rect.x + _Rect.w / 2) - (otherElement->x + otherElement->w / 2), 2) + pow((_Rect.y + _Rect.h / 2) - (otherElement->y + otherElement->h / 2), 2));
 }

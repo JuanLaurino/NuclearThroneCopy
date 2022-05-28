@@ -132,6 +132,9 @@
     <ClInclude Include="PickableObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Canister.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GFXElement.cpp">
@@ -246,6 +249,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PickableObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Canister.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

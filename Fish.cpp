@@ -47,6 +47,7 @@ Fish::~Fish()
 
 void Fish::init()
 {	
+	_roll = false;
 	_leftSpaceInSprite = 7;
 	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/characters/CharacterFish.png");
 	_Rect.w = 34;
@@ -58,7 +59,8 @@ void Fish::init()
 	_canMove = true;
 	_MaxHP = 8;
 	_HP = 8;
-	_ammo[0] = 180;
+	_ammo[0] = 120;
+	_ammo[1] = 6;
 
 	_lastDirY = 0;
 	_lastDirX = 0;
@@ -192,6 +194,8 @@ void Fish::update()
 	switch (_fishState)
 	{
 	case ST_IDLE:
+		_canMove = true;
+		_rotation = 0;
 		if (moving) {
 			_contador = 0;
 
@@ -210,6 +214,7 @@ void Fish::update()
 			_contador = 0;
 
 			_fishState = ST_ROLL;
+			_roll = true;
 			_frame = 0;
 			_canMove = false;
 		}
@@ -246,34 +251,38 @@ void Fish::update()
 		break;
 	case ST_ROLL:
 		_rotation+= global_elapsed_time;
-		_Rect.x += (int)(_lastDirX * 1.5f);
-		if (_Rect.x < 0) _Rect.x = 0;
-		if (_Rect.x >= _pLevel->getMapWidth()) _Rect.x = _pLevel->getMapWidth()-1;
+		_canMove = false;
+		if (_roll) {
+			_Rect.x += (int)(_lastDirX * 1.5f);
+			if (_Rect.x < 0) _Rect.x = 0;
+			if (_Rect.x >= _pLevel->getMapWidth()) _Rect.x = _pLevel->getMapWidth()-1;
 
-		if (_lastDirX == MovementSpeed) {
-			checkCollision(I_D);
-		}
-		else if (_lastDirX == -MovementSpeed) {
-			checkCollision(I_A);
-		}
+			if (_lastDirX == MovementSpeed) {
+				checkCollision(I_D);
+			}
+			else if (_lastDirX == -MovementSpeed) {
+				checkCollision(I_A);
+			}
 
-		_Rect.y += (int)(_lastDirY * 1.5f);
-		if (_Rect.y < 0) _Rect.y = 0;
-		if (_Rect.y >= _pLevel->getMapHeight()) _Rect.y = _pLevel->getMapHeight() - 1;
-		if (_lastDirY == MovementSpeed) {
-			checkCollision(I_S);
-		}
-		else if (_lastDirY == -MovementSpeed) {
-			checkCollision(I_W);
-		}
+			_Rect.y += (int)(_lastDirY * 1.5f);
+			if (_Rect.y < 0) _Rect.y = 0;
+			if (_Rect.y >= _pLevel->getMapHeight()) _Rect.y = _pLevel->getMapHeight() - 1;
+			if (_lastDirY == MovementSpeed) {
+				checkCollision(I_S);
+			}
+			else if (_lastDirY == -MovementSpeed) {
+				checkCollision(I_W);
+			}
 
-		if (_contador > 450) { 
-			_contador = 0;
+			if (_contador > 450) { 
+				_contador = 0;
 
-			_fishState = ST_IDLE;
-			_frame = 0;
-			_canMove = true;
-			_rotation = 0;
+				_fishState = ST_IDLE;
+				_frame = 0;
+				_canMove = true;
+				_rotation = 0;
+				_roll = false;
+			}
 		}
 		break;
 	default:
@@ -318,8 +327,14 @@ void Fish::render()
 		_rectFrame.y = _rectFrame.h * 5 + 10;
 		break;
 	case ST_ROLL:
-		_rectFrame.x = _rectFrame.w * 1 + 2;
-		_rectFrame.y = _rectFrame.h * 3 + 6;
+		if (_roll) {
+			_rectFrame.x = _rectFrame.w * 1 + 2;
+			_rectFrame.y = _rectFrame.h * 3 + 6;
+		}
+		else {
+			_rectFrame.x = _rectFrame.w * 1 + 2;
+			_rectFrame.y = _rectFrame.h * 4 + 8;
+		}
 		break;
 	default:
 		break;
@@ -381,17 +396,19 @@ void Fish::render()
 
 void Fish::receiveDamage()
 {
-	if (_fishState != ST_ONHIT && _fishState != ST_FALLEN && _fishState != ST_ROLL)
-	{
-		size_t size = _enemies->size();
-		for (size_t i = 0; i < size; i++)
+	if (_canReceiveDamage) {
+		if (_fishState != ST_ONHIT && _fishState != ST_FALLEN && _fishState != ST_ROLL)
 		{
-			if (_enemies->at(i)->getState() != 0) { // Si el enemigo no está muerto (State 0 es siempre muerto)
-				if (isOverlaping(_enemies->at(i)->getCollision())) {
-					_HP -= _enemies->at(i)->getDamage();
-					_fishState = ST_ONHIT;
-					_canReceiveDamage = false;
-					break;
+			size_t size = _enemies->size();
+			for (size_t i = 0; i < size; i++)
+			{
+				if (_enemies->at(i)->getState() != 0) { // Si el enemigo no está muerto (State 0 es siempre muerto)
+					if (isOverlaping(_enemies->at(i)->getCollision())) {
+						_HP -= _enemies->at(i)->getDamage();
+						_fishState = ST_ONHIT;
+						_canReceiveDamage = false;
+						break;
+					}
 				}
 			}
 		}

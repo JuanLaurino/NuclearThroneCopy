@@ -86,7 +86,7 @@ void Chest::update()
 				Weapon* arma = new Weapon();
 				_weapons->push_back(arma);
 				arma->setXY(_Rect.x, _Rect.y);
-				int randomWeapon = rand() % 2 + 1;
+				int randomWeapon = rand() % 3 + 1;
 				arma->init(randomWeapon);
 				if (randomWeapon != 3) {
 					_ammoType = 0;

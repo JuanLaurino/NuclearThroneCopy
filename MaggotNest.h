@@ -22,7 +22,7 @@ public:
 	void render();
 
 	int getState() { return _state; };
-	void receiveDamage(int damage);
+	void receiveDamageFromBullet(int damage, float x, float y, float speed);
 	void setEnemiesPointer(std::vector<GFXElementX*>* enemies) { _enemies = enemies; };
 };
 

@@ -30,6 +30,8 @@ public:
 
 	int getDamage() { return _damage; };
 	int getCollCounter() { return _collidedCounter; };
+	float getSpeedX() { return _direction.x; };
+	float getSpeedY() { return _direction.y; };
 
 	bool isBulletFromPlayer();
 };

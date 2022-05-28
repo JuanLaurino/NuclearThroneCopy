@@ -42,7 +42,7 @@ void Character::checkForItem()
 				switch (_chest->at(i).getType())
 				{
 				case 0: // Cofre ammo
-					addAmmo(rand() % 5);
+					addAmmo(rand() % 2);
 					break;
 				case 1: // Cofre arma-ammo
 					addAmmo(_chest->at(i).getAmmoType());
@@ -54,18 +54,18 @@ void Character::checkForItem()
 					switch (rand() % 5)
 					{
 					case 0:
-						addAmmo(rand() % 5);
-						addAmmo(rand() % 5);
+						addAmmo(rand() % 2);
+						addAmmo(rand() % 2);
 						break;
 					case 1:
 						addHP(4);
 						break;
 					case 2:
-						addAmmo(rand() % 5);
+						addAmmo(rand() % 2);
 						addHP(2);
 						break;
 					case 3:
-						addAmmo(rand() % 5);
+						addAmmo(rand() % 2);
 						addHP((rand() % 2 + 1) * 2);
 						break;
 					case 4:
@@ -97,9 +97,13 @@ void Character::checkForItem()
 		}
 	}
 
-	size = _objects->size();
-	for (size_t i = 0; i < size; i++)
+	for (size_t i = 0; i < _objects->size(); i++)
 	{
+		if (getDistance(_objects->at(i)->getCollision()) <= 100) {
+			if (_objects->at(i)->getType() == 0 || _objects->at(i)->getType() == 1){
+				_objects->at(i)->moveTo(&_Rect);
+			}
+		}
 		if (isOverlaping(_objects->at(i)->getCollision())) {
 			switch (_objects->at(i)->getType())
 			{
@@ -110,7 +114,7 @@ void Character::checkForItem()
 				sHighscore->addScore(3);
 				break;
 			case 2:
-				addHP(1);
+				addHP(2);
 				break;
 			case 3:
 				addAmmo(0);
@@ -118,6 +122,8 @@ void Character::checkForItem()
 			default:
 				break;
 			}
+			delete _objects->at(i);
+			_objects->erase(_objects->begin() + i);
 		}
 	}
 }
@@ -140,10 +146,21 @@ void Character::receiveDamage()
 
 void Character::shoot()
 {
+
 	Bullet* bala;
-	bala = new Bullet();
-	_pBullet->push_back(bala);
-	_pBullet->at(_pBullet->size() - 1)->init(0, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 10, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());
+	if (_inventory[0]->getType() == 3) {
+		for (size_t i = 0; i < 7; i++)
+		{
+			bala = new Bullet();
+			_pBullet->push_back(bala);
+			_pBullet->at(_pBullet->size() - 1)->init(0, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 8, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());
+		}
+	}
+	else {
+		bala = new Bullet();
+		_pBullet->push_back(bala);
+		_pBullet->at(_pBullet->size() - 1)->init(0, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 10, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());
+	}
 }
 
 void Character::swapWeapon()

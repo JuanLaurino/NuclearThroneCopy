@@ -27,7 +27,7 @@ void Weapon::init(int weaponType)
 	switch (_weaponType)
 	{
 	case 0:
-		_cd = 180;
+		_cd = 240;
 		_damage = 3;
 		_ammoType = 0;
 		_spreadAngle = 4;
@@ -54,6 +54,7 @@ void Weapon::init(int weaponType)
 		_spreadAngle = 20;
 		_automatic = false;
 		break;
+
 	default:
 		break;
 	}

@@ -17,7 +17,7 @@ public:
 	void update();
 	void render();
 
-	void receiveDamage(int damage);
+	void receiveDamageFromBullet(int damage, float x, float y, float speed);
 	int getState() { return _state; };
 };
 

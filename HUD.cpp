@@ -60,7 +60,7 @@ void HUD::render()
 	Video::getInstance()->renderGraphic(_spriteID, 36 + 2 + 8, 8, 120, 28, 0, 0);
 
 	// Vida
-	Video::getInstance()->renderGraphic(_spriteID, 36 + 2 + 8, 8, 14.5f * _player->getHP(), 28, 0, 30);
+	Video::getInstance()->renderGraphic(_spriteID, 36 + 2 + 8, 8, (int)14.5f * _player->getHP(), 28, 0, 30);
 
 	// Números vida
 	Video::getInstance()->renderGraphic(_idNum, 85, 14, 12, 14, 0, 14 * _player->getHP() + _player->getHP() * 2);
@@ -71,9 +71,11 @@ void HUD::render()
 	if (_player->getHP() > 0) {
 		if (_player->getInventoryWeapon0()->getType() == 3) {
 			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 6, 0);
+			Video::getInstance()->renderGraphic(_idAmmo, 36, 8 + 56 + 8, 20, 22, 22 * 7, 23);
 		}
 		else {
 			Video::getInstance()->renderGraphic(_idAmmo, 8, 8 + 56 + 8, 20, 22, 22 * 7, 0);
+			Video::getInstance()->renderGraphic(_idAmmo, 36, 8 + 56 + 8, 20, 22, 22 * 6, 23);
 		}
 	}
 	else {
@@ -108,6 +110,35 @@ void HUD::render()
 		}
 
 	}
+
+	if (_player->getAmmo(1) > 0){
+		if (_player->getAmmo(1) <= 88)
+		{
+			Video::getInstance()->renderGraphic(_idAmmo, 36, 8 + 56 + 8, 20, 22, 22 * 5, 23);
+		}
+		else if (_player->getAmmo(1) > 16)
+		{
+			Video::getInstance()->renderGraphic(_idAmmo, 36, 8 + 56 + 8, 20, 22, 0, 23);
+		}
+		else if (_player->getAmmo(1) > 24)
+		{
+			Video::getInstance()->renderGraphic(_idAmmo, 36, 8 + 56 + 8, 20, 22, 22, 23);
+		}
+		else if (_player->getAmmo(1) > 34)
+		{
+			Video::getInstance()->renderGraphic(_idAmmo, 36, 8 + 56 + 8, 20, 22, 22 * 2, 23);
+		}
+		else if (_player->getAmmo(1) > 42)
+		{
+			Video::getInstance()->renderGraphic(_idAmmo, 36, 8 + 56 + 8, 20, 22, 22 * 3, 23);
+		}
+		else if (_player->getAmmo(1) > 50)
+		{
+			Video::getInstance()->renderGraphic(_idAmmo, 36, 8 + 56 + 8, 20, 22, 22 * 4, 23);
+		}
+
+	}
+
 
 	// Weapons	
 	if (_player->getInventoryWeapon0() != NULL) {
