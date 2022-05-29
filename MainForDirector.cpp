@@ -14,6 +14,7 @@
 
 Uint32 				global_elapsed_time = 0;
 bool				gameOn = true;
+int					characterPicked = -1;
 
 SceneDirector*		sDirector = NULL;
 InputManager*		sInputControl = NULL;
@@ -24,6 +25,7 @@ AudioManager*		sAudioManager = NULL;
 Mouse*				sMouse = NULL;
 Camera*				sCamera = NULL;
 Highscore*			sHighscore = NULL;
+
 
 int main( int argc, char* argv[] ) { 
 	srand(time(NULL));

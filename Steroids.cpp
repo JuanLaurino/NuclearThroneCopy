@@ -1,4 +1,4 @@
-#include "Fish.h"
+#include "Steroids.h"
 #include "Video.h"
 #include "InputManager.h"
 #include "SceneDirector.h"
@@ -13,7 +13,7 @@ extern Camera* sCamera;
 extern Mouse* sMouse;
 extern ResourceManager* sResourceManager;
 
-Fish::Fish()
+Steroids::Steroids()
 {
 	_state = ST_IDLE;
 	_contador = 0;
@@ -41,15 +41,15 @@ Fish::Fish()
 	_currentShootCD = _shootCD;
 }
 
-Fish::~Fish()
+Steroids::~Steroids()
 {
 }
 
-void Fish::init()
-{	
+void Steroids::init()
+{
 	_roll = false;
 	_leftSpaceInSprite = 7;
-	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/characters/CharacterFish.png");
+	_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/characters/CharacterSteroids.png");
 	_Rect.w = 34;
 	_Rect.h = 34;
 	_rectFrame.x = 0;
@@ -68,7 +68,7 @@ void Fish::init()
 	_actionCD = 0;
 }
 
-void Fish::update()
+void Steroids::update()
 {
 	_actionCD -= global_elapsed_time;
 	if (_actionCD < 0) _actionCD = 0;
@@ -80,7 +80,7 @@ void Fish::update()
 	checkForItem();
 
 	if (!_immune) {
-		if (_canReceiveDamage){
+		if (_canReceiveDamage) {
 			receiveDamage();
 		}
 		else {
@@ -98,14 +98,13 @@ void Fish::update()
 	if (_shootBlocked == 0) {
 		if (_state != ST_FALLEN && _state != ST_ROLL) {
 			if (sInputControl->getKeyPressed(I_CLICK) && _currentShootCD <= 0) {
-				_currentShootCD = _inventory[0]->getWeaponCD();
-			
+				_currentShootCD = _inventory[0]->getWeaponCD() * 0.8f;
+
 				if (_ammo[_inventory[0]->getWeaponAmmoType()] > 0) {
 					if (sInputControl->isClickJustPressed()) {
 						switch (_inventory[0]->getType())
 						{
 						case 0:
-							sInputControl->setClickJustPressedF();
 							_ammo[_inventory[0]->getWeaponAmmoType()] -= 1;
 							shoot();
 							break;
@@ -114,13 +113,11 @@ void Fish::update()
 							shoot();
 							break;
 						case 2:
-							sInputControl->setClickJustPressedF();
 							_ammo[_inventory[0]->getWeaponAmmoType()] -= 3;
 							_shootBlocked = 200;
 							_amountShoot = 3;
 							break;
 						case 3:
-							sInputControl->setClickJustPressedF();
 							_ammo[_inventory[0]->getWeaponAmmoType()] -= 1;
 							shoot();
 							break;
@@ -212,14 +209,6 @@ void Fish::update()
 			_state = ST_IDLE;
 			_frame = 0;
 		}
-		if (sInputControl->getKeyPressed(I_SPACE)) {
-			_contador = 0;
-
-			_state = ST_ROLL;
-			_roll = true;
-			_frame = 0;
-			_canMove = false;
-		}
 		break;
 	case ST_ONHIT:
 		if (_contador >= 260) {
@@ -241,23 +230,14 @@ void Fish::update()
 			_inventory[1]->setXY(_Rect.x + rand() % 20, _Rect.y + rand() % 20);
 			_inventory[1] = nullptr;
 		}
-		/*
-		if (sInputControl->getKeyPressed(I_SPACE)) { // 4 DEBUG
-			_contador = 0;
-
-			_state = ST_IDLE;
-			_frame = 0;
-			_canMove = true;
-			_HP = _MaxHP;
-		}*/
 		break;
 	case ST_ROLL:
-		_rotation+= global_elapsed_time;
+		_rotation += global_elapsed_time;
 		_canMove = false;
 		if (_roll) {
 			_Rect.x += (int)(_lastDirX * 1.5f);
 			if (_Rect.x < 0) _Rect.x = 0;
-			if (_Rect.x >= _pLevel->getMapWidth()) _Rect.x = _pLevel->getMapWidth()-1;
+			if (_Rect.x >= _pLevel->getMapWidth()) _Rect.x = _pLevel->getMapWidth() - 1;
 
 			if (_lastDirX == MovementSpeed) {
 				checkCollision(I_D);
@@ -276,7 +256,7 @@ void Fish::update()
 				checkCollision(I_W);
 			}
 
-			if (_contador > 450) { 
+			if (_contador > 450) {
 				_contador = 0;
 
 				_state = ST_IDLE;
@@ -292,7 +272,7 @@ void Fish::update()
 	}
 }
 
-void Fish::render()
+void Steroids::render()
 {
 	_contadorAnim += global_elapsed_time;
 	switch (_state)
@@ -364,7 +344,7 @@ void Fish::render()
 	// Rotacion de la bala?
 	_flip = (_Rect.x + (_rectFrame.w / 2) - sCamera->getX()) >= (sMouse->getX() + sMouse->getW() / 2);
 	if (_flip) { // Rotación dependiendo de donde apunta el mouse
-		
+
 		if (_Rect.y + (_Rect.h / 2) - sCamera->getY() >= (sMouse->getY() + sMouse->getH() / 2)) {
 			_inventory[0]->renderInHand(weaponX, weaponY - 5, angulo, 2);
 			// Render personaje
@@ -376,7 +356,7 @@ void Fish::render()
 			sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _rectFrame.w - 2, _rectFrame.h - 2, _rectFrame.x + 1, _rectFrame.y + 1, _rotation, _rectFrame.w / 2 - 1, _rectFrame.h / 2 - 1, 1);
 			// Render arma equipada
 			_inventory[0]->renderInHand(weaponX, weaponY - 5, angulo, 2);
-		}	
+		}
 	}
 	else {
 		// Pintado arma
@@ -392,11 +372,11 @@ void Fish::render()
 			// Render arma equipada
 			_inventory[0]->renderInHand(weaponX, weaponY, angulo, 0);
 		}
-	
+
 	}
 }
 
-void Fish::receiveDamage()
+void Steroids::receiveDamage()
 {
 	if (_state != ST_ONHIT && _state != ST_FALLEN && _state != ST_ROLL)
 	{
@@ -415,7 +395,7 @@ void Fish::receiveDamage()
 	}
 }
 
-void Fish::receiveDamage(int damage)
+void Steroids::receiveDamage(int damage)
 {
 	if (!_immune) {
 		if (_canReceiveDamage) {

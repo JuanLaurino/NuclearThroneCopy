@@ -151,6 +151,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Bandit.h" />
+    <ClInclude Include="BigMaggot.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Cactus.h" />
@@ -182,6 +183,8 @@
     <ClInclude Include="ScenePause.h" />
     <ClInclude Include="SceneSelectCharacter.h" />
     <ClInclude Include="SceneStats.h" />
+    <ClInclude Include="Scorpion.h" />
+    <ClInclude Include="Steroids.h" />
     <ClInclude Include="ThroneLogo.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="tinyxml2.h" />
@@ -193,6 +196,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Bandit.cpp" />
+    <ClCompile Include="BigMaggot.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Cactus.cpp" />
@@ -223,6 +227,8 @@
     <ClCompile Include="ScenePause.cpp" />
     <ClCompile Include="SceneSelectCharacter.cpp" />
     <ClCompile Include="SceneStats.cpp" />
+    <ClCompile Include="Scorpion.cpp" />
+    <ClCompile Include="Steroids.cpp" />
     <ClCompile Include="ThroneLogo.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="tinyxml2.cpp" />

@@ -1,6 +1,6 @@
 #pragma once
 #include "Character.h"
-class Fish :public Character
+class Steroids : public Character
 {
 	int _lastDirX;
 	int _lastDirY;
@@ -9,8 +9,8 @@ class Fish :public Character
 	bool _flip;
 	bool _roll;
 public:
-	Fish();
-	~Fish();
+	Steroids();
+	~Steroids();
 
 	void init();
 	void update();
@@ -19,4 +19,3 @@ public:
 	void receiveDamage();
 	void receiveDamage(int damage);
 };
-

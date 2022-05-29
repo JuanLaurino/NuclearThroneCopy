@@ -15,6 +15,10 @@
 #include "Highscore.h"
 #include "Bandit.h"
 #include "PickableObject.h"
+#include "Canister.h"
+#include "BigMaggot.h"
+#include "Scorpion.h"
+#include "Steroids.h"
 
 extern Mouse*           sMouse;
 extern SceneDirector*   sDirector;
@@ -26,6 +30,7 @@ extern ResourceManager* sResourceManager;
 extern Camera*          sCamera;
 extern Highscore*       sHighscore;
 
+extern int              characterPicked;
 extern bool             gameOn;
 extern Uint32           global_elapsed_time;
 
@@ -46,78 +51,95 @@ SceneGame::SceneGame()
 SceneGame::~SceneGame()
 {
 }
-// setPlayerPointer
 
 void SceneGame::init()
 {
     Highscore::getInstance()->init();
-    deletePointers();
-
-    mReinit = false;
-
-    _changeLevel = false;
-    _changeLevelTimer = 3500;
-    _dificultad = 1;
-    _nivel.init();
     
-    _personaje.init();
-    _personaje.setWorldPointer(&_nivel);
-    _personaje.setBulletsPointer(&_bullets);
-    _personaje.setWeaponPointer(&_weapons);
-    _personaje.setChestPointer(&_chest);
-    _personaje.setEnemiesPointer(&_enemies);
-    _personaje.setObjectPointer(&_pickableObjects);
-
-    // Arma inicial
-    Weapon* arma = new Weapon();
-    _weapons.push_back(arma);
-    _weapons[0]->init(0);
-    _weapons[0]->setWorldPointer(&_nivel);
-    _personaje.setWeapon00(_weapons[0]);
-
-    _hud.setPlayerPointer(&_personaje);
-    _hud.init();
-
-    sCamera->init(&_personaje, &_nivel);
-    spawnActorsInMap();
 }
 
 void SceneGame::reinit()
 {
-    mReinit = false;
-    _changeLevel = false;
-    _changeLevelTimer = 3500;
-    _dificultad++;
+    if (_personaje == nullptr) {
+        if (characterPicked == 0) {
+            Fish* fish;
+            fish = new Fish();
+            _personaje = fish;
+        }
+        else {
+            Steroids* steroids;
+            steroids = new Steroids();
+            _personaje = steroids;
+        }
+        deletePointers();
 
-    _justSpawned = true;
-    _timer = 0;
-    _personaje.setCanReceiveDamage(false);
-    _nivel.init();
+        mReinit = false;
 
-    if (_personaje.getInventoryWeapon1() != NULL) { // Dejando solo las dos armas que tiene el jugador
-        _weapons.resize(2);
-        _weapons.at(0) = _personaje.getInventoryWeapon0();
-        _weapons.at(1) = _personaje.getInventoryWeapon1();
+        _changeLevel = false;
+        _changeLevelTimer = 3500;
+        _dificultad = 1;
+        _nivel.init();
+
+        _personaje->init();
+        _personaje->setWorldPointer(&_nivel);
+        _personaje->setBulletsPointer(&_bullets);
+        _personaje->setWeaponPointer(&_weapons);
+        _personaje->setChestPointer(&_chest);
+        _personaje->setEnemiesPointer(&_enemies);
+        _personaje->setObjectPointer(&_pickableObjects);
+
+        // Arma inicial
+        Weapon* arma = new Weapon();
+        _weapons.push_back(arma);
+        _weapons[0]->init(0);
+        _weapons[0]->setWorldPointer(&_nivel);
+        _personaje->setWeapon00(_weapons[0]);
+
+        _hud.setPlayerPointer(_personaje);
+        _hud.init();
+
+        sCamera->init(_personaje, &_nivel);
+        spawnActorsInMap();
+
+        _personaje->setImmunity(true);
+        _justSpawned = true;
     }
     else {
-        _weapons.resize(1);
-        _weapons.at(0) = _personaje.getInventoryWeapon0();
-    }
+        mReinit = false;
+        _changeLevel = false;
+        _changeLevelTimer = 3500;
+        _dificultad++;
 
-    spawnActorsInMap();
+        _justSpawned = true;
+        _timer = 0;
+        _personaje->setImmunity(true);
+        _nivel.init();
+
+        if (_personaje->getInventoryWeapon1() != NULL) { // Dejando solo las dos armas que tiene el jugador
+            _weapons.resize(2);
+            _weapons.at(0) = _personaje->getInventoryWeapon0();
+            _weapons.at(1) = _personaje->getInventoryWeapon1();
+        }
+        else {
+            _weapons.resize(1);
+            _weapons.at(0) = _personaje->getInventoryWeapon0();
+        }
+
+        spawnActorsInMap();
+    }
 }
 
 void SceneGame::update()
 {
-    //if ((sInputControl->getKeyPressed(I_SCLICK))) { // ?
-    //    sVideo->setFullScreen(true);
-    //}
-    if (_timer >= 600 && _justSpawned) {
-        _personaje.setCanReceiveDamage(true);
-        _justSpawned = false;
-    }
-    else {
-        _timer += global_elapsed_time;
+    if (_justSpawned) {
+        if (_timer >= 3000) {
+            _personaje->setImmunity(false);
+            _justSpawned = false;
+        }
+        else {
+            _timer += global_elapsed_time;
+            std::cout << _timer << std::endl;
+        }
     }
 
     //Clear Screen
@@ -158,7 +180,7 @@ void SceneGame::update()
             {
                 if (_bullets[j]->getCollCounter() == -2) {
                     if (_enemies[i]->isOverlaping(_bullets[j]->getCollision())) {
-                        _enemies[i]->receiveDamageFromBullet(_bullets[j]->getDamage(), _bullets[j]->getSpeedX(), _bullets[j]->getSpeedY(), _personaje.getDistance(_enemies[i]->getCollision()));
+                        _enemies[i]->receiveDamageFromBullet(_bullets[j]->getDamage(), _bullets[j]->getSpeedX(), _bullets[j]->getSpeedY(), _personaje->getDistance(_enemies[i]->getCollision()));
                         _bullets[j]->setCollided();
                         break;
                     }
@@ -210,8 +232,8 @@ void SceneGame::update()
         
         if (!_bullets[i]->isBulletFromPlayer()) {// bullet collision with player
             if (_bullets[i]->getCollCounter() == -1) { 
-                if (_personaje.isOverlaping(_bullets[i]->getCollision())) {
-                    _personaje.receiveDamage(_bullets[i]->getDamage());
+                if (_personaje->isOverlaping(_bullets[i]->getCollision())) {
+                    _personaje->receiveDamage(_bullets[i]->getDamage());
                     _bullets[i]->setCollided();
                     break;
                 }
@@ -222,40 +244,30 @@ void SceneGame::update()
     for (size_t i = 0; i < size; i++)
     {
         _pickableObjects[i]->update();
-        if (_changeLevel && _personaje.getHP() > 0) {
-            _pickableObjects[i]->moveTo(_personaje.getCollision());
+        if (_changeLevel && _personaje->getHP() > 0) {
+            _pickableObjects[i]->moveTo(_personaje->getCollision());
         }
     }    
 
-    _personaje.update();
+    _personaje->update();
     sCamera->update();
     _hud.update();
     sMouse->update();
 
-
-    /*
-    if ((sInputControl->getKeyPressed(I_A))) { // 4Debug
-        //sDirector->changeScene(GAME_OVER, 1);
-        _personaje.addAmmo(0);
-        std::cout << _personaje.getAmmo(0) << std::endl;
-    }
-    std::cout << "Ammo: " << _personaje.getAmmo(0) << std::endl;
-    std::cout << _bullets.size() << std::endl;*/
-
-    if (_personaje.getHP() <= 0) {
+    if (_personaje->getHP() <= 0) {
         _changeLevel = true;
     }
-    if (_changeLevel && _personaje.getHP() > 0) {
-        _personaje.setState(3);
+    if (_changeLevel && _personaje->getHP() > 0) {
+        _personaje->setState(3);
 
         _changeLevelTimer -= global_elapsed_time;
         if (_changeLevelTimer <= 0) {
-            _personaje.setState(0);
+            _personaje->setState(0);
             sDirector->changeScene(GAME, 1);
             deletePointers();
         }
     }
-    else if (_changeLevel && _personaje.getHP() <= 0) {
+    else if (_changeLevel && _personaje->getHP() <= 0) {
         _changeLevelTimer -= global_elapsed_time;
         if (_changeLevelTimer <= 0) {
             deletePointers();
@@ -283,16 +295,18 @@ void SceneGame::render()
         _chest[i].render();
     }
 
+    size = _enemies.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        if (_enemies[i]->getState() == 0) {
+            _enemies[i]->render();
+        }
+    }
+
     size = _weapons.size();
     for (size_t i = 0; i < size; i++)
     {
         _weapons[i]->render(); // Render en el mundo
-    }
-
-    size = _enemies.size();
-    for (size_t i = 0; i < size; i++)
-    {
-        _enemies[i]->render(); //receive dmg
     }
 
     size = _pickableObjects.size();
@@ -301,7 +315,15 @@ void SceneGame::render()
         _pickableObjects[i]->render();
     }
 
-    _personaje.render();
+    size = _enemies.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        if (_enemies[i]->getState() != 0) {
+            _enemies[i]->render();
+        }
+    }
+
+    _personaje->render();
 
     size = _bullets.size();
     for (size_t i = 0; i < size; i++)
@@ -320,7 +342,7 @@ void SceneGame::spawnActorsInMap()
 {
     _cactus.resize(rand() % 7);
     size_t size = _cactus.size();
-    for (size_t i = 0; i < size; i++)
+    for (size_t i = 0; i < size; i++) // Spawn cactus
     {
         _cactus[i].init(rand() % 3);
         _cactus[i].setWorldPointer(&_nivel);
@@ -356,11 +378,11 @@ void SceneGame::spawnActorsInMap()
         _chest[_chest.size() - 1].spawnInMap();
     }
 
-    _personaje.spawnInMap();
+    _personaje->spawnInMap();
 
     Maggot* maggot;
     size = rand() % 7 + _dificultad + 4;
-    for (size_t i = 0; i < size; i++) // Spawn enemigos
+    for (size_t i = 0; i < size; i++) // Spawn Maggots
     {
         maggot = new Maggot();
         maggot->init(0);
@@ -372,7 +394,7 @@ void SceneGame::spawnActorsInMap()
 
     MaggotNest* maggotNest;
     size = rand() % _dificultad;
-    for (size_t i = 0; i < size; i++) // Spawn enemigos
+    for (size_t i = 0; i < size; i++) // Spawn MaggotNest
     {
         maggotNest = new MaggotNest();
         maggotNest->init();
@@ -385,17 +407,54 @@ void SceneGame::spawnActorsInMap()
 
     Bandit* bandit;
     size = rand() % 4 + _dificultad;
-    for (size_t i = 0; i < size; i++) // Spawn enemigos
+    for (size_t i = 0; i < size; i++) // Spawn Bandits
     {
         bandit = new Bandit();
         bandit->init();
         bandit->setWorldPointer(&_nivel);
-        bandit->setPlayerPointer(&_personaje);
+        bandit->setPlayerPointer(_personaje);
         bandit->setBulletsPointer(&_bullets);
         bandit->spawnInMap();
         bandit->setObjectPointer(&_pickableObjects);
         _enemies.push_back(bandit);
     }
+
+    BigMaggot* bigMaggot;
+    size = rand() % _dificultad;
+    for (size_t i = 0; i < size; i++) // Spawn BigMaggots
+    {
+        bigMaggot = new BigMaggot();
+        bigMaggot->init();
+        bigMaggot->setWorldPointer(&_nivel);
+        bigMaggot->setEnemiesPointer(&_enemies);
+        bigMaggot->setPlayerPointer(_personaje);
+        bigMaggot->spawnInMap();
+        bigMaggot->setObjectPointer(&_pickableObjects);
+        _enemies.push_back(bigMaggot);
+    }
+
+    Scorpion* scorpion;
+    size = rand() % _dificultad;
+    for (size_t i = 0; i < size; i++) // Spawn Scorpions
+    {
+        scorpion = new Scorpion();
+        scorpion->init();
+        scorpion->setWorldPointer(&_nivel);
+        scorpion->setPlayerPointer(_personaje);
+        scorpion->spawnInMap();
+        scorpion->setObjectPointer(&_pickableObjects);
+        scorpion->setBulletsPointer(&_bullets);
+        _enemies.push_back(scorpion);
+    }
+
+    Canister* canister;
+    canister = new Canister(); // Spawn Canister
+    canister->init();
+    canister->setWorldPointer(&_nivel);
+    canister->spawnInMap();
+    canister->setObjectPointer(&_pickableObjects);
+    canister->setEnemiesPointer(&_enemies);
+    _enemies.push_back(canister);
 }
 
 void SceneGame::deletePointers()
@@ -412,7 +471,7 @@ void SceneGame::deletePointers()
 
     for (size_t i = 0; i < _weapons.size(); i++)
     {
-        if (!(_weapons[i] == _personaje.getInventoryWeapon0() || _weapons[i] == _personaje.getInventoryWeapon1())) {
+        if (!(_weapons[i] == _personaje->getInventoryWeapon0() || _weapons[i] == _personaje->getInventoryWeapon1())) {
             delete _weapons[i];
             _weapons.erase(_weapons.begin() + i);
         }

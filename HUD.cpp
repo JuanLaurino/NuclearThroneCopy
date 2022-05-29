@@ -32,13 +32,13 @@ void HUD::init()
 
 void HUD::update()
 {
-	_playerScore = sHighscore->getScore();	// DESCOMENTAR
+	_playerScore = sHighscore->getScore();	
 	if (_playerScore == 0) {
 		_playerLevel = 0;
 	}
 	else
 	{
-		_playerLevel = _playerScore / 16;
+		_playerLevel = _playerScore / 64;
 	}
 }
 
@@ -49,12 +49,12 @@ void HUD::render()
 
 	// Rads dentro de la cápsula
 	if (_playerScore != 0) {
-		int offset = 44 - (_playerScore % 16 + 1) * 2;
+		int offset = 44 - (_playerScore % 64 + 1) / 2;
 		Video::getInstance()->renderGraphic(_spriteID, 8, 8 + offset, 34, 32, 38, 64 + offset);
 	}
 
 	// Nivel
-	Video::getInstance()->renderGraphic(_idNum, 20, 28, 12, 14, 0, _playerLevel * 16); // EL 0 SE VE MAL?
+	Video::getInstance()->renderGraphic(_idNum, 20, 28, 12, 14, 0, _playerLevel * 16);
 
 	// Base barra de vida
 	Video::getInstance()->renderGraphic(_spriteID, 36 + 2 + 8, 8, 120, 28, 0, 0);

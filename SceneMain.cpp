@@ -87,7 +87,7 @@ void SceneMain::reinit()
 void SceneMain::update() {
     // QUITAR
     if ((sInputControl->getKeyPressed(I_D))) { 
-        sDirector->changeScene(GAME, 0);
+        sDirector->changeScene(GAME, 1);
     }
     // QUITAR
     // 
@@ -127,8 +127,7 @@ void SceneMain::update() {
         }
 
         if (((_contador * global_elapsed_time) > 400) && (sInputControl->getKeyPressed(I_CLICK) && _button[0].getIsHoldingBtn())) { //Si le da a PLAY
-            //sDirector->changeScene(SELECT_CHARACTER, 1);
-            sDirector->changeScene(GAME, 0); // QUITAR Y METER SELECT CHARACTER
+            sDirector->changeScene(SELECT_CHARACTER, 1);
         }
         if (((_contador * global_elapsed_time) > 400) && (sInputControl->getKeyPressed(I_CLICK) && _button[3].getIsHoldingBtn())) { //Si le da a STATS
             sDirector->changeScene(STATS, 1);

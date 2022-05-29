@@ -12,13 +12,14 @@
 class Character :public GFXElementX
 {
 protected:
-	enum PLAYER_STATE { ST_IDLE, ST_ONHIT, ST_MOVING, ST_FALLEN };
+	enum PLAYER_STATE { ST_IDLE, ST_ONHIT, ST_MOVING, ST_ROLL, ST_FALLEN };
 
 	PLAYER_STATE _state;
 	notSDL_Rect _rectFrame;
 
 	bool _canMove;
 	bool _canReceiveDamage;
+	bool _immune;
 
 	int _MaxHP;
 	int _ammo[5];
@@ -43,8 +44,15 @@ public:
 	Character();
 	~Character();
 
+	virtual void init()		{ };
+	virtual void update()	{ };
+	virtual void render()	{ };
+
+	virtual void receiveDamage();
+	virtual void receiveDamage(int damage)	{  };
+	virtual void setState(int state)		{  };
+
 	void checkForItem();
-	void receiveDamage();
 	void shoot();
 	void swapWeapon();
 
@@ -61,7 +69,7 @@ public:
 	void setWeaponPointer(std::vector<Weapon*> *weapons) { _weapons = weapons; };
 	void setChestPointer(std::vector<Chest>* chest) { _chest = chest; };
 	void setEnemiesPointer(std::vector<GFXElementX*>* enemies) { _enemies = enemies; };
-	void setCanReceiveDamage(bool can) { _canReceiveDamage = can; };
+	void setImmunity(bool immune) { _immune = immune; };
 
 	void setWeapon00(Weapon* wp) { _inventory[0] = wp; wp->setState(2); };
 	void setWeapon01(Weapon* wp) { _inventory[1] = wp; wp->setState(1); };

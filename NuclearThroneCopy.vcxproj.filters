@@ -135,6 +135,15 @@
     <ClInclude Include="Canister.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BigMaggot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scorpion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Steroids.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GFXElement.cpp">
@@ -252,6 +261,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Canister.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BigMaggot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scorpion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Steroids.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

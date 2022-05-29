@@ -104,7 +104,7 @@ void Bullet::render()
 		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w, _Rect.h, _rectFrame.x, _rectFrame.y, _angle, 16, 16, 0);
 		break;
 	case Bullet::Scorpion_Bullet:
-		sVideo->renderGraphic(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w, _Rect.h, _rectFrame.x, _rectFrame.y);
+		sVideo->renderGraphicEx(_spriteID, _Rect.x - sCamera->getX(), _Rect.y - sCamera->getY(), _Rect.w-4, _Rect.h-4, _rectFrame.x+2, _rectFrame.y+2, _Rect.w * 1.3F, _Rect.h * 1.5F, _angle, 16, 16, 0);
 		break;
 	default:
 		break;
