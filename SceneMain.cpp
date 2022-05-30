@@ -39,6 +39,18 @@ SceneMain::~SceneMain()
 
 void SceneMain::init()
 {
+    // Para que exista el fichero
+    sVideo->setRenderColor(245, 189, 81);
+    sVideo->clearScreen();
+    sVideo->updateScreen();
+    sVideo->takeScreenshot(); 
+
+    sVideo->setRenderColor(0, 0, 0);
+    sVideo->clearScreen();
+    sVideo->updateScreen();
+    // ---------------------------
+
+
     mReinit = false;
     _animationState = true;
 
@@ -81,7 +93,10 @@ void SceneMain::init()
 
 void SceneMain::reinit()
 {
-    mReinit = true;
+    mReinit = false;
+    _contador = 0;
+
+    sVideo->setRenderColor(0, 0, 0);
 }
 
 void SceneMain::update() {

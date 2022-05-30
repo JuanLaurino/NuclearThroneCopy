@@ -131,22 +131,24 @@ void Steroids::update()
 		}
 	}
 	else {
-		if (_shootBlocked == 200) {
-			shoot();
-			_amountShoot--;
-		}
-		_shootBlocked -= global_elapsed_time;
-		if (_shootBlocked <= 0) {
-			_shootBlocked = 0;
-			shoot();
-			_amountShoot--;
-			if (_amountShoot > 0) {
-				_shootBlocked = 199;
+		if (_state != ST_FALLEN){
+			if (_shootBlocked == 200) {
+				shoot();
+				_amountShoot--;
 			}
+			_shootBlocked -= global_elapsed_time;
+			if (_shootBlocked <= 0) {
+				_shootBlocked = 0;
+				shoot();
+				_amountShoot--;
+				if (_amountShoot > 0) {
+					_shootBlocked = 199;
+				}
+			}
+			_currentShootCD = _inventory[0]->getWeaponCD();
+	
 		}
-		_currentShootCD = _inventory[0]->getWeaponCD();
 	}
-
 	if (_canMove) {
 		if (sInputControl->getKeyPressed(I_D) && _Rect.x < (_pLevel->getMapWidth() - _rectFrame.w + 1)) {
 			_Rect.x += MovementSpeed;

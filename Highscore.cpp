@@ -3,14 +3,55 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "ResourceManager.h"
+#include "Video.h"
 
 Highscore* Highscore::pInstance = NULL;
+
+extern Video* sVideo;
+extern ResourceManager* sResourceManager;
+
+
 
 Highscore* Highscore::getInstance() {
 	if (!pInstance) {
 		pInstance = new Highscore();
 	}
 	return pInstance;
+}
+
+void Highscore::renderScore(int posY, int score)
+{
+	int offset = 0;
+	int numero = 0;
+	int nScore = score;
+
+	if (nScore == 0) {
+		offset = 16 * 2;
+		numero = 0;
+		sVideo->renderGraphic(_numbersID, 200 + offset, posY, 14, 14, 0, 14 * numero + numero * 2);
+	}
+
+	numero = nScore % 10;
+	offset = 16 * 2;
+
+	sVideo->renderGraphic(_numbersID, 200 + offset, posY, 14, 14, 0, 14 * numero + numero * 2);
+
+	numero = nScore % 100;
+	if (numero != 0) {
+		numero = numero / 10;
+	}
+	offset = 16 * 1;
+
+	sVideo->renderGraphic(_numbersID, 200 + offset, posY, 14, 14, 0, 14 * numero + numero * 2);
+
+	numero = nScore % 1000;
+	if (numero != 0) {
+		numero = numero / 100;
+	}
+	offset = 16 * 0;
+
+	sVideo->renderGraphic(_numbersID, 200 + offset, posY, 14, 14, 0, 14 * numero + numero * 2);
 }
 
 Highscore::Highscore()
@@ -30,6 +71,8 @@ void Highscore::init()
 	for (int i = 0; i <= 11; i++) {
 		_ranking[i] = 0;
 	}
+
+	_numbersID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/UI/HUD/numbers.png");
 }
 
 void Highscore::readScore()
@@ -95,4 +138,9 @@ void Highscore::renderScore()
 		std::cout << i + 1 << " - " << _ranking[i] << "\n";
 	}
 	std::cout << std::endl;
+
+	for (size_t i = 0; i < 10; i++)
+	{
+		renderScore(88 + i * 14 + i * 2, _ranking[i]);
+	}
 }

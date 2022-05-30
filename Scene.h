@@ -26,6 +26,8 @@ class Scene
 		//! Handles the updating of the scene
 		virtual void update() = 0;
 
+		virtual void reset();
+
 		void setReInit(bool loaded = true)	{mReinit = loaded;};
 		bool mustReInit()				{return mReinit;};
 

@@ -55,11 +55,12 @@ SceneGame::~SceneGame()
 void SceneGame::init()
 {
     Highscore::getInstance()->init();
-    
+    _takeSS = false;
 }
 
 void SceneGame::reinit()
 {
+    sVideo->setRenderColor(245, 189, 81);
     if (_personaje == nullptr) {
         if (characterPicked == 0) {
             Fish* fish;
@@ -103,8 +104,10 @@ void SceneGame::reinit()
 
         _personaje->setImmunity(true);
         _justSpawned = true;
+        _timer = 0;
     }
     else {
+        _personaje->setImmunity(true);
         mReinit = false;
         _changeLevel = false;
         _changeLevelTimer = 3500;
@@ -270,17 +273,24 @@ void SceneGame::update()
     else if (_changeLevel && _personaje->getHP() <= 0) {
         _changeLevelTimer -= global_elapsed_time;
         if (_changeLevelTimer <= 0) {
+            _takeSS = true;
+            render(); // Para sacar captura
             deletePointers();
-            sDirector->changeScene(STATS, 1);
+            //sDirector->changeScene(STATS, 1);
+            sDirector->changeScene(GAME_OVER, 1);
         }
+    }
+
+    if (sInputControl->getKeyPressed(I_P)) {
+        _takeSS = true;
+        render(); // Para sacar captura
+        sDirector->changeScene(PAUSE, 1);
     }
 }
 
 void SceneGame::render()
 {
-    sVideo->setRenderColor(245, 189, 81);
 
-    sMouse->render();
     _nivel.render();    
 
     size_t size = _cactus.size();
@@ -331,11 +341,21 @@ void SceneGame::render()
         _bullets[i]->render();
     }
 
-    _hud.render();
-    sMouse->render();
+    if (_changeLevel && _changeLevelTimer <= 0) {
+        // No pinta el hud-mouse cuando saca captura
+    }
+    else {
+        _hud.render();
+        sMouse->render();
+    }
 
     //Update Screen
     sVideo->updateScreen();
+
+    if (_takeSS) {
+        sVideo->takeScreenshot();
+        _takeSS = false;
+    }
 }
 
 void SceneGame::spawnActorsInMap()
@@ -483,4 +503,20 @@ void SceneGame::deletePointers()
         delete _pickableObjects[i];
     }
     _pickableObjects.resize(0);
+}
+
+void SceneGame::reset()
+{
+    delete _personaje;
+    _personaje = nullptr;
+
+    for (size_t i = 0; i < _weapons.size(); i++)
+    {
+        delete _weapons[i];
+    }
+    _weapons.resize(0);
+
+    _dificultad = 0;
+
+    sHighscore->resetScore();
 }

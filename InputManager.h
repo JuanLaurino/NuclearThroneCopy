@@ -1,7 +1,7 @@
 #pragma once
 #include "SDL.h"
 #include "Main.h"
-#define totalTeclas 9
+#define totalTeclas 10
 class InputManager
 {
 	static InputManager* pInstance;

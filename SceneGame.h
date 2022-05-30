@@ -19,6 +19,7 @@ class SceneGame : public Scene
 	int			_dificultad;
 
 	bool		_justSpawned;
+	bool		_takeSS;
 	int			_timer;
 
 	Level		_nivel;
@@ -43,5 +44,6 @@ public:
 
 	void spawnActorsInMap();
 	void deletePointers();
+	void reset();
 };
 

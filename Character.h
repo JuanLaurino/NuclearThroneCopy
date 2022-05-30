@@ -50,7 +50,7 @@ public:
 
 	virtual void receiveDamage();
 	virtual void receiveDamage(int damage)	{  };
-	virtual void setState(int state)		{  };
+	virtual void setState(int state) { _state = (PLAYER_STATE)state; };
 
 	void checkForItem();
 	void shoot();

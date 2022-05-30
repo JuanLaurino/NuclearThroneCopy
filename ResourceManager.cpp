@@ -17,6 +17,11 @@ ResourceManager::~ResourceManager()
 void ResourceManager::removeGraphic(const char* file)
 {
 	//Destroy texture es necesario?
+
+	if (_IDMap.find(file) == _IDMap.end()) { // si no lo encuentra, no existe entonces se va
+		return;
+	}
+
 	_GraphicsVector[_IDMap.find(file)->second] = NULL;
 	_IDMap.erase(file);
 }

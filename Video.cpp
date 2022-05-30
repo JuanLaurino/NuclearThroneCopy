@@ -246,9 +246,24 @@ void Video::clearScreen() {
 	SDL_RenderClear(gRenderer);
 }
 
+void Video::takeScreenshot()
+{
+	ResourceManager::getInstance()->removeGraphic("screenshot.bmp");
+	SDL_GetRendererOutputSize(gRenderer, &w, &h);
+	_screenshot = SDL_CreateRGBSurface(0, w, h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	SDL_RenderReadPixels(gRenderer, NULL, SDL_PIXELFORMAT_ARGB8888, _screenshot->pixels, _screenshot->pitch);
+	SDL_SaveBMP(_screenshot, "screenshot.bmp");
+	SDL_FreeSurface(_screenshot);
+}
+
 SDL_Renderer* Video::getRenderer()
 {
 	return gRenderer;
+}
+
+void Video::renderScreenshot()
+{
+	renderGraphic(ResourceManager::getInstance()->loadAndGetGraphicID(gRenderer, "screenshot.bmp") , 0, 0, w, h);
 }
 
 void Video::updateScreen() {

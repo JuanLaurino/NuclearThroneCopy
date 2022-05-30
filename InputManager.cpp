@@ -44,9 +44,13 @@ void InputManager::update()
 			if (teclas.key.keysym.sym == Key_Space) {
 				_tecla[I_SPACE] = true;
 			}
+			if (teclas.key.keysym.sym == Key_P) {
+				_tecla[I_P] = true;
+			}
 			if (teclas.key.keysym.sym == Key_Escape) {
 				gameOn = false;
 			}
+
 			break;
 		case SDL_KEYUP:
 			if (teclas.key.keysym.sym == Key_A) {
@@ -67,6 +71,10 @@ void InputManager::update()
 			if (teclas.key.keysym.sym == Key_Space) {
 				_tecla[I_SPACE] = false;
 			}
+			if (teclas.key.keysym.sym == Key_P) {
+				_tecla[I_P] = false;
+			}
+
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			if (teclas.button.button == SDL_BUTTON_LEFT) {
