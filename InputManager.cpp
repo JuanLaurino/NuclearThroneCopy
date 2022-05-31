@@ -1,5 +1,5 @@
 #include "InputManager.h"
-#include "Main.h"
+#include "KeyDefine.h"
 
 InputManager* InputManager::pInstance = nullptr;
 

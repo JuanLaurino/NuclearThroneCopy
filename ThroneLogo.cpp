@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "Video.h"
 #include "ResourceManager.h"
-#include "Main.h"
+#include "KeyDefine.h"
 
 extern Uint32           global_elapsed_time;
 

@@ -59,6 +59,8 @@ Highscore::Highscore()
 	for (int i = 0; i <= 11; i++) {
 		_ranking[i] = 0;
 	}
+	_newScore = true;
+	_score = 0;
 }
 
 Highscore::~Highscore()

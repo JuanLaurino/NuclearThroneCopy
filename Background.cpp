@@ -2,7 +2,7 @@
 #include "ResourceManager.h"
 #include "Video.h"
 #include <string>
-#include "Main.h"
+#include "KeyDefine.h"
 #include <iostream>
 extern Uint32 global_elapsed_time;
 

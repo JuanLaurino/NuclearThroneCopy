@@ -6,7 +6,7 @@
 #include "InputManager.h"
 #include "Mouse.h"
 #include "Background.h"
-#include "Main.h"
+#include "KeyDefine.h"
 #include "SceneMain.h"
 #include "SceneDirector.h"
 #include "Highscore.h"

@@ -1,6 +1,6 @@
 #pragma once
 #include "SDL.h"
-#include "Main.h"
+#include "KeyDefine.h"
 #define totalTeclas 10
 class InputManager
 {

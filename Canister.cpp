@@ -1,7 +1,7 @@
 #include "Canister.h"
 #include "ResourceManager.h"
 #include "Video.h"
-#include "Main.h"
+#include "KeyDefine.h"
 #include "Camera.h"
 
 extern Video*			sVideo;

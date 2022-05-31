@@ -3,7 +3,7 @@
 #include "ResourceManager.h"
 #include "Video.h"
 #include "Camera.h"
-#include "Main.h"
+#include "KeyDefine.h"
 
 extern Video*			sVideo;
 extern ResourceManager* sResourceManager;

@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
-#include "Main.h"
+#include "KeyDefine.h"
 #include "PickableObject.h"
 
 

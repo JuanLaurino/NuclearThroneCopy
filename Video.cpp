@@ -1,5 +1,5 @@
 #include "Video.h"
-#include "Main.h"
+#include "KeyDefine.h"
 #include "SDL_image.h"
 #include "Camera.h"
 #include "SceneDirector.h"

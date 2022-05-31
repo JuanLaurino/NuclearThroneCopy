@@ -169,7 +169,7 @@
     <ClInclude Include="Logo.h" />
     <ClInclude Include="Maggot.h" />
     <ClInclude Include="MaggotNest.h" />
-    <ClInclude Include="Main.h" />
+    <ClInclude Include="KeyDefine.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="PickableObject.h" />
     <ClInclude Include="resource.h" />

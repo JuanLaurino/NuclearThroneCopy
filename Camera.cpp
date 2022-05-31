@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include "Level.h"
-#include "Main.h"
+#include "KeyDefine.h"
 #include "Character.h"
 #include "Level.h"
 #include "Mouse.h"

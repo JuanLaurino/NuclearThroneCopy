@@ -1,6 +1,6 @@
 #include "Logo.h"
 #include "Video.h"
-#include "Main.h"
+#include "KeyDefine.h"
 
 Logo::Logo()
 {
