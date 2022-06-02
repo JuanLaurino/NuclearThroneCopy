@@ -61,6 +61,8 @@ void SceneGame::init()
 void SceneGame::reinit()
 {
     sVideo->setRenderColor(245, 189, 81);
+
+    Audio::getInstance()->playAudio(-1, sAudioManager->loadAndGetAudioID("Assets/sound/Mutant1Spch.ogg"), 0);
     if (_personaje == nullptr) {
         if (characterPicked == 0) {
             Fish* fish;

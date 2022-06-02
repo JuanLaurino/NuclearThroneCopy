@@ -59,7 +59,7 @@ void Fish::init()
 	_canMove = true;
 	_MaxHP = 8;
 	_HP = 8;
-	_ammo[0] = 100;
+	_ammo[0] = 70;
 	_ammo[1] = 16;
 
 	_lastDirY = 0;

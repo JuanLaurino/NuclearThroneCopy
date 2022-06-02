@@ -111,7 +111,7 @@ void GFXElementX::spawnRads(int amount)
 				do
 				{
 					canSpawn = true;
-					rads->init(1, (_Rect.x + _Rect.w / 2 - 19) + rand() % 40, (_Rect.y + _Rect.h / 2 - 19) + rand() % 40);
+					rads->init(1, (_Rect.x + _Rect.w / 2 - 39) + rand() % 80, (_Rect.y + _Rect.h / 2 - 39) + rand() % 80);
 
 					// Esquinas de la imagen
 					if (_pLevel->getIDfromLayer(0, rads->getX(), rads->getY())) {

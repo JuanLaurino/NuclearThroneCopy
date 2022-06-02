@@ -2,11 +2,16 @@
 #include "Video.h"
 #include "ResourceManager.h"
 #include <iostream>
+#include "Audio.h"
+#include "AudioManager.h"
 #include "Camera.h"
 
 extern Video*			sVideo;
 extern ResourceManager* sResourceManager;
 extern Camera*			sCamera;
+extern Audio*			sAudio;
+extern AudioManager*	sAudioManager;
+
 extern Uint32           global_elapsed_time;
 
 Bullet::Bullet()
@@ -48,14 +53,18 @@ void Bullet::init(int type, glm::vec2 initialPos, glm::vec2 finalPos, float spee
 	{
 	case Bullet::Player_Bullet:
 		_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/characters/playerBullets.png");
-
+		//_IDAudioShootRB = sAudioManager->loadAndGetAudioID("Assets/sound/shootEnemy.ogg");
+		Audio::getInstance()->playAudio(-1, sAudioManager->loadAndGetAudioID("Assets/sound/shootSG.ogg"), 0);
 		break;
 	case Bullet::Bandit_Bullet:
 		_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/banditBullet.png");
 		_rectFrame.y = 32;
+		Audio::getInstance()->playAudio(-1, sAudioManager->loadAndGetAudioID("Assets/sound/shootEnemy.ogg"), 0);
 		break;
 	case Bullet::Scorpion_Bullet:
 		_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/ScorpionBullet.png");
+		//_IDAudioShootScorpion = sAudioManager->loadAndGetAudioID("Assets/sound/musThemeA.ogg");
+		//_AudioShoot = Audio::getInstance()->playAudio(-1, _IDAudioShootScorpion, 0);
 		break;
 	default:
 		break;

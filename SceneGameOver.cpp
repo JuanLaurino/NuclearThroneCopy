@@ -51,6 +51,8 @@ void SceneGameOver::reinit()
 {
     mReinit = false;
     sVideo->setRenderColor(245, 189, 81);
+
+    Audio::getInstance()->playAudio(-1, sAudioManager->loadAndGetAudioID("Assets/sound/CuzCry.ogg"), 0);
 }
 
 void SceneGameOver::update()
