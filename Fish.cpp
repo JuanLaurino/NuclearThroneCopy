@@ -6,11 +6,11 @@
 #include "Mouse.h"
 #include <iostream>
 
-extern InputManager* sInputControl;
-extern Video* sVideo;
+extern InputManager*	sInputControl;
+extern Video*			sVideo;
 extern Uint32           global_elapsed_time;
-extern Camera* sCamera;
-extern Mouse* sMouse;
+extern Camera*			sCamera;
+extern Mouse*			sMouse;
 extern ResourceManager* sResourceManager;
 
 Fish::Fish()

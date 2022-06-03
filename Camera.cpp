@@ -6,7 +6,9 @@
 #include "Mouse.h"
 
 Camera* Camera::pInstance = nullptr; 
-extern Mouse* sMouse;
+
+extern Mouse*			sMouse;
+extern Uint32           global_elapsed_time;
 
 Camera::Camera()
 {
@@ -17,6 +19,10 @@ Camera::Camera()
 
 	_pJugador = nullptr;
 	_pMapa = nullptr;
+
+	_contador = 0;
+	_offsetX = 0;
+	_offsetY = 0;
 }
 
 Camera::~Camera()
@@ -25,6 +31,10 @@ Camera::~Camera()
 
 void Camera::init(Character* pJugador, Level* mapa)
 {
+	_contador = 0;
+	_offsetX = 0;
+	_offsetY = 0;
+
 	_pJugador = pJugador;
 	_pMapa = mapa;
 	_Rect.x = (_pJugador->getX() - (_pJugador->getW() / 2)) - (WIN_WIDTH / 2);
@@ -50,6 +60,20 @@ void Camera::update()
 	_Rect.x = (_pJugador->getX() + (_pJugador->getW() / 2)) - (WIN_WIDTH / 2)  + sMouse->getX() / 3 - (WIN_WIDTH / 6);
 	_Rect.y = (_pJugador->getY() + (_pJugador->getH() / 2)) - (WIN_HEIGHT / 2) + sMouse->getY() / 3 - (WIN_HEIGHT / 6);
 
+	_contador -= global_elapsed_time;
+	if (_contador <= 0) {
+		_contador = 0;
+		_offsetX = 0;
+		_offsetY = 0;
+	}
+	else {
+		_offsetX+= rand() % 3 - 1;
+		_offsetY-= rand() % 3 - 1;
+	}
+
+	_Rect.x += _offsetX * 2;
+	_Rect.y += _offsetY * 2;
+
 	if (_Rect.x < 0) {
 		_Rect.x = 0;
 	}
@@ -62,6 +86,14 @@ void Camera::update()
 	}
 	else if (_Rect.y > (_pMapa->getMapHeight() - 1) - WIN_HEIGHT) {
 		_Rect.y = (_pMapa->getMapHeight() - 1) - WIN_HEIGHT;
+	}
+}
+
+void Camera::shake()
+{
+	_contador += 100;
+	if (_contador > 300) {
+		_contador = 300;
 	}
 }
 

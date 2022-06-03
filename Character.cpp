@@ -117,7 +117,7 @@ void Character::checkForItem()
 				addHP(2);
 				break;
 			case 3:
-				addAmmo(0);
+				addAmmo(rand() % 2);
 				break;
 			default:
 				break;
@@ -151,12 +151,14 @@ void Character::shoot()
 	if (_inventory[0]->getType() == 3) {
 		for (size_t i = 0; i < 7; i++)
 		{
+			sCamera->shake();
 			bala = new Bullet();
 			_pBullet->push_back(bala);
 			_pBullet->at(_pBullet->size() - 1)->init(0, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 8, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());
 		}
 	}
 	else {
+		sCamera->shake();
 		bala = new Bullet();
 		_pBullet->push_back(bala);
 		_pBullet->at(_pBullet->size() - 1)->init(0, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 10, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());

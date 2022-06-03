@@ -64,6 +64,7 @@ void SceneGame::reinit()
 
     Audio::getInstance()->playAudio(-1, sAudioManager->loadAndGetAudioID("Assets/sound/Mutant1Spch.ogg"), 0);
     if (_personaje == nullptr) {
+        _portal.init();
         if (characterPicked == 0) {
             Fish* fish;
             fish = new Fish();
@@ -117,7 +118,6 @@ void SceneGame::reinit()
 
         _justSpawned = true;
         _timer = 0;
-        _personaje->setImmunity(true);
         _nivel.init();
 
         if (_personaje->getInventoryWeapon1() != NULL) { // Dejando solo las dos armas que tiene el jugador
@@ -137,13 +137,17 @@ void SceneGame::reinit()
 void SceneGame::update()
 {
     if (_justSpawned) {
+        _timer += global_elapsed_time;
         if (_timer >= 3000) {
             _personaje->setImmunity(false);
             _justSpawned = false;
+            _doOnce = true;
         }
-        else {
-            _timer += global_elapsed_time;
-            std::cout << _timer << std::endl;
+        else if (_timer >= 500) {
+            if (_doOnce) {
+                _doOnce = false;
+                _personaje->setState(0);
+            }
         }
     }
 
@@ -177,6 +181,10 @@ void SceneGame::update()
     }
     size_t deadEnemies = 0;
     size = _enemies.size();
+    if (size == 1) {
+        _portal.setX(_enemies[0]->getX());
+        _portal.setY(_enemies[0]->getY());
+    }
     for (size_t i = 0; i < size; i++)
     {
         _enemies[i]->update();
@@ -264,10 +272,13 @@ void SceneGame::update()
     }
     if (_changeLevel && _personaje->getHP() > 0) {
         _personaje->setState(3);
+        sCamera->shake();
+
+        _portal.update();
 
         _changeLevelTimer -= global_elapsed_time;
         if (_changeLevelTimer <= 0) {
-            _personaje->setState(0);
+
             sDirector->changeScene(GAME, 1);
             deletePointers();
         }
@@ -343,10 +354,11 @@ void SceneGame::render()
         _bullets[i]->render();
     }
 
-    if (_changeLevel && _changeLevelTimer <= 0) {
-        // No pinta el hud-mouse cuando saca captura
+    if (_changeLevel && _personaje->getHP() > 0) {
+        _portal.render();
     }
-    else {
+
+    if (!(_changeLevel && _changeLevelTimer <= 0)) {
         _hud.render();
         sMouse->render();
     }

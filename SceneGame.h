@@ -11,6 +11,7 @@
 #include "Cactus.h"
 #include "Bullet.h"
 #include "HUD.h"
+#include "Portal.h"
 
 class SceneGame : public Scene
 {
@@ -20,11 +21,13 @@ class SceneGame : public Scene
 
 	bool		_justSpawned;
 	bool		_takeSS;
+	bool		_doOnce;
 	int			_timer;
 
 	Level		_nivel;
 	Character*	_personaje;
 	HUD			_hud;
+	Portal		_portal;
 
 	std::vector<Chest>				_chest;
 	std::vector<Cactus>				_cactus;

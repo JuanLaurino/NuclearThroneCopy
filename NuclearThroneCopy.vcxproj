@@ -172,6 +172,7 @@
     <ClInclude Include="KeyDefine.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="PickableObject.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
@@ -217,6 +218,7 @@
     <ClCompile Include="MainForDirector.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="PickableObject.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneDirector.cpp" />

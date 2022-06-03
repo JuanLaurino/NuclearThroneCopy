@@ -28,12 +28,16 @@ void Scorpion::init()
 		_damage = 6;
 		_rads = 10;
 		_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/goldenScorpion.png");
+		_shootTwoTimes = true;
+		_spreadAngle = 30;
 	}
 	else {
 		_HP = 10; 
 		_damage = 4; 
 		_rads = 6; 
 		_spriteID = sResourceManager->loadAndGetGraphicID(sVideo->getRenderer(), "Assets/enemies/Scorpion.png");
+		_shootTwoTimes = false;
+		_spreadAngle = 20;
 	}
 
 	_rectFrame.w = 96;
@@ -41,7 +45,6 @@ void Scorpion::init()
 	_Rect.w = _rectFrame.w;
 	_Rect.h = _rectFrame.h;
 
-	_spreadAngle = 20;
 	_viewDistance = rand() % 150 + 100;
 }
 
@@ -221,11 +224,27 @@ void Scorpion::render()
 void Scorpion::shoot()
 {
 	Bullet* bala;
-	for (size_t i = 0; i < 7; i++)
-	{
-		bala = new Bullet();
-		_pBullet->push_back(bala);
-		_pBullet->at(_pBullet->size() - 1)->init(2, glm::vec2{ (float)(_Rect.x) + _Rect.w / 2, (float)(_Rect.y) + _Rect.h / 2 }, glm::vec2{ (float)_pPlayer->getX(), (float)_pPlayer->getY() }, 2, _damage, _spreadAngle);
+	if (!_shootTwoTimes) {
+		for (size_t i = 0; i < 7; i++)
+		{
+			bala = new Bullet();
+			_pBullet->push_back(bala);
+			_pBullet->at(_pBullet->size() - 1)->init(2, glm::vec2{ (float)(_Rect.x) + _Rect.w / 2, (float)(_Rect.y) + _Rect.h / 2 }, glm::vec2{ (float)_pPlayer->getX(), (float)_pPlayer->getY() }, 2, _damage, _spreadAngle);
+		}
+	}
+	else {
+		for (size_t i = 0; i < 7; i++)
+		{
+			bala = new Bullet();
+			_pBullet->push_back(bala);
+			_pBullet->at(_pBullet->size() - 1)->init(2, glm::vec2{ (float)(_Rect.x) + _Rect.w / 2, (float)(_Rect.y) + _Rect.h / 2 }, glm::vec2{ (float)_pPlayer->getX(), (float)_pPlayer->getY() }, 1, _damage, _spreadAngle);
+		}
+		for (size_t i = 0; i < 7; i++)
+		{
+			bala = new Bullet();
+			_pBullet->push_back(bala);
+			_pBullet->at(_pBullet->size() - 1)->init(2, glm::vec2{ (float)(_Rect.x) + _Rect.w / 2, (float)(_Rect.y) + _Rect.h / 2 }, glm::vec2{ (float)_pPlayer->getX(), (float)_pPlayer->getY() }, 5, _damage, _spreadAngle / 3);
+		}
 	}
 }
 

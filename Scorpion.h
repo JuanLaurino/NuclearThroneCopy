@@ -15,6 +15,7 @@ class Scorpion : public GFXElementX
 	int _viewDistance;
 	int _shootCD;
 	bool _flip;
+	bool _shootTwoTimes;
 
 	Character* _pPlayer;
 public:
