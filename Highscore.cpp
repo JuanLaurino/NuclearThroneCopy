@@ -132,15 +132,6 @@ void Highscore::saveScore()
 
 void Highscore::renderScore()
 {
-	std::cout << "Current Score: " << _score << std::endl;
-	std::cout << "TOP: " << std::endl;
-	
-	for (size_t i = 0; i < 10; i++)
-	{
-		std::cout << i + 1 << " - " << _ranking[i] << "\n";
-	}
-	std::cout << std::endl;
-
 	for (size_t i = 0; i < 10; i++)
 	{
 		renderScore(88 + i * 14 + i * 2, _ranking[i]);

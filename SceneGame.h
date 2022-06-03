@@ -27,7 +27,7 @@ class SceneGame : public Scene
 	Level		_nivel;
 	Character*	_personaje;
 	HUD			_hud;
-	Portal		_portal;
+	Portal*		_portal;
 
 	std::vector<Chest>				_chest;
 	std::vector<Cactus>				_cactus;

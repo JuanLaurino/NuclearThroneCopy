@@ -64,7 +64,6 @@ void SceneGame::reinit()
 
     Audio::getInstance()->playAudio(-1, sAudioManager->loadAndGetAudioID("Assets/sound/Mutant1Spch.ogg"), 0);
     if (_personaje == nullptr) {
-        _portal.init();
         if (characterPicked == 0) {
             Fish* fish;
             fish = new Fish();
@@ -108,8 +107,19 @@ void SceneGame::reinit()
         _personaje->setImmunity(true);
         _justSpawned = true;
         _timer = 0;
+
+        if (_portal == nullptr) {
+            _portal = new Portal();
+            _portal->init();
+            _portal->setXY(_personaje->getX() - 20, _personaje->getY() - 20);
+        }
     }
     else {
+        if (_portal == nullptr) {
+            _portal = new Portal();
+            _portal->init();
+            _portal->setXY(_personaje->getX() - 20, _personaje->getY() - 20);
+        }
         _personaje->setImmunity(true);
         mReinit = false;
         _changeLevel = false;
@@ -136,6 +146,13 @@ void SceneGame::reinit()
 
 void SceneGame::update()
 {
+    if (_portal != nullptr) {
+        if (!_portal->getActive()) {
+            delete _portal;
+            _portal = nullptr;
+        }
+    }
+
     if (_justSpawned) {
         _timer += global_elapsed_time;
         if (_timer >= 3000) {
@@ -181,10 +198,7 @@ void SceneGame::update()
     }
     size_t deadEnemies = 0;
     size = _enemies.size();
-    if (size == 1) {
-        _portal.setX(_enemies[0]->getX());
-        _portal.setY(_enemies[0]->getY());
-    }
+
     for (size_t i = 0; i < size; i++)
     {
         _enemies[i]->update();
@@ -269,6 +283,10 @@ void SceneGame::update()
     _hud.update();
     sMouse->update();
 
+    if (_portal != nullptr) {
+        _portal->update();
+    }
+
     if (_personaje->getHP() <= 0) {
         _changeLevel = true;
     }
@@ -276,13 +294,20 @@ void SceneGame::update()
         _personaje->setState(3);
         sCamera->shake();
 
-        _portal.update();
+        if (_portal == nullptr) {
+            _portal = new Portal();
+            _portal->init();
+            _portal->setXY(_personaje->getX() - 20, _personaje->getY() - 20);
+            _portal->setOpen(false);
+        }
 
         _changeLevelTimer -= global_elapsed_time;
         if (_changeLevelTimer <= 0) {
 
             sDirector->changeScene(GAME, 1);
             deletePointers();
+            delete _portal;
+            _portal = nullptr;
         }
     }
     else if (_changeLevel && _personaje->getHP() <= 0) {
@@ -307,6 +332,10 @@ void SceneGame::render()
 {
 
     _nivel.render();    
+
+    if (_portal != nullptr) {
+        _portal->render();
+    }
 
     size_t size = _cactus.size();
     for (size_t i = 0; i < size; i++)
@@ -354,10 +383,6 @@ void SceneGame::render()
     for (size_t i = 0; i < size; i++)
     {
         _bullets[i]->render();
-    }
-
-    if (_changeLevel && _personaje->getHP() > 0) {
-        _portal.render();
     }
 
     if (!(_changeLevel && _changeLevelTimer <= 0)) {

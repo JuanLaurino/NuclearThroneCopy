@@ -58,5 +58,4 @@ void SceneDirector::init(){
 void SceneDirector::changeScene(SceneEnum next_scene, bool reinit){
 	mVectorScenes[next_scene]->setReInit(reinit);
 	mCurrScene = next_scene;
-	std::cout << "Escena: " << next_scene << std::endl;
 }

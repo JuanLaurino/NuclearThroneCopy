@@ -103,7 +103,6 @@ void SceneMain::update() {
     sVideo->clearScreen();
 
     if (_animationState) { //Animación antes del menú
-        std::cout << "Animation: " << _currentScene << std::endl;
         if (_aMMainMenuA == -1) { // Si aún no comenzó menuA
             _aMMainMenuA = Audio::getInstance()->playAudio(-1, _aMainMenuA, 0);
         }
