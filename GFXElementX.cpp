@@ -355,6 +355,63 @@ void GFXElementX::checkCollision(int direction)
 	}
 }
 
+void GFXElementX::checkCollisionBounce(int direction)
+{
+	bool x = false;
+	bool y = false;
+	switch (direction)
+	{
+	case I_D:
+		while (_pLevel->getIDfromLayer(0, _Rect.x + _leftSpaceInSprite + _Rect.w, _Rect.y + _leftSpaceInSprite)) {
+			_Rect.x--;
+			x = true;
+		}
+		while (_pLevel->getIDfromLayer(0, _Rect.x + _leftSpaceInSprite + _Rect.w, _Rect.y + _leftSpaceInSprite + _Rect.h)) {
+			_Rect.x--;
+			x = true;
+		}
+		break;
+	case I_A:
+		while (_pLevel->getIDfromLayer(0, _Rect.x + _leftSpaceInSprite, _Rect.y + _leftSpaceInSprite)) {
+			_Rect.x++;
+			x = true;
+		}
+		while (_pLevel->getIDfromLayer(0, _Rect.x + _leftSpaceInSprite, _Rect.y + _leftSpaceInSprite + _Rect.h)) {
+			_Rect.x++;
+			x = true;
+		}
+		break;
+	case I_W:
+		while (_pLevel->getIDfromLayer(0, _Rect.x + _leftSpaceInSprite, _Rect.y + _leftSpaceInSprite)) {
+			_Rect.y++;
+			y = true;
+		}
+		while (_pLevel->getIDfromLayer(0, _Rect.x + _leftSpaceInSprite + _Rect.w, _Rect.y + _leftSpaceInSprite)) {
+			_Rect.y++;
+			y = true;
+		}
+		break;
+	case I_S:
+		while (_pLevel->getIDfromLayer(0, _Rect.x + _leftSpaceInSprite, _Rect.y + _leftSpaceInSprite + _Rect.h)) {
+			_Rect.y--;
+			y = true;
+		}
+		while (_pLevel->getIDfromLayer(0, _Rect.x + _leftSpaceInSprite + _Rect.w, _Rect.y + _leftSpaceInSprite + _Rect.h)) {
+			_Rect.y--;
+			y = true;
+		}
+		break;
+	default:
+		break;
+	}
+	if (x) {
+		_XVector *= -1;
+	}
+	if (y) {
+		_YVector *= -1;
+	}
+}
+
 bool GFXElementX::isOverlaping(notSDL_Rect* obj01)
 {
 	if (obj01->x < _Rect.x + _Rect.w &&

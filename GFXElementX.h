@@ -63,6 +63,7 @@ public:
 
 	void spawnInMap();
 	void checkCollision(int direction);
+	void checkCollisionBounce(int direction);
 	bool isOverlaping(notSDL_Rect* obj01);
 	int getDamage() { return _damage; };
 };

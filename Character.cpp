@@ -153,8 +153,9 @@ void Character::shoot()
 		{
 			sCamera->shake();
 			bala = new Bullet();
+			bala->setWorldPointer(_pLevel);
 			_pBullet->push_back(bala);
-			_pBullet->at(_pBullet->size() - 1)->init(0, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 8, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());
+			_pBullet->at(_pBullet->size() - 1)->init(3, glm::vec2{ (float)(_Rect.x) + _rectFrame.w / 2, (float)(_Rect.y) + _rectFrame.h / 2 }, glm::vec2{ (float)sMouse->getX() + sCamera->getX(), (float)sMouse->getY() + sCamera->getY() }, 8, _inventory[0]->getDamage(), _inventory[0]->getWeaponSpreadAngle());
 		}
 	}
 	else {

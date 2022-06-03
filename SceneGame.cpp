@@ -226,21 +226,23 @@ void SceneGame::update()
             continue;
         }
 
-        if (_nivel.getIDfromLayer(0, _bullets[i]->getX(), _bullets[i]->getY())) {
-            _bullets[i]->setCollided();
-            continue;
-        }
-        if (_nivel.getIDfromLayer(0, _bullets[i]->getX() + _bullets[i]->getW(), _bullets[i]->getY())) {
-            _bullets[i]->setCollided();
-            continue;
-        }
-        if (_nivel.getIDfromLayer(0, _bullets[i]->getX(), _bullets[i]->getY() + _bullets[i]->getH())) {
-            _bullets[i]->setCollided();
-            continue;
-        }
-        if (_nivel.getIDfromLayer(0, _bullets[i]->getX() + _bullets[i]->getW(), _bullets[i]->getY() + _bullets[i]->getH())) {
-            _bullets[i]->setCollided();
-            continue;
+        if (_bullets[i]->getType() != 3){
+            if (_nivel.getIDfromLayer(0, _bullets[i]->getX(), _bullets[i]->getY())) {
+                _bullets[i]->setCollided();
+                continue;
+            }
+            if (_nivel.getIDfromLayer(0, _bullets[i]->getX() + _bullets[i]->getW(), _bullets[i]->getY())) {
+                _bullets[i]->setCollided();
+                continue;
+            }
+            if (_nivel.getIDfromLayer(0, _bullets[i]->getX(), _bullets[i]->getY() + _bullets[i]->getH())) {
+                _bullets[i]->setCollided();
+                continue;
+            }
+            if (_nivel.getIDfromLayer(0, _bullets[i]->getX() + _bullets[i]->getW(), _bullets[i]->getY() + _bullets[i]->getH())) {
+                _bullets[i]->setCollided();
+                continue;
+            }
         }
         
         if (!_bullets[i]->isBulletFromPlayer()) {// bullet collision with player

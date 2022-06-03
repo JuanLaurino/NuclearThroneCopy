@@ -114,19 +114,19 @@ void Bandit::update()
 		if (_contador <= 100 + _corpseSpeed * 5) {
 			_Rect.x += (int)round(_corpseSpeed * _XVector);
 			if (_XVector > 0) {
-				checkCollision(I_D);
+				checkCollisionBounce(I_D);
 			}
 			else {
-				checkCollision(I_A);
+				checkCollisionBounce(I_A);
 			}
 
 
 			_Rect.y += (int)round(_corpseSpeed * _YVector);
 			if (_YVector > 0) {
-				checkCollision(I_S);
+				checkCollisionBounce(I_S);
 			}
 			else {
-				checkCollision(I_W);
+				checkCollisionBounce(I_W);
 			}
 		}
 		break;
